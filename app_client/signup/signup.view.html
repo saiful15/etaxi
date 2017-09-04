@@ -1,0 +1,44 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="singup-container">
+	<div class="container">
+		<h1 class="big-title light text-center">To Get Started,</h1>
+		<p class="text-center light">Create an account with us</p>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-5 col-md-5 col-lg-6 col-lg-offset-3">
+			<div class="container-box shadow radius m-t-3 wbg">
+				<h1 class="text-center light title">Etaxi Accounting account</h1>
+				<hr>
+				<form ng-submit="sgnvm.createAccount()">
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" ng-model="sgnvm.newuser.email" id="email" placeholder="Your email address" class="form-control">
+					</div>
+
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" ng-model="sgnvm.newuser.password" id="password" placeholder="Your secret password" 
+						class="form-control">
+					</div>
+
+					<div class="alert alert-danger" ng-if="sgnvm.error === true">
+						{{sgnvm.errorMessage}}
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-danger"><span class="block m-t-1 m-b-1 m-l-1 m-r-1">Create now</span></button>
+						<p class="pull-right"><a href="/forgotpassword" title="Reset your password">Forgot password, Reset it.</a></p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>

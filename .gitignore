@@ -1,0 +1,7 @@
+/node_modules
+/public/img/*.jpg
+/public/*.txt
+/public/*.json
+package.json
+/public/db/*.json
+.env

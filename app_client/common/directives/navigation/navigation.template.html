@@ -1,0 +1,54 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#site-nav" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">eTaxiAccounting</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="site-nav">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/price">Price</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Company <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/aboutus">About us</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/contactus">Contact us</a></li>
+          </ul>
+        </li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" ng-if="nvm.loggedIn !== false">
+          <a href="/dashboard" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-tachometer m-r-1" aria-hidden="true"></i>Dashboard <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/businessprofile">Business Profile</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/serviceplan">Service Plan</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/income">Income</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/expense">Expense</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/financialstatement">Financial Statement</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/settings">Settings</a></li>
+          </ul>
+        </li>
+        <li ng-if="nvm.userProfileOn === true"><a href="/profile">{{nvm.username}}</a></li>
+        <li ng-if="nvm.loggedIn === false"><a href="/signup">Sign up</a></li>
+        <li ng-show="nvm.loggedIn === false"><a href="/signin">Sign in</a></li>
+        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

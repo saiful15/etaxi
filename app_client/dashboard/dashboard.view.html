@@ -1,0 +1,133 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="flash-message flash-message-danger" ng-if="dsvm.forCustomer === true">
+	<div class="container">
+		<h1 class="text-center light title">You haven't set up following settings.</h1>
+		<hr>
+	</div>
+</div>
+
+<div class="flash-message flash-message-gray" ng-if="dsvm.statusCollection[0].profile === false">
+	<div class="container">
+		<h1 class="text-center light title">You haven't set up your profile yet.</h1>
+		<p class="text-center title light">Please complete your profile</p>
+		<hr>
+		<form ng-submit="dsvm.createProfile()" class="form-horizontal">
+			<div class="form-group">
+				<label for="first_name" class="light">First name</label>
+				<input type="text" ng-model="dsvm.userProfile.first_name" class="form-control half" 
+					placeholder="Type your first name" id="first_name">
+			</div>
+
+			<div class="form-group">
+				<label for="last_name" class="light">Last name</label>
+				<input type="text" ng-model ="dsvm.userProfile.last_name" class="form-control half" 
+					placeholder="Type your last name" id="last_name">
+			</div>
+			
+			<div class="form-group">
+				<label for="house_no" class="light">House No</label>
+				<input type="text" ng-model="dsvm.userProfile.house_no" class="form-control quater" 
+					placeholder="House no" id="house_no">
+			</div>
+
+			<div class="form-group">
+				<label for="street_name" class="light">Street name</label>
+				<input type="text" ng-model="dsvm.userProfile.street_name" class="form-control quater" 
+					placeholder="Street name" id="street_name">
+			</div>
+
+			<div class="form-group">
+				<label for="city_name" class="light">City</label>
+				<input type="text" ng-model="dsvm.userProfile.city_name" class="form-control quater" 
+					placeholder="City name" id="city_name">
+			</div>
+
+			<div class="form-group">
+				<label for="county" class="light">County</label>
+				<input type="text" ng-model="dsvm.userProfile.county" class="form-control quater" 
+					placeholder="County name" id="county">
+			</div>
+
+			<div class="form-group">
+				<label for="postcode" class="light">Postcode</label>
+				<input type="text" ng-model="dsvm.userProfile.postcode" class="form-control quater" 
+					placeholder="Post code" id="postcode">
+			</div>
+
+			<div class="form-group" ng-if="dsvm.profileError === true">
+				<div class="alert alert-danger half">
+					{{dsvm.profileErrorMessage}}
+				</div>
+			</div>
+
+			<div class="form-group" ng-if="dsvm.profileSuccess === true">
+				<div class="alert alert-success half">
+					{{dsvm.successMessage}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-success">
+					Save <img class="ajax-loader" diabled={{dsvm.btnDisabled}} ng-if="dsvm.showAjaxLoader === true" src="img/icons/loading.gif" alt="ajax loader">
+				</button>
+			</div>
+
+		</form>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/businessprofile" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-rocket m-r-1" aria-hidden="true"></i>
+Set up business profile</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/serviceplan" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-paper-plane m-r-1" aria-hidden="true"></i>Set up service plan</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/income" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-money m-r-1" aria-hidden="true"></i> Add income</h2>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<div class="row m-t-4">
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/expense" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-calendar-minus-o m-r-1" aria-hidden="true"></i>Add Exprense</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/financialstatement" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-list-ol m-r-1" aria-hidden="true"></i>Financial Statement</h2>
+				</div>
+			</a>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<a href="/settings" title="settings" class="light title">
+				<div class="container-box shadow setting-box m-t-2">
+					<h2 class="text-center ligth title"><i class="fa fa-cogs m-r-1" aria-hidden="true"></i>Settings</h2>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>

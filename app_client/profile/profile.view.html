@@ -1,0 +1,143 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="load-profile" ng-init="prvm.getUserStatusCollection()">
+
+	<div class="profile-loading-error" ng-if="prvm.profileLoadError === true">
+		<div class="container">
+			<h1 class="big-title text-center light">
+				Error while loading profile information. Please contact admin.
+			</h1>
+		</div>
+	</div>
+
+	<div class="additional_info" ng-if="prvm.additionInfo === false">
+		<div class="container">
+			<h1 class="text-center big-title light">We need following additional information from you</h1>
+			<hr>
+			<form class="form-inline" ng-submit="prvm.addAdditionalInfo(prvm.personProfileDetails._id)">
+				<div class="form-group">
+					<label for="ni_number">NI Number</label>
+					<input type="text" id= "ni_number" ng-model="prvm.niUti.ni_number" class="form-control" placeholder="NI Number">
+				</div>
+				<div class="form-group">
+					<label for="uti_number">UTI Number</label>
+					<input type="text" class="form-control" ng-model="prvm.niUti.uti_number" id="uti_number" placeholder="UTI Number">
+				</div>
+				<button type="submit" class="btn btn-info">Save</button>
+				<div class="alert alert-danger m-t-3 half" ng-if="prvm.additionalInfoError === true">
+					{{prvm.errorMessage}}
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- showing addition info bar -->
+	<div class="additional_info" ng-if="prvm.showAdditionalInfo === true">
+		show addition info
+	</div>
+
+	<div class="container" ng-if="prvm.profileOn === true">
+		<h1 class="big-title text-center light" ng-if="prvm.personalProfile === true">
+				Error while loading profile information. Please contact admin.
+		</h1>
+		<div class="row" ng-if="prvm.showPersonalProfile === true">
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+				<div class="container-box shadow m-t-4">
+					<h2 class="title text-center light">
+						{{prvm.personProfileDetails.profile[0].first_name}} {{prvm.personProfileDetails.profile[0].last_name}} profile
+					</h2>
+					<hr>
+					<ul class="list setting-list">
+						<li class="list-item">
+							<a href="" class="sub-title medium" title="Load Personal details" data-ui="personal_details" data-ui-target="personal_details_container">Personal Details</a>
+						</li>
+						<li class="list-item">
+							<a href="" class="sub-title medium" title="Load business details" data-ui="business_details" data-ui-target="business_details_container">Business Details</a>
+						</li>
+						<li class="list-item">
+							<a href="" class="sub-title medium" title="Load contact details" data-ui="contact_details" data-ui-target="contact_details_container">Contact Details</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+				<div class="container-box shadow m-t-4">
+					<h3 class="title text-center light">Personal Details</h3>
+					<hr>
+					<span class="account-type title">Account Type: {{prvm.personProfileDetails.profile[0].account_type}}</span>
+					<span class="created-at">Created at: {{prvm.personProfileDetails.profile[0].created_at | date: 'yyyy, MMM dd'}}</span>
+					<h5 class="text-left light small-title">Personal Address</h5>
+					<ul class="address-list" ng-if="prvm.showAddress === true">
+						<li>
+							<span class="address-element">House Number:</span>{{prvm.personProfileDetails.profile[0].address[0].house_number}}
+						</li>
+						<li>
+							<span class="address-element">Street Name:</span>{{prvm.personProfileDetails.profile[0].address[0].street_name}}
+						</li>
+
+						<li>
+							<span class="address-element">PostCode:</span>{{prvm.personProfileDetails.profile[0].address[0].postcode}}
+						</li>
+
+						<li>
+							<span class="address-element">City:</span>{{prvm.personProfileDetails.profile[0].address[0].city_name}}
+						</li>
+
+						<li>
+							<span class="address-element">County:</span>{{prvm.personProfileDetails.profile[0].address[0].county}}
+						</li>
+						<a href="#" ng-click="prvm.editAddress()" title="Edit Your address" class="btn btn-info pull-right">Edit Address</a>
+					</ul>
+
+					<div class="clearfix"></div>
+					<form ng-if="prvm.addressEditForm === true" ng-submit='prvm.saveAddressChange(prvm.personProfileDetails._id)' class="form-horizontal m-l-3">
+						<div class="form-group">
+							<label for="house_number" class="light">House Number: </label>
+							<input type="text" id="house_number"
+								ng-model="prvm.personDetails.house_number" class="form-control half">
+						</div>
+
+						<div class="form-group">
+							<label for="street_name" class="light">Street Name: </label>
+							<input type="text" id="street_name"
+								ng-model="prvm.personDetails.street_name" class="form-control half">
+						</div>
+
+						<div class="form-group">
+							<label for="post_code" class="light">Postcode: </label>
+							<input type="text" id="post_code"
+								ng-model="prvm.personDetails.post_code" class="form-control half">
+						</div>
+
+						<div class="form-group">
+							<label for="city" class="light">City: </label>
+							<input type="text" id="city"
+								ng-model="prvm.personDetails.city" class="form-control half">
+						</div>
+
+						<div class="form-group">
+							<label for="county" class="light">County: </label>
+							<input type="text" id="county"
+								ng-model="prvm.personDetails.county" class="form-control half">
+						</div>
+
+
+						<div class="alert alert-danger small-alert" ng-if="prvm.editAddressError === true">
+							<p class="title no-margin">{{prvm.erroMessage}}</p>
+						</div>
+
+						<button type="submit" class="btn btn-danger light btn-left">Save Address</button>
+
+						<a href="#" ng-click="prvm.cancelAddressForm()" title="Cancel" class="btn btn-info pull-right">Cancel</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>

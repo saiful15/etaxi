@@ -1,0 +1,95 @@
+/*
+|----------------------------------------------
+| setting up components.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: etaxi, 2017
+|----------------------------------------------
+*/
+.flash-message{
+	position: relative;
+	padding: 45px 0;
+	background-color: transparent;
+	border-width: 1px;
+	border-style: bottom;
+	border-color: transparent;
+}
+
+.flash-message-danger{
+	border-color: #ebccd1;
+	color: #a94442;
+	background-color: #f2dede;
+	hr{
+		border-top: 1px solid #EBB5B5;
+	}
+}
+
+.plan-box{
+	position: relative;
+	min-height: 350px;
+	a{
+		position: absolute;
+		bottom: 20px;
+		left: 80px;
+		width: 200px;
+	}
+}
+
+.profile-loading-error{
+	position: relative;
+	padding: 45px 0;
+	background-color: #f8f8f8;
+}
+
+
+.setting-list{
+	padding-left: 0;
+	li{
+		display: block;
+		list-style: none;
+		padding: 0;
+		margin: 1px -15px;
+		a{
+			display: block;
+			width: 100%;
+			padding: 10px 15px;
+			color: #4a4a4a;
+			&:hover{
+				background-color: #f8f8f8;
+				text-decoration: none;
+			}
+		}
+	}
+}
+
+.account-type{
+	position: absolute;
+	right: 19px;
+	top: 10px;
+}
+
+.created-at{
+	position: absolute;
+	right: 19px;
+	top: 40px;
+}
+
+.address-list{
+	li{
+		display: block;
+		width: 100%;
+		margin: 2px 0;
+		padding: 8px 0;
+		span{
+			margin-right: 20px;
+		}
+	}
+}
+
+
+// additional info on profile page.
+.additional_info{
+	position: relative;
+	padding: 45px 0;
+	background-color: #F0F2F2;
+}
+
