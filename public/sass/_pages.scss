@@ -16,3 +16,30 @@
 	padding: 45px 0;
 	background-color: #fff;
 }
+
+.expense-form-list{
+    li{
+        list-style: none;
+        display: block;
+        margin: 8px 0;
+        label{
+            width: 130px;
+            margin-right: 10px;
+            font-weight: 300;
+        }
+        input[type='text']{
+            width: 150px;
+            border-radius: 3px;
+            padding: 5px 10px;
+            margin: 0px 8px;
+            border-color: none;
+            color: #4a4a4a;
+            font-weight: 300;
+            font-size: 18px;
+        }
+        a{
+            width: 120px;
+            margin-left: 20px;
+        }
+    }
+}
