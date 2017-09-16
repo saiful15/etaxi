@@ -407,7 +407,8 @@ module.exports.addExpenses = function (req, res) {
 						else{
 							sendJsonResponse(res, 200, {
 								success: true
-							})
+							});
+							console.log(expenses);
 						}
 					})
 				}
