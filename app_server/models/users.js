@@ -108,7 +108,8 @@ var 			userSchema 		=	new mongoose.Schema({
 	additional_info: [additional_infoSchema],
 	insurance: [insuranceSchema],
 	statusCollection: [statusSchema],
-	history: {type: Array}
+	history: {type: Array},
+	expenses: [mongoose.Schema.Types.Mixed]
 });
 
 

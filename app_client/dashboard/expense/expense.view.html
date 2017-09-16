@@ -9,57 +9,56 @@
                  <h1 class="sub-title light">Add Your Expense</h1>
                  <hr>
                  <ul class="list expense-form-list">
+                    <form ng-submit = "exvm.addExpense()">
                     <li>
-                         <label for="">Car Fuel</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <label for="" ng-model='exvm.expense.priceLabel'>Car Fuel</label>
+                         <input type="text" placeholder="&pound;" ng-model='exvm.expense.fuel'>
                      </li>
                      <li>
                          <label for="">Car Wash</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.car_wash">
                      </li>
 
                      <li>
                          <label for="">Car Service</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.car_service">
                      </li>
                      <li>
                          <label for="">MOT</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.mot">
                      </li>
                      <li>
                          <label for="">Car Repair</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.car_repair">
                      </li>
                      <li>
                          <label for="">Insurance</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.insurance">
                      </li>
                      <li>
                          <label for="">Data Cost</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.data_cost">
                      </li> 
                      <li>
                          <label for="">Road Tax</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.road_tax">
                      </li>                                          
                      <li>
                          <label for="">Car Finance</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.car_finance">
                      </li>
                      <li>
                          <label for="">Car Rent</label>
-                         <input type="text" placeholder="&pound;">
-                         <a href="" class="btn btn-success" hrer="#">Save</a>
+                         <input type="text" placeholder="&pound;" ng-model="exvm.expense.car_rent">
                      </li>
+                     <div class="alert alert-danger" ng-if="exvm.expenseError === true">
+                         {{exvm.errorMessage}}
+                     </div>
+                     <div class="alert alert-success" ng-if="exvm.expenseSuccess === true">
+                         Your expense success fully added.
+                     </div>
+                     <button type="submit" class="btn btn-success">Save Epenses</button>
+                     </form>
                  </ul>
              </div>
          </div>         

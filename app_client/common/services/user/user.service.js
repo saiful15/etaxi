@@ -58,6 +58,14 @@
 						.catch(handleError);
 		}
 
+		// add expense for the users.
+		var addExpense = function (userId, data) {
+			return $http
+				.post('/api/addexpense/'+userId, data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -73,6 +81,7 @@
 			updateUserStatus: updateUserStatus,
 			getProfile: getProfile,
 			updateAddress: updateAddress,
+			addExpense: addExpense,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}

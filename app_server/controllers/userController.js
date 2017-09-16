@@ -361,4 +361,58 @@ module.exports.saveAdditionInfo 		=		function(req, res){
 	}
 }
 
+/*
+|----------------------------------------------
+| Following function will add expense to the user
+| collection.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addExpenses = function (req, res) {
+	if (!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'Invalid request'
+		});
+	}
+	else{
+		// find the user based on given id.
+		users
+			.findOne({email: req.params.userId})
+			.select('expenses')
+			.exec(function(err, user){
+				if(!user) {
+					sendJsonResponse(res, 404, {
+						error: "No user found with given user id"
+					});
+					return;
+				}
+				if(err) {
+					sendJsonResponse(res, 404, {
+						error: err
+					});
+					return;
+				}
+				else {
+					// add expense to user collections.
+					user.expenses.push(req.body);
+					// save the change
+					user.save(function(err, expenses) {
+						if(err) {
+							sendJsonResponse(res, 404, {
+								error: err
+							});
+							return;
+						}
+						else{
+							sendJsonResponse(res, 200, {
+								success: true
+							})
+						}
+					})
+				}
+			})
+	}
+}
+
 
