@@ -33,5 +33,8 @@ routes.post('/updateaddress/:userId', userController.updateAddress);
 // add expense
 routes.post('/addexpense/:userId', userController.addExpenses);
 
+// show expenses.
+routes.get('/showexpense/:userId', userController.showExpense);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

@@ -27,7 +27,7 @@
 			road_tax: '',
 			car_finance: '',
 			car_rent: '',
-			createdAt: Date.now(),
+			totalAt: '',
 		};
 		
 		exvm.addExpense = function () {
@@ -41,6 +41,22 @@
 			}
 			else{
 				exvm.expenseError = false;
+				var InputedValueList = [];
+				var total=0;
+				
+				for(var key in exvm.expense){
+					if(exvm.expense.hasOwnProperty(key)){
+						if(exvm.expense[key] !== ''){
+							InputedValueList.push(exvm.expense[key]);
+						}
+					}
+				}
+				
+				for(var i =0; i < InputedValueList.length; i++) {
+					total += parseInt(InputedValueList[i]);
+				}
+				exvm.expense.totalAt = total;
+
 				// calling method from userservice service.
 				userservice
 					.addExpense(authentication.currentUser().email, exvm.expense)
@@ -51,13 +67,38 @@
 						}
 						else{
 							exvm.expenseError = false;
-							exvm.expenseSuccess = true;							
+							exvm.expenseSuccess = true;	
+							exvm.loadExpenseSummary();						
 						}
 					})
 					.catch(function(err){
 						alert(err);
 					})
 			}
+		}
+
+		// load user expense summary 
+		exvm.loadExpenseSummary = function() {
+			// calling method user service to load expense summary.
+			userservice
+				.showExpenseSummary(authentication.currentUser().email)
+				.then(function(response){
+					if(response.data.success === true){
+						exvm.expenseSummaryError = false;
+						exvm.expenseSummarySuccess = true;
+						exvm.expensesList = response.data.expense;
+						exvm.totalExpense = 0;
+						for(var i =0; i < exvm.expensesList.length; i++) {
+							exvm.totalExpense += parseInt(exvm.expensesList[i].totalAt);
+						}
+					}
+					else if(response.data.error) {
+						exvm.expenseSummaryError = true;
+					}
+				})
+				.catch(function(err){
+
+				})
 		}
 	}
 })();

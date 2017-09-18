@@ -394,8 +394,12 @@ module.exports.addExpenses = function (req, res) {
 					return;
 				}
 				else {
+					var data = req.body;
+					// add timestamp to data object.
+					data.createdAt = Date.now();
+
 					// add expense to user collections.
-					user.expenses.push(req.body);
+					user.expenses.push(data);
 					// save the change
 					user.save(function(err, expenses) {
 						if(err) {
@@ -408,9 +412,50 @@ module.exports.addExpenses = function (req, res) {
 							sendJsonResponse(res, 200, {
 								success: true
 							});
-							console.log(expenses);
 						}
 					})
+				}
+			})
+	}
+}
+
+
+/*
+|----------------------------------------------
+| show expense.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.showExpense = function (req, res) {
+	if (!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'Invalid request'
+		});
+	}
+	else{
+		// get user expense object.
+		users
+			.findOne({email: req.params.userId})
+			.select('expenses')
+			.exec(function(err, user){
+				if(!user) {
+					sendJsonResponse(res, 404, {
+						error: "No user found with given user id"
+					});
+					return;
+				}
+				if(err) {
+					sendJsonResponse(res, 404, {
+						error: err
+					});
+					return;
+				}
+				else{
+					sendJsonResponse(res, 200, {
+						success: true,
+						expense: user.expenses
+					});
 				}
 			})
 	}

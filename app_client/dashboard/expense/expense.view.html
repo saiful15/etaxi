@@ -63,11 +63,19 @@
              </div>
          </div>         
      </div>
-     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">         
+     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-init="exvm.loadExpenseSummary()">         
          <div class="panel panel-primary">
-             <div class="panel-heading">
-                 <h2 class="sub-title light">Your Expense Summary</h2>
+             <div class="panel-heading" ng-if="exvm.expenseSummarySuccess === true">
+                 <h2 class="title light">Your Expense Summary</h2>
                  <hr>
+                 <h3 class="sub-title text-center light">Your total expenses so far <span class="medium">{{exvm.totalExpense | currency: '£'}}</span></h3>
+
+                 <a href="#" class="btn btn-success pull-right" title="view all your expense">View All expenses</a>
+                 <div class="clearfix"></div>
+             </div>
+
+             <div class="panel-heading" ng-if="exvm.expenseSummaryError === true">
+                 Error while loading your expense summary. Please contact admin
              </div>
          </div>         
      </div>

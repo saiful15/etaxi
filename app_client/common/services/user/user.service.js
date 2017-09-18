@@ -66,6 +66,14 @@
 				.catch(handleError);
 		}
 
+		// show expens.
+		var showExpenseSummary = function (userId) {
+			return $http
+				.get('/api/showexpense/'+userId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -82,6 +90,7 @@
 			getProfile: getProfile,
 			updateAddress: updateAddress,
 			addExpense: addExpense,
+			showExpenseSummary: showExpenseSummary,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}
