@@ -17,46 +17,22 @@
 		const 	exvm 		=	this;
 
 		exvm.expense = {
-			fuel: '',
-			car_wash: '',
-			car_service: '',
-			mot: '',
-			car_repair: '',
-			insurance: '',
-			data_cost: '',
-			road_tax: '',
-			car_finance: '',
-			car_rent: '',
-			totalAt: '',
+			startDate: "",
+			endDate: "",
+			expense_sector: "",
+			amount: ""
 		};
 		
 		exvm.addExpense = function () {
 			// check at least one expense has been added.
-			if(!exvm.expense.fuel && !exvm.expense.car_wash && !exvm.expense.car_service 
-				&& !exvm.expense.mot && !exvm.expense.car_repair && !exvm.expense.insurance && 
-				!exvm.expense.data_cost && !exvm.expense.road_tax && !exvm.expense.car_finance &&
-				!exvm.expense.car_rent) {
+			if(!exvm.expense.startDate || !exvm.expense.endDate || !exvm.expense.expense_sector || !exvm.expense.amount ) {
 				exvm.expenseError = true;
-				exvm.errorMessage = "At least one expense needed";
+				exvm.expenseSuccess = false;
+				exvm.errorMessage = "All fields required. Must not be empty";
 			}
 			else{
 				exvm.expenseError = false;
-				var InputedValueList = [];
-				var total=0;
 				
-				for(var key in exvm.expense){
-					if(exvm.expense.hasOwnProperty(key)){
-						if(exvm.expense[key] !== ''){
-							InputedValueList.push(exvm.expense[key]);
-						}
-					}
-				}
-				
-				for(var i =0; i < InputedValueList.length; i++) {
-					total += parseInt(InputedValueList[i]);
-				}
-				exvm.expense.totalAt = total;
-
 				// calling method from userservice service.
 				userservice
 					.addExpense(authentication.currentUser().email, exvm.expense)
@@ -67,8 +43,9 @@
 						}
 						else{
 							exvm.expenseError = false;
-							exvm.expenseSuccess = true;	
-							exvm.loadExpenseSummary();						
+							exvm.expenseSuccess = true;
+							exvm.expenseSuccessMessage = `£ ${exvm.expense.amount} successfully added for ${exvm.expense.expense_sector}`;
+							exvm.loadExpenseSummary();		
 						}
 					})
 					.catch(function(err){

@@ -394,12 +394,13 @@ module.exports.addExpenses = function (req, res) {
 					return;
 				}
 				else {
-					var data = req.body;
-					// add timestamp to data object.
-					data.createdAt = Date.now();
+					user.expenses.push({
+						startDate: req.body.startDate,
+						endDate: req.body.endDate,
+						expense_sector: req.body.expense_sector,
+						amount: req.body.amount
+					});
 
-					// add expense to user collections.
-					user.expenses.push(data);
 					// save the change
 					user.save(function(err, expenses) {
 						if(err) {

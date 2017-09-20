@@ -92,6 +92,14 @@ var 			statusSchema 	=	new mongoose.Schema({
 	additional_info: {type: Boolean, required: true, default: false}
 });
 
+var expenseSchema = new mongoose.Schema({
+	startDate: { type: Date},
+	endDate: { type: Date },
+	expense_sector: {type: String, required: true },
+	amount: {type: Number, required: true, min: 0 },
+	createdAt: { type: Date, "default": Date.now }
+});
+
 var 			userSchema 		=	new mongoose.Schema({
 	email: {type: String, required: true, unique: true},
 	hash: {type: String},
@@ -109,7 +117,7 @@ var 			userSchema 		=	new mongoose.Schema({
 	insurance: [insuranceSchema],
 	statusCollection: [statusSchema],
 	history: {type: Array},
-	expenses: [mongoose.Schema.Types.Mixed]
+	expenses: [expenseSchema]
 });
 
 
