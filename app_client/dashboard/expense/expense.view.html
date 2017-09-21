@@ -57,7 +57,10 @@
              <div class="panel-heading" ng-if="exvm.expenseSummarySuccess === true">
                  <h2 class="title light">Your Expense Summary</h2>
                  <hr>
-                 <h3 class="sub-title text-center light">Your total expenses so far <span class="medium">{{exvm.totalExpense | currency: '£'}}</span></h3>
+                 <ul class="expense-summary-list">
+                     <li ng-repeat="expense in exvm.expensesList">{{expense.expense_sector}} - {{expense.amount | currency: '£'}}</li>
+                 </ul>
+                 <h3 class="sub-title text-center light">Your total expenses so far <span class="medium">{{exvm.totalAmount | currency: '£'}}</span></h3>
 
                  <a href="#" class="btn btn-success pull-right" title="view all your expense">View All expenses</a>
                  <div class="clearfix"></div>

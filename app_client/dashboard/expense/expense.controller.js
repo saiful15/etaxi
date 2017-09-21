@@ -64,10 +64,11 @@
 						exvm.expenseSummaryError = false;
 						exvm.expenseSummarySuccess = true;
 						exvm.expensesList = response.data.expense;
-						exvm.totalExpense = 0;
+						let total = 0; 
 						for(var i =0; i < exvm.expensesList.length; i++) {
-							exvm.totalExpense += parseInt(exvm.expensesList[i].totalAt);
+							total += parseInt(exvm.expensesList[i].amount);
 						}
+						exvm.totalAmount = total;
 					}
 					else if(response.data.error) {
 						exvm.expenseSummaryError = true;
