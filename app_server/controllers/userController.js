@@ -429,38 +429,37 @@ module.exports.addExpenses = function (req, res) {
 |----------------------------------------------
 */
 module.exports.showExpense = function (req, res) {
-	sendJsonResponse(res, 200, 'ok');
-	// if (!req.params && !req.params.userId) {
-	// 	sendJsonResponse(res, 404, {
-	// 		error: 'Invalid request'
-	// 	});
-	// }
-	// else{
-	// 	// get user expense object.
-	// 	users
-	// 		.findOne({email: req.params.userId})
-	// 		.select('expenses')
-	// 		.exec(function(err, user){
-	// 			if(!user) {
-	// 				sendJsonResponse(res, 404, {
-	// 					error: "No user found with given user id"
-	// 				});
-	// 				return;
-	// 			}
-	// 			if(err) {
-	// 				sendJsonResponse(res, 404, {
-	// 					error: err
-	// 				});
-	// 				return;
-	// 			}
-	// 			else{
-	// 				sendJsonResponse(res, 200, {
-	// 					success: true,
-	// 					expense: user.expenses
-	// 				});
-	// 			}
-	// 		})
-	// }
+	if (!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'Invalid request'
+		});
+	}
+	else{
+		// get user expense object.
+		users
+			.findOne({email: req.params.userId})
+			.select('expenses')
+			.exec(function(err, user){
+				if(!user) {
+					sendJsonResponse(res, 404, {
+						error: "No user found with given user id"
+					});
+					return;
+				}
+				if(err) {
+					sendJsonResponse(res, 404, {
+						error: err
+					});
+					return;
+				}
+				else{
+					sendJsonResponse(res, 200, {
+						success: true,
+						expense: user.expenses
+					});
+				}
+			})
+	}
 }
 
 
