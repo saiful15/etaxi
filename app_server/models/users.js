@@ -100,6 +100,11 @@ var expenseSchema = new mongoose.Schema({
 	createdAt: { type: Date, "default": Date.now }
 });
 
+const incomeSchema = new mongoose.Schema({
+	incomeDate: { type: Date, default: Date.now },
+	income: { type: Number, required: true, min: 1}
+})
+
 var 			userSchema 		=	new mongoose.Schema({
 	email: {type: String, required: true, unique: true},
 	hash: {type: String},
@@ -117,7 +122,8 @@ var 			userSchema 		=	new mongoose.Schema({
 	insurance: [insuranceSchema],
 	statusCollection: [statusSchema],
 	history: {type: Array},
-	expenses: [expenseSchema]
+	expenses: [expenseSchema],
+	incomes: [incomeSchema],
 });
 
 

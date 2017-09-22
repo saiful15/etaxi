@@ -74,6 +74,14 @@
 				.catch(handleError);
 		}
 
+		// add income
+		var addIncome = function (userId) {
+			return $http
+				.post('/api/'+userId+'/addincome')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -91,6 +99,7 @@
 			updateAddress: updateAddress,
 			addExpense: addExpense,
 			showExpenseSummary: showExpenseSummary,
+			addIncome: addIncome,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}

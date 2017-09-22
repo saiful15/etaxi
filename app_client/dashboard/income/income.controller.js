@@ -10,7 +10,35 @@
 		.module('etaxi')
 		.controller('incomeCtrl', incomeCtrl);
 
-	function incomeCtrl(){
+	// add dependency to controller
+	incomeCtrl.$inject = ['authentication', 'userservice'];
+
+	function incomeCtrl (authentication, userservice) {
 		const 	invm 		=	this;
+
+		// income object.
+		invm.Income = {
+			amount: '',
+		};
+
+		invm.addIncome = function () {
+			if (!invm.Income.amount) {
+				invm.incomeError = true;
+				invm.incomeErrorMsg = "Please add income";
+			}
+			else{
+				invm.incomeError = false;
+				// calling method from user service service.
+				userservice
+				 .addIncome(authentication.currentUser().email)
+				 .then(function(response) {
+
+				 })
+				 .catch(err => {
+				 	alert(err);
+				 })
+
+			}
+		}
 	}
 })();

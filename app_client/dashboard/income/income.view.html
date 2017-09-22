@@ -2,7 +2,34 @@
 <site-nav></site-nav>
 
 <div class="container">
-	<h1>income</h1>
+	<h1 class="big-title light text-center">Add income to your account</h1>
+	<hr>
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="title text-center light">Add income</h2>
+					<hr>
+					<form ng-submit="invm.addIncome()">
+						<div class="form-group"><label for="incomeAmount">Amount</label><input type="text" placeholder="£" ng-model='invm.Income.amount' id="incomeAmount" class="form-control half"></div>
+						<div class="alert alert-danger half" ng-if="invm.incomeError === true">
+							<p class="no-margin medium">Error! {{invm.incomeErrorMsg}}</p>
+						</div>
+						<button type="submit" class="btn btn-primary">Save Income</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="title text-center light">Your income summary</h2>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- site-footer -->

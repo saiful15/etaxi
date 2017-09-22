@@ -462,4 +462,39 @@ module.exports.showExpense = function (req, res) {
 	}
 }
 
+/*
+|----------------------------------------------
+| Following function will income to user collection
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.addIncome = function (req,res) {
+	if(!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'invalid request',
+		});
+	}
+	else {
+		// check user against the user id
+		users
+		 	.findOne({email: req.params.userId})
+		 	.select('incomes')
+		 	.exec(function (err, user) {
+		 		if(err) {
+		 			sendJsonResponse(res, 404, {
+		 				error: err,
+		 			});
+		 			return;
+		 		}
+		 		if (!user) {
+		 			sendJsonResponse(res, 404, {
+		 				error: 'no user found with given user id',
+		 			});
+		 			return;
+		 		}
+		 	})
+	}
+}
+
 
