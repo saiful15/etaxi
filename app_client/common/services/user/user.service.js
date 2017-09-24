@@ -75,9 +75,16 @@
 		}
 
 		// add income
-		var addIncome = function (userId) {
+		var addIncome = function (userId, data) {
 			return $http
-				.post('/api/'+userId+'/addincome')
+				.post('/api/'+userId+'/addincome', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const showIncome = function (userId) {
+			return $http
+				.get('/api/'+userId+'/showincome')
 				.then(handleSuccess)
 				.catch(handleError);
 		}
@@ -100,6 +107,7 @@
 			addExpense: addExpense,
 			showExpenseSummary: showExpenseSummary,
 			addIncome: addIncome,
+			showIncome: showIncome,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}

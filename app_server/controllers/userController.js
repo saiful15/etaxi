@@ -493,6 +493,63 @@ module.exports.addIncome = function (req,res) {
 		 			});
 		 			return;
 		 		}
+		 		else {
+		 			// pusing income to incomes array.
+		 			user.incomes.push({
+		 				income: req.body.amount,
+		 				incomeDate: req.body.incomeDate,
+		 				incomeType: req.body.income_source
+		 			});
+
+		 			// now save the change.
+		 			user.save(function (err, income) {
+		 				sendJsonResponse(res, 200, {
+		 					success: true,
+		 					data: income
+		 				});
+		 			}) 
+		 		}
+		 	})
+	}
+}
+
+/*
+|----------------------------------------------
+| Following function will show income for user
+| based on given user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.showIncome = function (req, res) {
+	if(!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'invalid request',
+		});
+	}
+	else {
+		users
+		 	.findOne({email: req.params.userId})
+		 	.select('incomes')
+		 	.exec(function (err, user) {
+		 		if(err) {
+		 			sendJsonResponse(res, 404, {
+		 				error: err,
+		 			});
+		 			return;
+		 		}
+		 		if (!user) {
+		 			sendJsonResponse(res, 404, {
+		 				error: 'no user found with given user id',
+		 			});
+		 			return;
+		 		}
+		 		else {
+		 			sendJsonResponse(res, 200, {
+		 				success: true,
+		 				data: user.incomes
+		 			});
+		 		}
 		 	})
 	}
 }

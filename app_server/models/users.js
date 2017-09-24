@@ -102,7 +102,8 @@ var expenseSchema = new mongoose.Schema({
 
 const incomeSchema = new mongoose.Schema({
 	incomeDate: { type: Date, default: Date.now },
-	income: { type: Number, required: true, min: 1}
+	income: { type: Number, required: true, min: 1},
+	incomeType: {type: String, required: true },
 })
 
 var 			userSchema 		=	new mongoose.Schema({

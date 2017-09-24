@@ -39,5 +39,8 @@ routes.get('/showexpense/:userId', userController.showExpense);
 // add income 
 routes.post('/:userId/addincome', userController.addIncome);
 
+// show income
+routes.get('/:userId/showincome', userController.showIncome);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;
