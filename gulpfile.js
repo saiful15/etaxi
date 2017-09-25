@@ -40,6 +40,7 @@ var     paths       =       {
         "app_client/dashboard/businessprofile/businessprofile.controller.js",
         "app_client/dashboard/serviceplan/serviceplan.controller.js",
         "app_client/dashboard/income/income.controller.js",
+        "app_client/dashboard/allincomestatements/allincomestatements.controller.js",
         "app_client/dashboard/expense/expense.controller.js",
         "app_client/dashboard/financialstatement/financialstatement.controller.js",
         "app_client/dashboard/settings/settings.controller.js"

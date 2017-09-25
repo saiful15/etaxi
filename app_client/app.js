@@ -65,6 +65,11 @@
 				controller: "incomeCtrl",
 				controllerAs: 'invm'
 			})
+			.when('/allincomestatements', {
+				templateUrl: 'dashboard/allincomestatements/allincomestatements.view.html',
+				controller: 'allincomeStatmentController',
+				controllerAs: 'inStmt',
+			})
 			.when('/expense', {
 				templateUrl: "dashboard/expense/expense.view.html",
 				controller: "expenseCtrl",

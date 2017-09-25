@@ -1,0 +1,66 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="container">
+	<h1 class="big-title text-center medium">View, Edit or Delete All your statements</h1>
+	<hr>
+	<div class="row">
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="container-box shadow">
+				<h2 class="title text-center light">Filter Your Income</h2>
+				<hr>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+			<div class="container-box shadow" ng-init="inStmt.loadAllIncomeStatements()">
+				<h2 class="title text-center light">Your income list</h2>
+				<hr>
+				
+				<!-- show all incomes. -->
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Income</th>
+							<th>Source</th>
+							<th>Date</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="income in inStmt.incomesList">
+							<td><span class="text-center medium">{{income.income | currency: '£'}}</span></td>
+							<td><span class="text-center medium">{{income.incomeType}}</span></td>
+							<td><span class="text-center medium">{{income.incomeDate | date: 'yyyy-MM-dd'}}</span></td>
+							<td><a href="" class="btn btn-warning">Edit</a></td>
+							<td><a href="" class="btn btn-danger" ng-click = "inStmt.deleteStatement(income._id)">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- if we have any error loading the incomes -->
+				<div class="alert alert-danger" ng-if="inStmt.weHaveIncomes === false">
+					<p class="medium text-center">Error! while loading your income statemnts</p>
+				</div>
+				<!-- when we don't have any single income statement to show -->
+				<div class="alert alert-danger" ng-if="inStmt.weHaveNoIncome === true">
+					<p class="medium text-center">
+						You don't have any income. Please add income first. <br/>
+					</p>
+					<a href="/income" title="add income" class="btn btn-success pull-right"> Add Incomes</a>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="panel-footer">
+					<a href="/income" title="add more income" class="btn btn-success pull-right"> Add More Income</a>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>
