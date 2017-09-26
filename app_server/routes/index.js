@@ -42,5 +42,8 @@ routes.post('/:userId/addincome', userController.addIncome);
 // show income
 routes.get('/:userId/showincome', userController.showIncome);
 
+// delete income based on userid and income id.
+routes.delete('/:userId/:incomeId/deleteincome', userController.deleteIncome);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

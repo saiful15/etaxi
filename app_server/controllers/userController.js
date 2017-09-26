@@ -554,4 +554,76 @@ module.exports.showIncome = function (req, res) {
 	}
 }
 
+/*
+|----------------------------------------------
+| Following function will delete income based on
+| given userId and incomeId
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.deleteIncome = function (req, res) {
+	if(!req.params && !req.params.userId && !req.params.incomeId) {
+		sendJsonResponse(res, 404, {
+			error: 'invalid request',
+		});
+	}
+	else{
+		// find user incomes based on given user id
+		users
+			.findOne({email: req.params.userId})
+			.select('incomes')
+			.exec(function (err, user) {
+					if(err) {
+			 			sendJsonResponse(res, 404, {
+			 				error: err,
+			 			});
+			 			return;
+			 		}
+			 		if (!user) {
+			 			sendJsonResponse(res, 404, {
+			 				error: 'no user found with given user id',
+			 			});
+			 			return;
+			 		}
+			 		else{
+			 			// checking the lenth of the incomes to ensure we have incomes to delete
+			 			if(user.incomes && user.incomes.length > 0) {
+			 				// check the income id against all income ids from db
+			 				if(!user.incomes.id(req.params.incomeId)) {
+			 					sendJsonResponse(res, 404, {
+			 						error: 'income does not match',
+			 					});
+			 					return;
+			 				}
+			 				else{
+			 					// now delete and save change.
+			 					user.incomes.id(req.params.incomeId).remove();
+			 					user.save(function(err){
+			 						if(err){
+			 							sendJsonResponse(res, 404, {
+			 								error: err,
+			 							});
+			 							return;
+			 						}
+			 						else{
+			 							sendJsonResponse(res, 200, {
+			 								success: true,
+			 								data: 'income successfully deleted',
+			 							});
+			 						}
+			 					})
+			 				}
+			 			}
+			 			else{
+			 				sendJsonResponse(res, 404, {
+			 					error: 'no income to delete'
+			 				});
+			 				return;
+			 			}
+			 		}
+			})
+	}
+}
+
 

@@ -46,7 +46,23 @@
 
 			// to delete an income statment.
 			inStmt.deleteStatement = function (incomeId) {
-				// now write code to delete income statement based on id.
+				
+				// calling method from userservice.
+				userservice
+					.deleteIncome(authentication.currentUser().email, incomeId)
+					.then(function (response) {
+						if(response.data.success === true) {
+							// calling method to load latest incomes.
+							inStmt.loadAllIncomeStatements();
+							inStmt.deletingError = false;
+						}
+						else if(response.data.error) {
+							inStmt.deletingError = true;
+						}
+					})
+					.catch(err => {
+						alert(err);
+					})
 			}
 		}
 		else{

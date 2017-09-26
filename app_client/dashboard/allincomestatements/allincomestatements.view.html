@@ -40,6 +40,11 @@
 					</tbody>
 				</table>
 				
+				<!-- if we have any error deleting income -->
+				<div class="alert alert-danger" ng-if="inStmt.deletingError === true">
+					<p class="medium text-center">Error! while deleting income statement</p>
+				</div>
+
 				<!-- if we have any error loading the incomes -->
 				<div class="alert alert-danger" ng-if="inStmt.weHaveIncomes === false">
 					<p class="medium text-center">Error! while loading your income statemnts</p>

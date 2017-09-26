@@ -89,6 +89,13 @@
 				.catch(handleError);
 		}
 
+		const deleteIncome = function(userId, incomeId) {
+			return $http
+				.delete('/api/'+userId+'/'+incomeId+'/deleteincome')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -108,6 +115,7 @@
 			showExpenseSummary: showExpenseSummary,
 			addIncome: addIncome,
 			showIncome: showIncome,
+			deleteIncome: deleteIncome,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}
