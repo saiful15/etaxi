@@ -627,3 +627,134 @@ module.exports.deleteIncome = function (req, res) {
 }
 
 
+/*
+|----------------------------------------------
+| Following method will show single income statement
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.showSingleIncome = function (req, res) {
+	if(!req.params && !req.params.userId && !req.params.incomeId) {
+		sendJsonResponse(res, 404, {
+			error: 'invalid request',
+		});
+	}
+	else{
+		users
+			.findOne({email: req.params.userId})
+			.select('incomes')
+			.exec(function (err, user) {
+					if(err) {
+			 			sendJsonResponse(res, 404, {
+			 				error: err,
+			 			});
+			 			return;
+			 		}
+			 		if (!user) {
+			 			sendJsonResponse(res, 404, {
+			 				error: 'no user found with given user id',
+			 			});
+			 			return;
+			 		}
+			 		else{
+			 			// checking the lenth of the incomes to ensure we have incomes to delete
+			 			if(user.incomes && user.incomes.length > 0) {
+			 				// check the income id against all income ids from db
+			 				if(!user.incomes.id(req.params.incomeId)) {
+			 					sendJsonResponse(res, 404, {
+			 						error: 'income does not match',
+			 					});
+			 					return;
+			 				}
+			 				else{
+			 					sendJsonResponse(res, 200, {
+			 						success: true,
+			 						data: user.incomes.id(req.params.incomeId)
+			 					});
+			 				}
+			 			}
+			 			else{
+			 				sendJsonResponse(res, 404, {
+			 					error: 'no income to show'
+			 				});
+			 				return;
+			 			}
+			 		}
+			})
+	}
+}
+
+/*
+|----------------------------------------------
+| Following method will update sinlge income
+| based on given id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.updateIncome = function (req, res) {
+	if(!req.params && !req.params.userId && !req.params.incomeId) {
+		sendJsonResponse(res, 404, {
+			error: 'invalid request',
+		});
+	}
+	else{
+		users
+			.findOne({email: req.params.userId})
+			.select('incomes')
+			.exec(function (err, user) {
+					if(err) {
+			 			sendJsonResponse(res, 404, {
+			 				error: err,
+			 			});
+			 			return;
+			 		}
+			 		if (!user) {
+			 			sendJsonResponse(res, 404, {
+			 				error: 'no user found with given user id',
+			 			});
+			 			return;
+			 		}
+			 		else{
+			 			// checking the lenth of the incomes to ensure we have incomes to delete
+			 			if(user.incomes && user.incomes.length > 0) {
+			 				var thisIncome = user.incomes.id(req.params.incomeId);
+
+			 				if(!thisIncome) {
+			 					sendJsonResponse(res, 404, {
+			 						error: 'income id not found',
+			 					});
+			 					return;
+			 				}
+			 				else{
+			 					thisIncome.income = req.body.amount;
+			 					thisIncome.incomeType = req.body.income_source;
+			 					thisIncome.incomeDate = req.body.incomeDate;
+			 					// now save this change.
+			 					user.save(function(err) {
+			 						if(err) {
+			 							sendJsonResponse(res, 404, {
+			 								error: 'Error! while saving your updates',
+			 							});
+			 							return;
+			 						}
+			 						else{
+			 							sendJsonResponse(res, 200, {
+			 								success: true,
+			 							});
+			 						}
+			 					})
+			 				}
+			 			}
+			 			else{
+			 				sendJsonResponse(res, 404, {
+			 					error: 'no income to show'
+			 				});
+			 				return;
+			 			}
+			 		}
+			})
+	}
+}
+

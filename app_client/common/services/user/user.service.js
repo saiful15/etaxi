@@ -89,6 +89,20 @@
 				.catch(handleError);
 		}
 
+		const showSingleIncome = function (userId, incomeId) {
+			return $http
+				.get('/api/'+userId+'/getincome/'+incomeId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const updateIncomeStatement = function (userId, incomeId, data) {
+			return $http
+				.patch('/api/'+userId+'/updateincome/'+incomeId, data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		const deleteIncome = function(userId, incomeId) {
 			return $http
 				.delete('/api/'+userId+'/'+incomeId+'/deleteincome')
@@ -116,6 +130,8 @@
 			addIncome: addIncome,
 			showIncome: showIncome,
 			deleteIncome: deleteIncome,
+			showSingleIncome: showSingleIncome,
+			updateIncomeStatement: updateIncomeStatement,
 			addAdditionalInformation: addAdditionalInformation
 		};
 	}

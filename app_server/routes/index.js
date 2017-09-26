@@ -39,11 +39,17 @@ routes.get('/showexpense/:userId', userController.showExpense);
 // add income 
 routes.post('/:userId/addincome', userController.addIncome);
 
-// show income
+// show incomes for given user id.
 routes.get('/:userId/showincome', userController.showIncome);
+
+// show single income for given user id and income id
+routes.get('/:userId/getincome/:incomeId', userController.showSingleIncome);
 
 // delete income based on userid and income id.
 routes.delete('/:userId/:incomeId/deleteincome', userController.deleteIncome);
+
+// update a single income based on id.
+routes.patch('/:userId/updateincome/:incomeId', userController.updateIncome);
 
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

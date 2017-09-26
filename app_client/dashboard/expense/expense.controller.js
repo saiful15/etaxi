@@ -66,7 +66,7 @@
 						exvm.expensesList = response.data.expense;
 						let total = 0; 
 						for(var i =0; i < exvm.expensesList.length; i++) {
-							total += parseInt(exvm.expensesList[i].amount);
+							total += parseFloat(exvm.expensesList[i].amount);
 						}
 						exvm.totalAmount = total;
 					}
