@@ -70,5 +70,16 @@
 					alert(err);
 				})
 		}
+
+		/*
+		|----------------------------------------------
+		| Following function will sort our last 7 days incomes
+		| @author: jahid haque <jahid.haque@yahoo.com>
+		| @copyright: taxiaccount, 2017
+		|----------------------------------------------
+		*/
+		invm.showLastSeverDaysIncome = function(incomeObject) {
+			console.log(incomeObject);
+		}
 	}
 })();

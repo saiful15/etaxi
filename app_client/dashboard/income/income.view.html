@@ -33,6 +33,19 @@
 		</div>
 
 		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="panel panel-default" ng-init="invm.showIncome()">
+				<div class="panel-heading">
+					<h2 class="title text-center light">Your last 7 day's income</h2>
+					<hr>
+				</div>
+
+				<div class="panel-body" ng-init="invm.showLastSeverDaysIncome(invm.incomeList)">
+					<h1 class="text-center medium">						
+						<span ng-show="$last">income amount</span>
+					</h1>
+				</div>
+			</div>
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2 class="title text-center light">Your income summary</h2>
@@ -47,6 +60,20 @@
 					</h1>
 					<a href="/allincomestatements" class="btn btn-success pull-right" title="view all your income statement">View all statements</a>
 					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2 class="title text-center light">Your last added income</h2>
+					<hr>
+				</div>
+
+				<div class="panel-body">
+					<h1 ng-repeat="income in invm.incomeList track by $index" class="text-center medium">						
+						<span ng-show="$last">{{income.income | currency: '£'}}</span>
+					</h1>
 				</div>
 			</div>
 		</div>
