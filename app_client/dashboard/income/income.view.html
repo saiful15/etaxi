@@ -32,14 +32,32 @@
 			</div>
 		</div>
 
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-			<div class="panel panel-default" ng-init="invm.showIncome()">
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-init="invm.showIncome()">
+			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h2 class="title text-center light">Your last 7 day's income</h2>
 					<hr>
-				</div>
 
-				<div class="panel-body" ng-init="invm.showLastSeverDaysIncome(invm.incomeList)">
+					<div class="weekly-incomes" ng-repeat="weeklyincome in invm.weeklyIncome">
+						<div class="weekly-income" ng-repeat="income in weeklyincome">
+							<h1 class="text-left pull-left medium sub-title">Payment type: {{income.incomeType}}</h1>
+
+							<h1 class="text-left pull-right medium sub-title">Payment Date: {{income.incomeDate | date: 'yyyy-MM-dd'}}</h1>
+							<div class="clearfix"></div>
+							<h2 class="text-center big-title medium no-margin">{{income.income | currency: '£'}}</h2>
+						</div>
+					</div>
+					<!-- <ul class="list income-list" ng-repeat="weeklyincome in invm.weeklyIncome">
+						<li ng-repeat="income in weeklyincome">
+							<span class="income-type medium sub-title">
+								Income type: {{income.incomeType}}</span>
+								<span class="income-amount medium sub-title">
+								Amount: {{income.income | currency: '£'}}</span>
+						</li>
+					</ul> -->
+				</div>
+				
+				<div class="panel-body">
 					<h1 class="text-center medium">						
 						<span ng-show="$last">income amount</span>
 					</h1>
@@ -51,7 +69,7 @@
 					<h2 class="title text-center light">Your income summary</h2>
 					<hr>
 				</div>
-				<div class="panel-body" ng-init="invm.showIncome()">
+				<div class="panel-body">
 					<h1 class="no-margin text-center big-title medium" ng-if="invm.initialError === true">
 						&pound; 0
 					</h1>

@@ -51,3 +51,34 @@
         margin: 8px 0;
     }
 }
+
+// forgotpassword
+.forgotpassword-box{
+    position: relative;
+    margin: 20px 0;
+    .checkuser-form{
+        position: relative;
+        padding: 40px;
+        .form-group{
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
+    .panel{
+        box-shadow: none !important;
+        border: none !important;
+    }
+}
+
+.weekly-incomes {
+    padding: 20px 0;
+    border-bottom: 1px solid #dcdbdb;
+    &:last-child{
+        margin-bottom: 20px;
+        padding-bottom: 0px;
+        border-bottom: 0;
+    }
+    .weekly-income{
+        padding: 20px 0;
+    }
+}

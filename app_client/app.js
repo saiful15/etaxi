@@ -90,6 +90,11 @@
 				controller: "profileCtrl",
 				controllerAs: "prvm"
 			})
+			.when('/forgotpassword', {
+				templateUrl: 'forgotpassword/forgotpassword.view.html',
+				controller: 'forgotPasswordController',
+				controllerAs: 'frp',
+			})
 
 		// enable html5 mode
 		$locationProvider.html5Mode({

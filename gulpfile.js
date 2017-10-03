@@ -35,6 +35,7 @@ var     paths       =       {
     	"app_client/contactus/contactus.controller.js",
     	"app_client/signup/signup.controller.js",
     	"app_client/signin/signin.controller.js",
+        "app_client/forgotpassword/forgotpassword.controller.js",
         "app_client/profile/profile.controller.js",
         "app_client/dashboard/dashboard.controller.js",
         "app_client/dashboard/businessprofile/businessprofile.controller.js",
@@ -58,7 +59,7 @@ var     paths       =       {
 gulp.task('compile-js', function(){    
     return gulp.src(paths.scripts)
         .pipe(sourcemaps.init())
-        	.pipe(babel({presets: ['es2015']}))
+        	.pipe(babel({presets: ['es2015']}).on('error', reportError ))
         	.pipe(uglifyjs())
             .pipe(concat('master.min.js'))
         .pipe(sourcemaps.write())
@@ -70,7 +71,7 @@ gulp.task('compile-js', function(){
 gulp.task('compile-clients', function(){    
     return gulp.src(paths.clientFiles)
         .pipe(sourcemaps.init())
-        	.pipe(babel({presets: ['es2015']}))
+        	.pipe(babel({presets: ['es2015']}).on('error', reportError ))
         	.pipe(uglifyjs())
             .pipe(concat('app.min.js'))
         .pipe(sourcemaps.write())
@@ -83,13 +84,22 @@ gulp.task('compile-clients', function(){
 gulp.task('compile-sass', function(){    
     return gulp.src(paths.styles)
         .pipe(sourcemaps.init())
-            .pipe(sass())
+            .pipe(sass().on('error', reportError ))
             .pipe(concat('app.min.css'))
         .pipe(sourcemaps.write())
         .pipe(notify('sass compiled'))
         .pipe(gulp.dest("./public/css/"));
 });
 
+function reportError (error) {
+    notify({
+        title: 'Gulp Task Error',
+        message: 'Check the console.'
+    }).write(error);
+
+    console.log(error.toString());
+    this.emit('end');
+}
 
 //gulp-task to keep on watching all files.
 gulp.task('watch', function(){

@@ -15,7 +15,7 @@
 
 	function incomeCtrl (authentication, userservice) {
 		const 	invm 		=	this;
-
+		let incomeLists;
 		// income object.
 		invm.Income = {
 			amount: '',
@@ -64,22 +64,46 @@
 						for(var i =0; i < invm.incomeList.length; i++) {
 							invm.totalIncome += parseFloat(invm.incomeList[i].income);
 						}
+						
+						// now sorting out last 7 days income.
+						var last7Days = Last7Days();
+						let weeklyIncomes = last7Days.map(function(x){
+							return invm.incomeList.filter(function(income){
+								return income.incomeDate === x;
+							});
+						});
+
+						invm.weeklyIncome = weeklyIncomes.filter(function(income){
+							return income.length > 0;
+						});												
 					}
 				})
 				.catch(err => function(){
 					alert(err);
 				})
 		}
+		
+		// function to formate date.
+		function formatDate(date){
+		    var dd = date.getDate();
+		    var mm = date.getMonth()+1;
+		    var yyyy = date.getFullYear();
+		    if(dd<10) {dd='0'+dd}
+		    if(mm<10) {mm='0'+mm}
+		    date = yyyy+'-'+mm+'-'+dd+'T00:00:00.000Z';
+		    return date;
+ 		}
 
-		/*
-		|----------------------------------------------
-		| Following function will sort our last 7 days incomes
-		| @author: jahid haque <jahid.haque@yahoo.com>
-		| @copyright: taxiaccount, 2017
-		|----------------------------------------------
-		*/
-		invm.showLastSeverDaysIncome = function(incomeObject) {
-			console.log(incomeObject);
-		}
+ 		// get last 7 days.
+ 		function Last7Days () {
+		    var result = [];
+		    for (var i=0; i<7; i++) {
+		        var d = new Date();
+		        d.setDate(d.getDate() - i);
+		        result.push( formatDate(d) )
+		    }
+
+		    return result;
+		 }
 	}
 })();
