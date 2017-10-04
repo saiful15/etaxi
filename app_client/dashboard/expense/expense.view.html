@@ -60,10 +60,9 @@
             <hr>
             <div class="weekly-expenses" ng-repeat="expenses in exvm.weeklyExpense">
                 <div class="weekly-expense" ng-repeat="expense in expenses">
-                    <h2 class="text-left light pull-left no-margin">Start Date: {{expense.startDate | date: 'yyyy-MM-dd'}}</h2>
+                    <h2 class="text-left light pull-left no-margin">Expense Added: {{expense.createdAt | date: 'yyyy-MM-dd'}}</h2>
                     <div class="clearfix"></div>
                     <h2 class="text-center light pull-center">Expensed Amount: {{expense.amount | currency: '£'}}</h2>
-                    <h2 class="text-left light pull-left no-margin">End Date: {{expense.endDate | date: 'yyyy-MM-dd'}}</h2>
                     <div class="clearfix"></div>
                 </div>
             </div>

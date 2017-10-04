@@ -74,7 +74,7 @@
 						var last7Days = Last7Days();
 						let weeklyExpenses = last7Days.map(function(x){
 							return exvm.expensesList.filter(function(expense){
-								return expense.startDate === x || expense.endDate === x;
+								return formatDateFromISO(expense.createdAt) === x;
 							});
 						});
 
@@ -91,6 +91,18 @@
 				})
 		}
 
+		function formatDateFromISO(date) {
+		    var d = new Date(date),
+		        month = '' + (d.getMonth() + 1),
+		        day = '' + d.getDate(),
+		        year = d.getFullYear();
+
+		    if (month.length < 2) month = '0' + month;
+		    if (day.length < 2) day = '0' + day;
+
+		    return [year, month, day].join('-');
+		}
+
 		// function to formate date.
 		function formatDate(date){
 		    var dd = date.getDate();
@@ -98,7 +110,7 @@
 		    var yyyy = date.getFullYear();
 		    if(dd<10) {dd='0'+dd}
 		    if(mm<10) {mm='0'+mm}
-		    date = yyyy+'-'+mm+'-'+dd+'T00:00:00.000Z';
+		    date = yyyy+'-'+mm+'-'+dd;
 		    return date;
  		}
 
