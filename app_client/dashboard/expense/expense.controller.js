@@ -69,6 +69,18 @@
 							total += parseFloat(exvm.expensesList[i].amount);
 						}
 						exvm.totalAmount = total;
+
+						// now sorting out last 7 days income.
+						var last7Days = Last7Days();
+						let weeklyExpenses = last7Days.map(function(x){
+							return exvm.expensesList.filter(function(expense){
+								return expense.startDate === x || expense.endDate === x;
+							});
+						});
+
+						exvm.weeklyExpense = weeklyExpenses.filter(function(expense){
+							return expense.length > 0;
+						});
 					}
 					else if(response.data.error) {
 						exvm.expenseSummaryError = true;
@@ -78,5 +90,28 @@
 					alert(err);
 				})
 		}
+
+		// function to formate date.
+		function formatDate(date){
+		    var dd = date.getDate();
+		    var mm = date.getMonth()+1;
+		    var yyyy = date.getFullYear();
+		    if(dd<10) {dd='0'+dd}
+		    if(mm<10) {mm='0'+mm}
+		    date = yyyy+'-'+mm+'-'+dd+'T00:00:00.000Z';
+		    return date;
+ 		}
+
+ 		// get last 7 days.
+ 		function Last7Days () {
+		    var result = [];
+		    for (var i=0; i<7; i++) {
+		        var d = new Date();
+		        d.setDate(d.getDate() - i);
+		        result.push( formatDate(d) )
+		    }
+
+		    return result;
+		 }
 	}
 })();

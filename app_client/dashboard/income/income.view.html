@@ -37,7 +37,6 @@
 				<div class="panel-heading">
 					<h2 class="title text-center light">Your last 7 day's income</h2>
 					<hr>
-
 					<div class="weekly-incomes" ng-repeat="weeklyincome in invm.weeklyIncome">
 						<div class="weekly-income" ng-repeat="income in weeklyincome">
 							<h1 class="text-left pull-left medium sub-title">Payment type: {{income.incomeType}}</h1>
@@ -47,14 +46,6 @@
 							<h2 class="text-center big-title medium no-margin">{{income.income | currency: '£'}}</h2>
 						</div>
 					</div>
-					<!-- <ul class="list income-list" ng-repeat="weeklyincome in invm.weeklyIncome">
-						<li ng-repeat="income in weeklyincome">
-							<span class="income-type medium sub-title">
-								Income type: {{income.incomeType}}</span>
-								<span class="income-amount medium sub-title">
-								Amount: {{income.income | currency: '£'}}</span>
-						</li>
-					</ul> -->
 				</div>
 				
 				<div class="panel-body">
@@ -89,7 +80,7 @@
 				</div>
 
 				<div class="panel-body">
-					<h1 ng-repeat="income in invm.incomeList track by $index" class="text-center medium">						
+					<h1 ng-repeat="income in invm.incomeList track by $index" class="text-center medium">	
 						<span ng-show="$last">{{income.income | currency: '£'}}</span>
 					</h1>
 				</div>

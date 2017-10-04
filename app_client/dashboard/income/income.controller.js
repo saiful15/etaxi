@@ -15,7 +15,6 @@
 
 	function incomeCtrl (authentication, userservice) {
 		const 	invm 		=	this;
-		let incomeLists;
 		// income object.
 		invm.Income = {
 			amount: '',
@@ -53,6 +52,7 @@
 		invm.showIncome = function () {
 			invm.initialError = true;
 			invm.totalIncome = 0;
+			let incomeLists;
 			// calling method from useservice
 			userservice
 				.showIncome(authentication.currentUser().email)

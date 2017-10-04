@@ -82,3 +82,19 @@
         padding: 20px 0;
     }
 }
+
+.weekly-expenses{
+    padding: 20px 0;
+    &:last-child{
+        margin-bottom: 20px;
+        padding-bottom: 0px;
+        border-bottom: 0;
+    }
+    .weekly-expense{
+        padding: 10px 20px;
+        border-bottom: 1px solid #dcdbdb;
+        &:last-child{
+            border-bottom: 0px;
+        }
+    }
+}
