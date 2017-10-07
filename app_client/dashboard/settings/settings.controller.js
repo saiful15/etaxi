@@ -33,6 +33,8 @@
 							stvm.addContact();
 
 							stvm.businessSettingOn = response.data.status.statusCollection[0].business;
+							stvm.vehicleSettingOn = response.data.status.statusCollection[0].vehicle;
+
 						}
 					})
 					.catch(err => alert(err));
@@ -153,6 +155,22 @@
 						}
 					})
 					.catch(err => alert(err));
+			}
+
+			// vechile details.
+			stvm.vehicle = {
+				type: '',
+				brand: '',
+				registration: '',
+				car_value: '',
+				mot: '',
+				roadtax: '',
+				car_status: '',
+			}
+
+			// show vichle details.
+			stvm.addVechicleDetails = () => {
+				
 			}
 		}
 		else{

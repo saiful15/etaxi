@@ -140,6 +140,13 @@
 				.catch(handleError);
 		}
 
+		const addVehicleInfo = (userId, data) => {
+			return $http
+				.post('/api/'+userId+'/addvehicle', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -167,6 +174,7 @@
 			showContact: showContact,
 			addBusinessInfo: addBusinessInfo,
 			showBusinessBasic: showBusinessBasic,
+			addVehicleInfo: addVehicleInfo,
 		};
 	}
 })();

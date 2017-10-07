@@ -87,6 +87,72 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="row m-t-3">
+			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="container-box wbg shadow" ng-if="stvm.vehicleSettingOn === false">
+					<h1 class="text-center title medium">You haven't added your vehicle information</h1>
+					<p class="text-center light">Please add your vehicle details now</p>
+					<hr>
+					<form ng-submit="stvm.addVechicleDetails()">
+						<div class="form-group">
+							<label for="car_type">Car Type *</label>
+							<input type="text" class="form-control half" id="car_type" ng-model='stvm.vehicle.type' placeholder="your car type">
+						</div>
+						<div class="form-group">
+							<label for="brand">Brand *</label>
+							<select id="brand" class="half form-control" ng-model="stvm.vehicle.brand">
+								<option value="" selected="selected">Select Brand</option>
+								<option value="bmw">BMW</option>
+								<option value="honda">Honda</option>
+								<option value="ford">Ford</option>
+								<option value="renault">Renault</option>
+								<option value="volkswagen">Volkswagen</option>
+								<option value="volvo">Volvo</option>
+								<option value="Toyota">Toyota</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="registration_number">Registration Number *</label>
+							<input type="text" class="form-control half" id="registration_number" ng-model='stvm.vehicle.registration' placeholder="your registration number">
+						</div>
+
+						<div class="form-group">
+							<label for="car_value">Car value *</label>
+							<input type="text" class="form-control half" id="car_value" 
+							ng-model='stvm.vehicle.car_value' placeholder="your car value">
+						</div>
+
+						<div class="form-group">
+							<label for="mot_valid">MOT Valid Till *</label>
+							<input type="text" class="form-control half" id="mot_valid" 
+							ng-model='stvm.vehicle.mot' placeholder="your mot valid till">
+						</div>
+
+						<div class="form-group">
+							<label for="road_tax">Road Tax *</label>
+							<input type="text" class="form-control half" id="road_tax" 
+							ng-model='stvm.vehicle.roadtax' placeholder="your road tax amount">
+						</div>
+
+						<div class="form-group">
+							<label for="car_status">Car Status *</label>
+							<select id="car_status" class="half form-control" ng-model="stvm.vehicle.car_status">
+								<option value="" selected="selected">Select Car Status</option>
+								<option value="own">Own</option>
+								<option value="rented">Rented</option>
+								<option value="finance">Finance</option>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Save Vehicle Details</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="container" ng-if="stvm.initialError === true">

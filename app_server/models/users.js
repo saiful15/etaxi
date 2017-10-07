@@ -66,7 +66,7 @@ var 			vehicleSchema 	=	new mongoose.Schema({
 	mot: {type: Date},
 	road_tax: {type: Date},
 	car_status: {type: String},
-	created_at: {type: Date}
+	created_at: {type: Date, default: Date.now}
 });
 
 

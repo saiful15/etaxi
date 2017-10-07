@@ -1013,6 +1013,92 @@ module.exports.showBusinessInfo = (req, res) => {
 	})
 }
 
+/*
+|----------------------------------------------
+| Following function will add vehicle to user
+| according to userid
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addVehicle = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+
+	Joi.validate(req.userId, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else {
+			const vehicle = Joi.object().keys({
+				type: Joi.string().min(3).required(),
+				brand: Joi.string().min(3).required(),
+				registration: Joi.string().min(5).required(),
+				car_value: Joi.number().min(3).required(),
+				mot: Joi.date().iso().required(),
+				roadtax: Joi.date().iso().required(),
+				car_status: Joi.string().min(3).required(),
+			});
+
+			// validate form data.
+			Joi.validate(req.body, vehicle, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					})
+					return;
+				}
+				else{
+					users 
+						.findOne({email: req.params.userId})
+						.select('vehicle')
+						.exec((err, user) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err,
+								});
+								return;
+							}
+							if (!user) {
+								sendJsonResponse(res, 404, {
+									error: 'no user found',
+								});
+								return;
+							}
+							user.vehicle.push({
+								car_type: req.body.type,
+								brand: req.body.brand,
+								rg_number: req.body.registration,
+								car_value: req.body.car_value,
+								mot: req.body.mot,
+								road_tax: req.body.roadtax,
+								car_status: req.body.car_status,
+							});
+
+							user.save((err, user) => {
+								if (err) {
+									sendJsonResponse(res, 404, {
+										error: 'Error! while saving',
+									});
+									return;
+								}
+								else{
+									sendJsonResponse(res, 200, {
+										data: user.vehicle,
+									});
+								}
+							})
+						})
+				}
+			})
+		}
+	});
+}
+
 
 
 
