@@ -136,6 +136,24 @@
 					})
 					.catch(err => alert(err));
 			}
+
+			// show basic business information.
+			stvm.showBusinessBasic = () => {
+				// calling user service method.
+				userservice
+					.showBusinessBasic(authentication.currentUser().email)
+					.then(response => {
+						if (response.data.error) {
+							stvm.businessBasicInfoError = true;
+							stvm.businessBasicInfoErrorMsg = response.data.error;
+						}
+						else{
+							stvm.businessBasicInfoError = false;
+							stvm.businessBasicInfoList = response.data.data;
+						}
+					})
+					.catch(err => alert(err));
+			}
 		}
 		else{
 			$location.path('/signin');

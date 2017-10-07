@@ -133,6 +133,13 @@
 				.catch(handleError);
 		}
 
+		const showBusinessBasic = (userId) => {
+			return $http
+				.get('/api/'+userId+'/showbusinessinfo')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -159,6 +166,7 @@
 			addContactDetails: addContactDetails,
 			showContact: showContact,
 			addBusinessInfo: addBusinessInfo,
+			showBusinessBasic: showBusinessBasic,
 		};
 	}
 })();

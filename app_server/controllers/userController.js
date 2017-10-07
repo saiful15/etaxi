@@ -968,7 +968,50 @@ module.exports.addBusinessInfo = (req, res) => {
 	});
 }
 
-
+/*
+|----------------------------------------------
+| Following function will show basic business info
+| based on given user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.showBusinessInfo = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			users
+				.findOne({email: req.params.userId})
+				.select('business')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: 'user not found',
+						});
+						return;
+					}
+					sendJsonResponse(res, 200, {
+						success: true,
+						data: user.business,
+					});
+				})
+		}
+	})
+}
 
 
 

@@ -71,6 +71,20 @@
 						</div>
 					</form>
 				</div>
+				<div class="container-box wbg shadow" ng-if="stvm.businessSettingOn === true" ng-init="stvm.showBusinessBasic()">
+					<h1 class="text-center title medium">Your Business Details</h1>
+					<p class="text-center light">We have Following - </p>
+					<hr>
+					<h3 class="medium"> Business Name: 
+						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList[0].name}}</span>
+					</h3>
+					<h3 class="medium"> Business Type: 
+						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList[0].type}}</span>
+					</h3>
+					<div class="alert alert-danger" ng-if="stvm.businessBasicInfoError === true">
+						<p class="text-center light sub-title">{{stvm.businessBasicInfoErrorMsg}}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

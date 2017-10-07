@@ -58,6 +58,8 @@ routes.get('/showcontact/:userId', userController.showContact);
 
 //add business type and name
 routes.post('/:userId/addbusinessinfo/', userController.addBusinessInfo);
+// show business type and name.
+routes.get('/:userId/showbusinessinfo', userController.showBusinessInfo);
 
 // export routes so that we can use it in other part of the application.
 module.exports = routes;
