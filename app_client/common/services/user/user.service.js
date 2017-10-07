@@ -110,6 +110,29 @@
 				.catch(handleError);
 		}
 
+		// to add personal contact details.
+		const addContactDetails = (userId, contact) => {
+			return $http
+				.post('/api/'+userId+'/addcontact/', contact)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		// show contact details.
+		const showContact = (userId) => {
+			return $http 
+				.get('/api/showcontact/'+userId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const addBusinessInfo = (userId, data) => {
+			return $http
+				.post('/api/'+userId+'/addbusinessinfo/', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -132,7 +155,10 @@
 			deleteIncome: deleteIncome,
 			showSingleIncome: showSingleIncome,
 			updateIncomeStatement: updateIncomeStatement,
-			addAdditionalInformation: addAdditionalInformation
+			addAdditionalInformation: addAdditionalInformation,
+			addContactDetails: addContactDetails,
+			showContact: showContact,
+			addBusinessInfo: addBusinessInfo,
 		};
 	}
 })();

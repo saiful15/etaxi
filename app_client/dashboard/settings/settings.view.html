@@ -1,8 +1,86 @@
 <!-- navigation -->
 <site-nav></site-nav>
 
-<div class="container">
-	<h1>settings</h1>
+<div class="setting-container" ng-init="stvm.userSetting()">
+	<div class="container" ng-if="stvm.initialError === false">
+		<!-- for user contact settings -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="container-box wbg shadow" ng-if="stvm.contactSettingOn === false">
+					<h1 class="text-center title medium">You haven't added your contact details yet</h1>
+					<p class="text-center light">Please add your contact details now</p>
+					<hr>
+					<form ng-submit="stvm.addContact()">
+						<div class="form-group">
+							<label for="mobile">Mobile *</label>
+							<input type="text" class="form-control half" id="mobile" ng-model='stvm.contact.mobile' placeholder="your mobile number">
+						</div>
+						<div class="form-group">
+							<label for="land_line">Land line</label>
+							<input type="text" class="form-control half" id="land_line" ng-model='stvm.contact.landline' placeholder="your land line number">
+						</div>
+
+						<div class="alert alert-danger" ng-if="stvm.addContactError === true">
+							<p class="text-center light">{{stvm.addContactErrorMessage}}</p>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Save Contact Details</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="container-box wbg shadow" ng-if="stvm.contactSettingOn === true" ng-init="stvm.showContactDetails()">
+					<h1 class="text-center title medium">Your Contact Details</h1>
+					<p class="text-center light">We have Following - </p>
+					<hr>
+					<h3 class="medium"> Mobile: 
+						<span class="text-center light m-l-3">{{stvm.userContactDetails[0].mobile}}</span>
+					</h3>
+					<h3 class="medium"> Landline: 
+						<span class="text-center light m-l-3">{{stvm.userContactDetails[0].landLine}}</span>
+					</h3>
+					<div class="alert alert-danger" ng-if="stvm.showContactError === true">
+						Error! while loading contact information. Contact admin.
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+				<div class="container-box wbg shadow" ng-if="stvm.businessSettingOn === false">
+					<h1 class="text-center title medium">You haven't Set up Business proifle yet</h1>
+					<p class="text-center light">Please add your business details now</p>
+					<hr>
+					<form ng-submit="stvm.addBusinessInfoSubmit()">
+						<div class="form-group">
+							<label for="business_name">Business Name *</label>
+							<input type="text" class="form-control half" id="business_name" ng-model='stvm.businessInfo.name' placeholder="your business name">
+						</div>
+						<div class="form-group">
+							<label for="business_type">Business Type *</label>
+							<select ng-model="stvm.businessInfo.type" id="business_type" class="form-control half">
+								<option value="" selected="selected">Select your business type</option>
+								<option value="private hire">Private hire</option>
+								<option value="public hire">Public hire</option>
+							</select>
+						</div>
+						<div class="alert alert-danger" ng-if="stvm.business_infAddingError === true">
+							<p class="text-center light no-margin">{{stvm.businessInfErMgm}}</p>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Save Business Details</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" ng-if="stvm.initialError === true">
+		<h1 class="text-center big-title medium">
+			Error! while loading initial settins. Please contact admin.
+		</h1>
+		<hr>
+	</div>
 </div>
 
 <!-- site-footer -->

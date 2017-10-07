@@ -51,5 +51,13 @@ routes.delete('/:userId/:incomeId/deleteincome', userController.deleteIncome);
 // update a single income based on id.
 routes.patch('/:userId/updateincome/:incomeId', userController.updateIncome);
 
+// route to add personal contact details.
+routes.post('/:userId/addcontact/', userController.addContact);
+// show contact details.
+routes.get('/showcontact/:userId', userController.showContact);
+
+//add business type and name
+routes.post('/:userId/addbusinessinfo/', userController.addBusinessInfo);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

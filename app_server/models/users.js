@@ -22,14 +22,18 @@ var 			profileSchema 	=	new mongoose.Schema({
 	address: [addressSchema]
 })
 
-var 			contactSchema 	=	new mongoose.Schema({
-	mobile: {type: String},
-	landLine: {type: String},
-	businessContact: {type: Boolean},
+const bisinssContactSchema = new mongoose.Schema({
 	business_email: {type: String},
 	business_mobile: {type: String},
 	business_tel: {type: String},
-	created_at: {type: Date}
+	created_at: {type: Date, "default": Date.now}
+});
+
+var 			contactSchema 	=	new mongoose.Schema({
+	mobile: {type: String},
+	landLine: {type: String},
+	businessContact: [bisinssContactSchema],
+	created_at: {type: Date, "default": Date.now}
 });
 
 var 	businessAddressSchema 	=	new mongoose.Schema({
@@ -45,7 +49,7 @@ var 	businessAddressSchema 	=	new mongoose.Schema({
 var 	businessSchema 			=	new mongoose.Schema({
 	name: {type: String},
 	type: {type: String},
-	created_at: {type: Date}
+	created_at: {type: Date, default: Date.now}
 });
 
 var 			lisenceSchema 	=	new mongoose.Schema({

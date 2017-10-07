@@ -6,6 +6,7 @@
 |----------------------------------------------
 */
 var 		mongoose 		=		require('mongoose'),
+			Joi 				=		require('joi'),
 			users 			=		mongoose.model('users');
 
 
@@ -757,4 +758,225 @@ module.exports.updateIncome = function (req, res) {
 			})
 	}
 }
+
+/*
+|----------------------------------------------
+| following function will add contact details
+| based on given user email			
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addContact = (req, res) => {
+	if(!req.params && !req.params.userId) {
+		sendJsonResponse(res, 404, {
+			error: 'Invalid request',
+		});
+	}
+	else{
+		const userId = Joi.object().keys({
+			userId: Joi.string().email().required(),
+		});
+
+		// console.log(Joi.validate(req.params, userId));
+		Joi.validate(req.params, userId, (err, value) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+			}
+			else{
+				// find user with user id.
+				users
+					.findOne({email: req.params.userId})
+					.select('contact')
+					.exec((err, user) => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+							return;
+						}
+						if (!user) {
+							sendJsonResponse(res, 404, {
+								error: 'no user found with given user id',
+							});
+							return;
+						}
+						// now we need validate our contact data passed from the form
+						const contact = Joi.object().keys({
+							mobile: Joi.string().min(11).max(11).regex(/^[0-9]+/).required(),
+							landline: Joi.string().min(11).max(11).regex(/^[0-9]+/),
+						});
+						Joi.validate(req.body, contact, (err, value) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err,
+								});
+								return;
+							}
+							else{
+								user.contact.push({
+									mobile: req.body.mobile,
+									landLine: req.body.landline,
+								});
+								// now saving the change
+								user.save((err, user) => {
+									if (err) {
+										sendJsonResponse(res, 404, {
+											error: err,
+										});
+										return;
+									}
+									else{
+										sendJsonResponse(res, 200, {
+											success: true,
+											data: user.contact,
+										});
+									}
+								});
+							}
+						})
+					});
+			}
+		})
+	}
+}
+
+
+/*
+|----------------------------------------------
+| Following method will show user contact 
+| based on user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.showContact = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			users
+				.findOne({email: req.params.userId})
+				.select('contact')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: 'user not found',
+						});
+						return;
+					}
+					sendJsonResponse(res, 200, {
+						success: false,
+						data: user.contact,
+					});
+				})
+		}
+	})
+}
+
+
+/*
+|----------------------------------------------
+| Following function will add  business info
+| according to given user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addBusinessInfo = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+		}
+		else {
+			users
+				.findOne({email: req.params.userId})
+				.select('business')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: 'no user found',
+						});
+						return;
+					}
+					// to validate form data.
+					const businessInfo = Joi.object().keys({
+						name: Joi.string().min(3).max(25).required(),
+						type: Joi.string().min(3).max(25).required(),
+					});
+
+					// checking validation.
+					Joi.validate(req.body, businessInfo, (err, value) => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+							return;
+						}
+						else{
+							user.business.push({
+								name: req.body.name,
+								type: req.body.type,
+							});
+
+							// now saving changes
+							user.save((err, user) => {
+								if (err) {
+									sendJsonResponse(res, 404, {
+										error: 'Error! while saving',
+									});
+									return;
+								}
+								else{
+									sendJsonResponse(res, 200, {
+										success: true,
+										data: user.business,
+									});
+								}
+							})
+						}
+					})
+				})
+		}
+	});
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
