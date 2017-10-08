@@ -146,10 +146,29 @@
 							</select>
 						</div>
 
+						<div class="alert alert-danger" ng-if="stvm.vehicleError === true">
+							<p class="text-center title light no-margin">Error! {{stvm.vehicleErrorMsg}}</p>
+						</div>
+
 						<div class="form-group">
 							<button type="submit" class="btn btn-success">Save Vehicle Details</button>
 						</div>
 					</form>
+				</div>
+
+				<div class="container-box wbg shadow" ng-if="stvm.vehicleSettingOn === true" ng-init="stvm.getVehicle()">
+					<div class="alert alert-danger" ng-if="stvm.showVehicleError=== true">
+						{{stvm.showVehicleErrorMgm}}
+					</div>
+					<h1 class="text-center title medium">Your vehicle information</h1>
+					<hr>
+					<p class="medium sub-title">Car Type: <span class="m-l-2">{{stvm.vehicleList[0].car_type}}</span></p>
+					<p class="medium sub-title">Car Value: <span class="m-l-2">{{stvm.vehicleList[0].car_value | currency: '£'}}</span></p>
+					<p class="medium sub-title">Car Brand: <span class="m-l-2">{{stvm.vehicleList[0].brand}}</span></p>
+					<p class="medium sub-title">Car Status: <span class="m-l-2">{{stvm.vehicleList[0].car_status}}</span></p>
+					<p class="medium sub-title">Car MOT: <span class="m-l-2">{{stvm.vehicleList[0].mot | date: 'yyyy-MM-dd'}}</span></p>
+					<p class="medium sub-title">Road Tax: <span class="m-l-2">{{stvm.vehicleList[0].road_tax | date: 'yyyy-MM-dd'}}</span></p>
+					
 				</div>
 			</div>
 		</div>

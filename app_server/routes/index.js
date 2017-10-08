@@ -1,3 +1,4 @@
+
 /*
 |----------------------------------------------
 | setting up back-end routes
@@ -62,6 +63,8 @@ routes.post('/:userId/addbusinessinfo/', userController.addBusinessInfo);
 routes.get('/:userId/showbusinessinfo', userController.showBusinessInfo);
 // add vehicle information.
 routes.post('/:userId/addvehicle', userController.addVehicle);
+// show vechile.
+routes.get('/:userId/showvehicle', userController.showVehicle);
 
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

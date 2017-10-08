@@ -147,6 +147,13 @@
 				.catch(handleError);
 		}
 
+		const showVehicle = (userId) => {
+			return $http
+				.get('/api/'+userId+'/showvehicle')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -175,6 +182,7 @@
 			addBusinessInfo: addBusinessInfo,
 			showBusinessBasic: showBusinessBasic,
 			addVehicleInfo: addVehicleInfo,
+			showVehicle: showVehicle,
 		};
 	}
 })();

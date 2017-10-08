@@ -16,6 +16,7 @@
 
 	function settingsCtrl(userservice, authentication, $location, $route){
 		const 	stvm 		=	this;
+
 		// check user logedin or not.
 		if(authentication.isLoggedIn()){
 			// get user status collection to check what they need to setup
@@ -170,7 +171,58 @@
 
 			// show vichle details.
 			stvm.addVechicleDetails = () => {
-				
+				userservice
+					.addVehicleInfo(authentication.currentUser().email, stvm.vehicle)
+					.then(response => {
+						if (response.data.error) {
+							stvm.vehicleError = true;
+							if (response.data.error.isJoi === true){
+								stvm.vehicleErrorMsg = response.data.error.details[0].message;
+							}
+							else{
+								stvm.vehicleErrorMsg = response.data.error;
+							}
+						}
+						else if(response.data.success === true) {
+							
+							// now update user status collection for contact.
+							const updateStatus = {
+								update_at: "vehicle",
+								email: authentication.currentUser().email,
+								status: true
+							}
+							userservice
+								.updateUserStatus(updateStatus)
+								.then(response => {
+									if(response.data.updated === true) {
+										$route.reload();
+									}
+									else {
+										stvm.vehicleError = true;
+										stvm.vehicleErrorMsg = 'Failed to update user status for vehicle. Contact admin';
+									}
+								})
+								.catch(err => alert(err));
+						}
+					})
+					.catch(err => alert(err));
+			}
+
+			// show vehicle details.
+			stvm.getVehicle = () => {
+				userservice
+					.showVehicle(authentication.currentUser().email)
+					.then(response => {
+						if (response.data.error) {
+							stvm.showVehicleError = true;
+							stvm.showVehicleErrorMgm = response.data.error;
+						}
+						else if(response.data.success === true) {
+							stvm.showVehicleError = false;
+							stvm.vehicleList = response.data.data;
+						}
+					})
+					.catch(err => alert(err));
 			}
 		}
 		else{

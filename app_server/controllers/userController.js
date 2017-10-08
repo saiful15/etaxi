@@ -806,7 +806,7 @@ module.exports.addContact = (req, res) => {
 						// now we need validate our contact data passed from the form
 						const contact = Joi.object().keys({
 							mobile: Joi.string().min(11).max(11).regex(/^[0-9]+/).required(),
-							landline: Joi.string().min(11).max(11).regex(/^[0-9]+/),
+							landline: Joi.string().min(11).max(11),
 						});
 						Joi.validate(req.body, contact, (err, value) => {
 							if (err) {
@@ -1088,6 +1088,7 @@ module.exports.addVehicle = (req, res) => {
 								}
 								else{
 									sendJsonResponse(res, 200, {
+										success: true,
 										data: user.vehicle,
 									});
 								}
@@ -1099,6 +1100,52 @@ module.exports.addVehicle = (req, res) => {
 	});
 }
 
+
+/*
+|----------------------------------------------
+| following function will show vehicle details
+| based on given user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.showVehicle = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+
+	Joi.validate(req.userId, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			users
+				.findOne({email: req.params.userId})
+				.select('vehicle')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: 'user not found',
+						});
+						return;
+					}
+					sendJsonResponse(res, 200, {
+						success: true,
+						data: user.vehicle,
+					});
+				})
+		}
+	});
+}
 
 
 
