@@ -15,6 +15,10 @@ var 		sendJsonResponse 	=	function(res, status, content){
 	res.json(content);
 }
 
+const userId = Joi.object().keys({
+	userId: Joi.string().email().min(3).required(),
+});
+
 /*
 |----------------------------------------------
 | Following function get all status collection.
@@ -853,9 +857,6 @@ module.exports.addContact = (req, res) => {
 |----------------------------------------------
 */
 module.exports.showContact = (req, res) => {
-	const userId = Joi.object().keys({
-		userId: Joi.string().email().min(3).required(),
-	});
 	Joi.validate(req.params, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
@@ -899,10 +900,6 @@ module.exports.showContact = (req, res) => {
 |----------------------------------------------
 */
 module.exports.addBusinessInfo = (req, res) => {
-	const userId = Joi.object().keys({
-		userId: Joi.string().email().min(3).required(),
-	});
-
 	Joi.validate(req.params, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
@@ -977,9 +974,6 @@ module.exports.addBusinessInfo = (req, res) => {
 |----------------------------------------------
 */
 module.exports.showBusinessInfo = (req, res) => {
-	const userId = Joi.object().keys({
-		userId: Joi.string().email().min(3).required(),
-	});
 	Joi.validate(req.params, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
@@ -1022,10 +1016,6 @@ module.exports.showBusinessInfo = (req, res) => {
 |----------------------------------------------
 */
 module.exports.addVehicle = (req, res) => {
-	const userId = Joi.object().keys({
-		userId: Joi.string().email().min(3).required(),
-	});
-
 	Joi.validate(req.userId, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
@@ -1110,10 +1100,6 @@ module.exports.addVehicle = (req, res) => {
 |----------------------------------------------
 */
 module.exports.showVehicle = (req, res) => {
-	const userId = Joi.object().keys({
-		userId: Joi.string().email().min(3).required(),
-	});
-
 	Joi.validate(req.userId, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
@@ -1147,7 +1133,121 @@ module.exports.showVehicle = (req, res) => {
 	});
 }
 
+/*
+|----------------------------------------------
+| Following method will add insurance details 
+| for the given user based on given id.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addInsurance = (req, res) => {
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			const insurance = Joi.object().keys({
+				name: Joi.string().min(3).required(),
+				valid_date: Joi.date().iso().required(),
+				number: Joi.string().min(3),
+			});
 
+			Joi.validate(req.body, insurance, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					});
+					return;
+				}
+				else{
+					users 
+						.findOne({email: req.params.userId})
+						.select('insurance')
+						.exec((err, user) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err,
+								});
+								return;
+							}
+							if (!user) {
+								sendJsonResponse(res, 404, {
+									error: 'No user has been found according to given id',
+								});
+								return;
+							}
+							user.insurance.push({
+								provider_name: req.body.name,
+								valid_till: req.body.valid_date,
+								insurance_number: req.body.number,
+							});
+
+							user.save((err, user) => {
+								if (err) {
+									sendJsonResponse(res, 404, {
+										error: 'Error! while saving the insurance info',
+									});
+									return;
+								}
+								else{
+									sendJsonResponse(res, 200, {
+										success: true,
+										data: user.insurance,
+									});
+								}
+							})
+						})
+				}
+			})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
+| Following method will show insurance details 
+| based on given user id
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.showInsurance = (req, res) => {
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			users
+				.findOne({email: req.params.userId})
+				.select('insurance')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: 'No user found for given user email',
+						});
+						return;
+					}
+					sendJsonResponse(res, 200, {
+						success: true,
+						insurance: user.insurance,
+					});
+				})
+		}
+	});
+}
 
 
 

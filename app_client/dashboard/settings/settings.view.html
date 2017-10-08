@@ -171,6 +171,38 @@
 					
 				</div>
 			</div>
+
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+				<div class="container-box shadow wbg" ng-if="stvm.insuranceSettingOn === false">
+					<h1 class="text-center title medium">We don't have your insurance information</h1>
+					<p class="text-center light">Please add your insurance details - </p>
+					<form ng-submit="stvm.addInsurance()">
+						<div class="form-group"><label for="insurance_provider">Insurance Provider *</label><input type="text" class="form-control half" id='insurance_provider' ng-model="stvm.insurance.name" placeholder="Add insurance provider name"></div>
+
+						<div class="form-group"><label for="valid_till">Valid Till *</label><input type="text" class="form-control half" id='valid_till' ng-model="stvm.insurance.valid_date" placeholder="valid till"></div>
+
+						<div class="form-group"><label for="insurance_number">Insurance Number</label><input type="text" class="form-control half" id='insurance_number' ng-model="stvm.insurance.number" placeholder="insurance number if you have"></div>
+
+						<div class="alert alert-danger" ng-if="stvm.addInsuranceErr === true">
+							<p class="text-center sub-title no-margin medium">{{stvm.insuranceErrMgs}}</p>
+						</div>
+						<div class="form-group"><button type="submit" class="btn btn-success m-b-2">Add Insurance Details</button></div>
+					</form>
+				</div>
+
+				<!-- to show insurance infor -->
+				<div class="container-box shadow wbg" ng-if="stvm.insuranceSettingOn === true" ng-init='stvm.showInsurance()'> 
+					<h1 class="text-center title medium">Your Insurance Details</h1>
+					<hr>
+					<div class="alert alert-danger" ng-if="stvm.showInsuraceError === true">
+						<p class="text-center sub-title"><span class="medium">Error!!</span> {{stvm.showInsuraceErrorMsg}}</p>
+					</div>
+
+					<p class="medium sub-title">Insurance Company: <span class="m-l-2">{{stvm.insuraceList[0].provider_name}}</span></p>
+					<p class="medium sub-title">Insurance Valid till: <span class="m-l-2">{{stvm.insuraceList[0].valid_till | date: 'yyyy-MM--dd'}}</span></p>
+					<p class="medium sub-title">Insuracen Number: <span class="m-l-2">{{stvm.insuraceList[0].insurance_number}}</span></p>
+				</div>
+			</div>
 		</div>
 	</div>
 

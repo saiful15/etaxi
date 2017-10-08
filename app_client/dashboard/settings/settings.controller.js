@@ -35,6 +35,7 @@
 
 							stvm.businessSettingOn = response.data.status.statusCollection[0].business;
 							stvm.vehicleSettingOn = response.data.status.statusCollection[0].vehicle;
+							stvm.insuranceSettingOn = response.data.status.statusCollection[0].insurance;
 
 						}
 					})
@@ -220,6 +221,75 @@
 						else if(response.data.success === true) {
 							stvm.showVehicleError = false;
 							stvm.vehicleList = response.data.data;
+						}
+					})
+					.catch(err => alert(err));
+			}
+
+			// to add insurance details to user collection.
+			stvm.insurance = {
+				name: '',
+				valid_date: '',
+				number: '',
+			};
+			stvm.addInsurance = () => {
+				// calling method from userservice.
+				userservice
+					.addInsurance(authentication.currentUser().email, stvm.insurance)
+					.then(response => {
+						if (response.data.error) {
+							stvm.addInsuranceErr = true;
+							if (response.data.error.isJoi === true) {
+								stvm.insuranceErrMgs = response.data.error.details[0].message;
+							}
+							else{
+								stvm.insuranceErrMgs = response.data.error;
+							}
+						}
+						else if (response.data.success === true) {
+							stvm.addInsuranceErr = false;
+
+							// now update user status collection for contact.
+							const updateStatus = {
+								update_at: "insurance",
+								email: authentication.currentUser().email,
+								status: true,
+							};
+							userservice
+								.updateUserStatus(updateStatus)
+								.then(response => {
+									if(response.data.updated === true) {
+										$route.reload();
+									}
+									else {
+										stvm.addInsuranceErr = true;
+										stvm.insuranceErrMgs = 'Failed to update user status for vehicle. Contact admin';
+									}
+								})
+								.catch(err => alert(err));
+						}
+					})
+					.catch(err => alert(err));
+			}
+
+			// show insurance.
+			stvm.showInsurance = () => {
+				// calling userservice method to get insurance details.
+				userservice
+					.showInsurance(authentication.currentUser().email)
+					.then(response => {
+						if (response.data.error) {
+							stvm.showInsuraceError = true;
+							if (response.data.error.isJoi === true) {
+								stvm.showInsuraceErrorMsg = response.data.error.details[0].message;
+							}
+							else {
+								stvm.showInsuraceErrorMsg = response.data.error;
+							}
+						}
+						else if(response.data.success === true) {
+							stvm.showInsuraceError = false;
+							stvm.insuraceList = response.data.insurance;
 						}
 					})
 					.catch(err => alert(err));

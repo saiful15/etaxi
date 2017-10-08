@@ -66,5 +66,10 @@ routes.post('/:userId/addvehicle', userController.addVehicle);
 // show vechile.
 routes.get('/:userId/showvehicle', userController.showVehicle);
 
+// add insurance details.
+routes.post('/:userId/insurance', userController.addInsurance);
+// to show insurance detials
+routes.get('/:userId/insurance', userController.showInsurance);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

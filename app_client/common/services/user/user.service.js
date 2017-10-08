@@ -154,6 +154,20 @@
 				.catch(handleError);
 		}
 
+		const addInsurance = (userId, data) => {
+			return $http
+				.post('/api/'+userId+'/insurance', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const showInsurance = (userId) => {
+			return $http
+				.get('/api/'+userId+'/insurance')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -183,6 +197,8 @@
 			showBusinessBasic: showBusinessBasic,
 			addVehicleInfo: addVehicleInfo,
 			showVehicle: showVehicle,
+			addInsurance: addInsurance,
+			showInsurance: showInsurance,
 		};
 	}
 })();
