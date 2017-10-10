@@ -36,6 +36,7 @@
 							stvm.businessSettingOn = response.data.status.statusCollection[0].business;
 							stvm.vehicleSettingOn = response.data.status.statusCollection[0].vehicle;
 							stvm.insuranceSettingOn = response.data.status.statusCollection[0].insurance;
+							stvm.lisenceSettingOn = response.data.status.statusCollection[0].lisence;
 
 						}
 					})
@@ -294,6 +295,51 @@
 					})
 					.catch(err => alert(err));
 			}
+
+			// to add lisence information.
+			stvm.lisence = {
+				dvla: '',
+				taxi_type: '',
+				valid_till: '',
+			};
+			stvm.addLisence = () => {
+				userservice
+					.addLisence(authentication.currentUser().email, stvm.lisence)
+					.then((response) => {
+						if (response.data.error) {
+							stvm.lisenceError = true;
+							if (response.data.error.isJoi === true) {
+								stvm.lisenceErrorMsg = response.data.error.details[0].message;
+							}
+							else{
+								stvm.lisenceErrorMsg = response.data.error;
+							}
+						}
+						else{
+							stvm.lisenceError = false;
+							// now i wanna update lisence status in status collection.
+							// now update user status collection for contact.
+							const updateStatus = {
+								update_at: "lisence",
+								email: authentication.currentUser().email,
+								status: true,
+							};
+							userservice
+								.updateUserStatus(updateStatus)
+								.then(response => {
+									if(response.data.updated === true) {
+										$route.reload();
+									}
+									else {
+										stvm.lisenceError = true;
+										stvm.lisenceErrorMsg = 'Failed to update user status for vehicle. Contact admin';
+									}
+								})
+								.catch(err => alert(err));
+						}
+					})
+					.catch(err => alert(err));
+			};
 		}
 		else{
 			$location.path('/signin');

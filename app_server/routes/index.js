@@ -71,5 +71,8 @@ routes.post('/:userId/insurance', userController.addInsurance);
 // to show insurance detials
 routes.get('/:userId/insurance', userController.showInsurance);
 
+// save lisence information.
+routes.post('/:userId/lisence', userController.addLisence);
+
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

@@ -168,6 +168,13 @@
 				.catch(handleError);
 		}
 
+		const addLisence = (userId, data) => {
+			return $http 
+				.post('/api/'+userId+'/lisence', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -199,6 +206,7 @@
 			showVehicle: showVehicle,
 			addInsurance: addInsurance,
 			showInsurance: showInsurance,
+			addLisence: addLisence,
 		};
 	}
 })();

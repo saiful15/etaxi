@@ -55,7 +55,8 @@ var 	businessSchema 			=	new mongoose.Schema({
 var 			lisenceSchema 	=	new mongoose.Schema({
 	dvla: {type: Number},
 	taxi: {type: Array},
-	created_at: {type: Date}
+	valid_till: {type: Date},
+	created_at: {type: Date, default: Date.now}
 });
 
 var 			vehicleSchema 	=	new mongoose.Schema({
@@ -93,7 +94,8 @@ var 			statusSchema 	=	new mongoose.Schema({
 	insurance: {type: Boolean, required: true, default: false},
 	Income: {type: Boolean, required: true, default: false},
 	expense: {type: Boolean, required: true, default: false},
-	additional_info: {type: Boolean, required: true, default: false}
+	additional_info: {type: Boolean, required: true, default: false},
+	lisence: {type: Boolean, required: true, default: false}
 });
 
 var expenseSchema = new mongoose.Schema({

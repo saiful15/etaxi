@@ -1249,7 +1249,82 @@ module.exports.showInsurance = (req, res) => {
 	});
 }
 
+/*
+|----------------------------------------------
+| Following function will add lisence information
+| to user collection based on given id.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.addLisence = (req, res) => {
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else {
+			const lisence = Joi.object().keys({
+				dvla: Joi.string().min(5).max(16).regex(/^[0-9]{5,16}$/).required(),
+				taxi_type: Joi.string().max(32).required(),
+				valid_till: Joi.date().required(),
+			});
 
+			Joi.validate(req.body, lisence, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					});
+					return;
+				}
+				else{
+					users
+						.findOne({email: req.params.userId})
+						.select('lisence')
+						.exec((err, user) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err,
+								});
+								return;
+							}
+							if (!user) {
+								sendJsonResponse(res, 404, {
+									error: 'no user found',
+								});
+								return;
+							}
+							else {
+								user.lisence.push({
+									dvla: req.body.dvla,
+									taxi: req.body.taxi_type,
+									valid_till: req.body.valid_till,
+								});
+
+								user.save((err, user) => {
+									if (err) {
+										sendJsonResponse(res, 404, {
+											error: 'Error! while saving lisence information',
+										});
+										return;
+									}
+									else{
+										sendJsonResponse(res, 200, {
+											success: true,
+											lisence: user.lisence,
+										});
+									}
+								})
+
+							}
+						})
+				}
+			})
+		}
+	})
+}
 
 
 

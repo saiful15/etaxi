@@ -202,6 +202,37 @@
 					<p class="medium sub-title">Insurance Valid till: <span class="m-l-2">{{stvm.insuraceList[0].valid_till | date: 'yyyy-MM--dd'}}</span></p>
 					<p class="medium sub-title">Insuracen Number: <span class="m-l-2">{{stvm.insuraceList[0].insurance_number}}</span></p>
 				</div>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<!-- asking for lisence -->
+						<div class="container-box shadow wbg" ng-if="stvm.lisenceSettingOn === false">
+							<h1 class="text-center title medium">We don't have your lisence information</h1>
+							<p class="text-center light">Please add your lisence details - </p>
+							<form ng-submit="stvm.addLisence()">
+								<div class="form-group">
+									<label for="dvla">DVLA *</label>
+									<input type="text" class="form-control half" id='dvla' ng-model="stvm.lisence.dvla" placeholder="Your DVLA number">
+								</div>
+								<div class="form-group">
+									<label for="taxi_type">Taxi Type *</label>
+									<input type="text" class="form-control half" id='taxi_type' ng-model="stvm.lisence.taxi_type" placeholder="Your taxi type">
+								</div>
+								<div class="form-group">
+									<label for="valid_till">Valid Till *</label>
+									<input type="text" class="form-control half" id='valid_till' ng-model="stvm.lisence.valid_till" placeholder="Your taxi valid date">
+								</div>
+								<!-- to show error -->
+								<div class="alert alert-danger" ng-if="stvm.lisenceError === true">
+									<p class="text-center medium sub-title">{{stvm.lisenceErrorMsg}}</p>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-success">Save Lisence</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
