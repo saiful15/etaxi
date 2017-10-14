@@ -21,6 +21,51 @@ const userId = Joi.object().keys({
 
 /*
 |----------------------------------------------
+| Following method will get the user object
+| from the database
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+module.exports.showUser = (req, res) => {
+	const email = Joi.object().keys({
+		email: Joi.string().email().min(3).required(),
+	});
+	Joi.validate(req.params, email, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else {
+			users
+				.findOne({email: req.params.email})
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No user found with ${req.params.email}`,
+						});
+						return;						
+					}
+					else{
+						sendJsonResponse(res, 200, {
+							user: user,
+						});
+					}
+				})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
 | Following function get all status collection.
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: etaxi, 2017
@@ -1327,6 +1372,49 @@ module.exports.addLisence = (req, res) => {
 }
 
 
+/*
+|----------------------------------------------
+| following method will get user lisence info
+| based on given userid
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccount, 2017
+|----------------------------------------------
+*/
+
+module.exports.showLisence = (req, res) => {
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else {
+			users
+				.findOne({email: req.params.userId})
+				.select('lisence')
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No user found with given user name`,
+						});
+						return;
+					}
+					else {
+						return sendJsonResponse(res, 200, {
+							lisence: user.lisence,
+						});
+					}
+				})
+		}
+	});
+}
 
 
 

@@ -231,6 +231,20 @@
 								</div>
 							</form>
 						</div>
+
+						<!-- show lisence -->
+						<div class="container-box shadow wbg" in-if="stvm.lisenceSettingOn === true" ng-init="stvm.showLisence()">
+							<h1 class="text-center title medium">We have following lisence details of you</h1>
+							<div class="alert alert-danger" ng-if="stvm.lisenceLoadError === true">
+								{{stvm.lisenceLoadErrorMsg}}
+							</div>
+							<!-- when we have no error loading lisence info -->
+							<div ng-if="stvm.lisenceLoadError === false">
+								<p class="sub-title medim">DVLA: <span class="light">{{stvm.lisenceInfo[0].dvla}}</span></p>
+								<p class="sub-title medim">Valid till: <span class="light">{{stvm.lisenceInfo[0].valid_till | date: 'yyyy-MM-dd'}}</span></p>
+								<p class="sub-title medim">Valid till: <span class="light">{{stvm.lisenceInfo[0].taxi[0]}}</span></p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

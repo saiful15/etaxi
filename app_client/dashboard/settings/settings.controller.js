@@ -340,6 +340,29 @@
 					})
 					.catch(err => alert(err));
 			};
+
+			// show lisence information.
+			stvm.showLisence = () => {
+				userservice
+					.userLisence(authentication.currentUser().email)
+					.then((response) => {
+						if (response.data.error) {
+							stvm.lisenceLoadError = true;
+							if (response.data.error.isJoi === true) {
+								stvm.lisenceLoadErrorMsg = response.data.error.details[0].message;
+							}
+							else {
+								stvm.lisenceLoadErrorMsg = response.data.error;
+							}
+						}
+						else {
+							stvm.lisenceLoadError = false;
+							stvm.lisenceInfo = response.data.lisence;
+						}
+					})
+					.catch((err) => alert(err));
+			}
+
 		}
 		else{
 			$location.path('/signin');

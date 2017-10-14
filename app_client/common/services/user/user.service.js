@@ -13,7 +13,14 @@
 	//dependency 
 	userservice.$inject = ['$http'];
 
-	function userservice($http){
+	function userservice($http) {
+
+		const showUser = (email) => {
+			return $http
+				.get('/api/'+email+'/user')
+				.then(handleSuccess)
+				.catch(handleError);
+		};
 
 		var				getUserStatus 		=		function(email){
 			return $http
@@ -175,6 +182,13 @@
 				.catch(handleError);
 		}
 
+		const userLisence = (userId) => {
+			return $http
+				.get('/api/'+userId+'/lisence')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -185,6 +199,7 @@
 		}
 
 		return {
+			showUser: showUser,
 			getUserStatus: getUserStatus,
 			saveProfile: saveProfile,
 			updateUserStatus: updateUserStatus,
@@ -207,6 +222,7 @@
 			addInsurance: addInsurance,
 			showInsurance: showInsurance,
 			addLisence: addLisence,
+			userLisence: userLisence,
 		};
 	}
 })();

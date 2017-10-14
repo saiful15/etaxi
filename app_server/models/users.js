@@ -5,7 +5,7 @@
 */
 var 			mongoose			=	require('mongoose')
 				jwt 				=	require('jsonwebtoken'),
-				crypto 				=	require('crypto');
+				crypto 			=	require('crypto');
 
 var 		addressSchema 		=	new mongoose.Schema({
 	county: {type: String},

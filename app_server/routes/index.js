@@ -18,6 +18,7 @@ routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
 
 // route to get user status.
+routes.get('/:email/user', userController.showUser);
 routes.get('/userstatus/:email', userController.getStatusCollection);
 routes.get('/userprofile/:email', userController.getUserProfile);
 routes.post('/userstatus', userController.updateStatus);
@@ -73,6 +74,9 @@ routes.get('/:userId/insurance', userController.showInsurance);
 
 // save lisence information.
 routes.post('/:userId/lisence', userController.addLisence);
+
+// show user lisence information.
+routes.get('/:userId/lisence', userController.showLisence);
 
 // export routes so that we can use it in other part of the application.
 module.exports = routes;
