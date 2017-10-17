@@ -5,6 +5,25 @@
 | @copyright: etaxi, 2017
 |----------------------------------------------
 */
+.full-page-container{
+	position: relative;
+	padding: 2.8rem 0;
+}
+.service-snippet{
+	background-color: #77BF91;
+}
+.certified-accountant{
+	position: relative;
+	p{
+		position: relative;
+		top: 50%;
+		transform: translateY(350%); 
+	}
+}
+.site-footer{
+	position: relative;
+	padding: 2.8rem 0;
+}
 .flash-message{
 	position: relative;
 	padding: 45px 0;
