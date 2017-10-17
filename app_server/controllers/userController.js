@@ -28,40 +28,47 @@ const userId = Joi.object().keys({
 |----------------------------------------------
 */
 module.exports.showUser = (req, res) => {
-	const email = Joi.object().keys({
-		email: Joi.string().email().min(3).required(),
-	});
-	Joi.validate(req.params, email, (err, value) => {
-		if (err) {
-			sendJsonResponse(res, 404, {
-				error: err,
-			});
-			return;
-		}
-		else {
-			users
-				.findOne({email: req.params.email})
-				.exec((err, user) => {
-					if (err) {
-						sendJsonResponse(res, 404, {
-							error: err,
-						});
-						return;
-					}
-					else if (!user) {
-						sendJsonResponse(res, 404, {
-							error: `No user found with ${req.params.email}`,
-						});
-						return;						
-					}
-					else{
-						sendJsonResponse(res, 200, {
-							user: user,
-						});
-					}
-				})
-		}
-	})
+	if (!req.params && !req.params.email) {
+		sendJsonResponse(res, 404, {
+			error: 'Invalid request. email address is required',
+		});
+	}
+	else {
+		const email = Joi.object().keys({
+			email: Joi.string().email().min(3).required(),
+		});
+		Joi.validate(req.params, email, (err, value) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+				return;
+			}
+			else {
+				users
+					.findOne({email: req.params.email})
+					.exec((err, user) => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+							return;
+						}
+						else if (!user) {
+							sendJsonResponse(res, 404, {
+								error: `No user found with ${req.params.email}`,
+							});
+							return;						
+						}
+						else{
+							sendJsonResponse(res, 200, {
+								user: user,
+							});
+						}
+					})
+			}
+		})
+	}
 }
 
 /*

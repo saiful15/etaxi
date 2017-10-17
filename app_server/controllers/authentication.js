@@ -6,7 +6,10 @@
 var 			mongoose 		=	require('mongoose'),
 				validator 		=	require('validator'),
 				passport 		=	require('passport'),
+				passwordReset 	=	mongoose.model('password-reset'),
 				users 			=	mongoose.model('users');
+
+const Joi = require('joi');
 
 
 /*
@@ -118,4 +121,51 @@ module.exports.register		=	function(req, res){
 			})
 		}
 	}
+}
+
+/*
+|----------------------------------------------
+| Following method will generate password reset
+| link based on given user email
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.generateLink = (req, res) => {
+	const resetInfo = Joi.object().keys({
+		email: Joi.string().email().min(3).required(),
+		id: Joi.string().min(24).max(24).regex(/^[a-zA-Z0-9]+/).required(),
+	});
+
+	Joi.validate(req.params, resetInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+			return;
+		}
+		else {
+			// creating new password reset object.
+			const resetObject = new passwordReset ();
+			resetObject.who = req.params.email;
+			resetObject.resetkey = resetObject.setResetKey(req.params.email);
+			resetObject.hash = resetObject.generateHash(resetObject.resetKey);
+			resetObject.resetLink = `forgotpassword?v=${resetObject.resetkey}&hack=${resetObject.hash}&for=${req.params.email}`;
+
+			// now saving resetobject
+			resetObject.save((err, reset) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: 'Error!! while generating reset link. Contact admin',
+					});
+					return;
+				}
+				else{
+					sendJsonResponse(res, 200, {
+						reset: reset,
+					});
+				}
+			})
+		}
+	})
 }

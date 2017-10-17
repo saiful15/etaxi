@@ -16,6 +16,7 @@ var 		userController	=		require("../controllers/userController");
 
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
+routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
 
 // route to get user status.
 routes.get('/:email/user', userController.showUser);
