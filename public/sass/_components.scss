@@ -20,6 +20,19 @@
 		transform: translateY(350%); 
 	}
 }
+.feature-icon-box{
+	position: relative;
+	display: block;
+	margin: 20px auto;
+	i{
+		font-size: 69px;
+		line-height: 70px;
+		color: #dcdbdb;
+		&:hover{
+			color: #cdcdcd;
+		}
+	}
+}
 .site-footer{
 	position: relative;
 	padding: 2.8rem 0;
