@@ -25,7 +25,14 @@
 			systemService
 				.contactMessage(ctvm.message)
 				.then((response) => {
-					console.log(response);
+					if (response.data.error) {
+						ctvm.messageError = true;
+						ctvm.messageErrorMsg = response.data.error;
+					}
+					else{
+						ctvm.messageError = false;
+						ctvm.messageErrorMsg = 'We have received your request. We will be in touch soon';
+					}
 				})
 				.catch(err => alert(err));
 		}

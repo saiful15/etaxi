@@ -15,6 +15,13 @@
 				<label for="message">Message</label>
 				<textarea class="form-control" placeholder="Your message" id="message" ng-model="ctvm.message.body" col="10" rows='5'></textarea>
 			</div>
+			<div class="alert alert-danger" ng-if="ctvm.messageError === true">
+				<p class="text-center no-margin sub-title">{{ctvm.messageErrorMsg}}</p>
+			</div>
+			<!-- when sending message is successful -->
+			<div class="alert alert-success" ng-if="ctvm.messageError === false">
+				<p class="text-center no-margin sub-title">{{ctvm.messageErrorMsg}}</p>
+			</div>
 			<div class="form-group"><button type="submit" class="btn btn-success">SEND MESSAGE</button></div>
 		</form>
 	</div>
