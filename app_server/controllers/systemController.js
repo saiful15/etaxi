@@ -65,7 +65,7 @@ module.exports.sendMessage = (req, res) => {
 						form: process.env.mailuser,
 						to: process.env.mailuser,
 						subject: `Customer enquery - ${req.body.name}`,
-						html: `<p>${req.body.body} <br/> Best regards, <br/><br/> ${req.body.name} <br/> ${req.body.email}</p>`,
+						html: `<p>${req.body.body} <br/><br/> Best regards, <br/> ${req.body.name} <br/> ${req.body.email}</p>`,
 					};
 					// send mail
 					transporter.sendMail(message , (err, info) => {
