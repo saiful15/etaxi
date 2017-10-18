@@ -13,10 +13,14 @@ var 		express 		=		require('express'),
 // controllers for back-end routes.
 var 		authentication 	=		require("../controllers/authentication");
 var 		userController	=		require("../controllers/userController");
+var 		systemController = require('../controllers/systemController');
 
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
 routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
+
+// route for contact page.
+routes.post('/contact', systemController.sendMessage);
 
 // route to get user status.
 routes.get('/:email/user', userController.showUser);
