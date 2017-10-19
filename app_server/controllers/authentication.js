@@ -10,6 +10,7 @@ var 			mongoose 		=	require('mongoose'),
 				users 			=	mongoose.model('users');
 
 const Joi = require('joi');
+const Mailer = require('../config/nodemailer');
 
 
 /*
@@ -161,8 +162,38 @@ module.exports.generateLink = (req, res) => {
 					return;
 				}
 				else{
-					sendJsonResponse(res, 200, {
-						reset: reset,
+					// creating message for email to send.
+					const message = {
+						form: process.env.mailuser,
+						to: req.params.email,
+						subject: `TaxiAccounting - Password Reset Link`,
+						html: `<p>You have requested to reset your password, Please click following links 
+						to reset your password. <br/> <a href='http://www.taxiaccounting.co.uk/${resetObject.resetLink}'
+						target='_blank'>Reset Password</a></p>`,
+					};
+					// verifing connection.
+					Mailer.verify((err, success) => {
+						if (err) {
+							sendJsonResponse(res, 400, {
+								error: 'Error! while connecting with mail server',
+							});
+							return;
+						}
+						else {
+							Mailer.sendMail(message, (err, info) => {
+								if (err) {
+									sendJsonResponse(res, 400, {
+										error: 'Error! while sending password reset email',
+									});
+									return;
+								}
+								else{
+									sendJsonResponse(res, 200, {
+										reset: reset,
+									});
+								}
+							});
+						}
 					});
 				}
 			})

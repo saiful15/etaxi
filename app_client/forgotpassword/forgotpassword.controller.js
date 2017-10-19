@@ -39,6 +39,8 @@
 				return;
 			}
 			else {
+				frp.loading = true;
+				frp.btnDisabled = true;
 				userservice
 				.showUser(frp.user.email)
 				.then((response) => {
@@ -53,21 +55,27 @@
 					}
 					else{
 						frp.resetPassError = false;
-						// calling account service method.
-						account
-							.passwordResetLink(frp.user.email, response.data.user._id)
-							.then((response) => {
-								if (response.data.error) {
-									frp.resetPassError = true;
-									frp.resetPassErrorMsg = response.data.error;
-								}
-								else{
-									frp.resetPassError = false;
-									frp.resetSuccessLink = true;
-									frp.resetPassSuccessMsg = 'We have sent you a password reset link. Please check your email';
-								}
-							})
-							.catch((err) => alert(err));
+						setTimeout(()=> {
+							// calling account service method.
+							account
+								.passwordResetLink(frp.user.email, response.data.user._id)
+								.then((response) => {
+									if (response.data.error) {
+										frp.resetPassError = true;
+										frp.resetPassErrorMsg = response.data.error;
+									}
+									else{
+										frp.loading = false;
+										frp.btnDisabled = false;
+										
+										frp.resetPassError = false;
+										frp.resetSuccessLink = true;
+										frp.resetPassSuccessMsg = 'We have sent you a password reset link. Please check your email';									
+									}
+								})
+								.catch((err) => alert(err));
+
+						}, 3000);
 					}
 				})
 				.catch((err) => alert(err));
