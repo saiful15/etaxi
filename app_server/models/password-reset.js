@@ -14,13 +14,15 @@ const crypto = require('crypto');
 
 const jwt = require('jsonwebtoken');
 
+let valid = false;
+
 const passwordResetSchema = new mongoose.Schema({
-				who: {type: String, required: true },
-				resetkey: {type: String, required: true, },
-				hash: {type: String, required: true },
-				resetLink: {type: String, required: true, },
-				activeState: {type: Boolean, default: false },
-				createdAt: {type: Date, default: Date.now },
+	who: {type: String, required: true },
+	resetkey: {type: String, required: true, },
+	hash: {type: String, required: true },
+	resetLink: {type: String, required: true, },
+	activeState: {type: Boolean, default: false },
+	createdAt: {type: Date, default: Date.now },
 });
 
 // generate resetkey
@@ -28,6 +30,7 @@ passwordResetSchema.methods.setResetKey = (email) => {
 	const salt = crypto.randomBytes(16).toString('hex');
 	return this.resetkey = crypto.pbkdf2Sync(email, salt, 1000, 24, 'sha512').toString('hex');
 }
+
 
 // generate hash
 passwordResetSchema.methods.generateHash = () => {
@@ -38,6 +41,20 @@ passwordResetSchema.methods.generateHash = () => {
 		email: this.who,
 		exp: parseInt(expiry.getTime() / 1000 ),
 	}, this.resetkey);
+}
+
+/*
+|----------------------------------------------------------------
+| Setting up method to validate hash.
+|----------------------------------------------------------------
+*/
+passwordResetSchema.methods.validateHash 	= function(hash, key){
+	try{
+		return jwt.verify(hash, key);
+	}
+	catch(err){
+		return false;
+	}
 }
 
 const collectoinName = 'password-reset';

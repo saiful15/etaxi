@@ -18,6 +18,7 @@ var 		systemController = require('../controllers/systemController');
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
 routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
+routes.get('/:user/:key/:hash', authentication.varifyKey);
 
 // route for contact page.
 routes.post('/contact', systemController.sendMessage);

@@ -157,7 +157,7 @@ module.exports.generateLink = (req, res) => {
 			resetObject.save((err, reset) => {
 				if (err) {
 					sendJsonResponse(res, 404, {
-						error: 'Error!! while generating reset link. Contact admin',
+						error: 'Error!! while generating reset link. Contact admin <br/>'+err,
 					});
 					return;
 				}
@@ -197,6 +197,49 @@ module.exports.generateLink = (req, res) => {
 					});
 				}
 			})
+		}
+	})
+}
+
+module.exports.varifyKey = (req, res) => {
+	const resetObject = Joi.object().keys({
+		user: Joi.string().email().min(3).required(),
+		key: Joi.string().min(48).min(48).regex(/^[a-zA-Z0-9]+/).required(),
+		hash: Joi.string().required(),
+	});
+
+	Joi.validate(req.params, resetObject, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 400, {
+				error: err,
+			});
+			return;
+		}
+		else{
+			// checking and validating key with password reset.
+			passwordReset
+				.findOne({resetkey: req.params.key, who: req.params.user})
+				.exec((err, reset) => {
+					if (err) {
+						sendJsonResponse(res, 400, {
+							error: 'Error! while checking reset key. Contact admin',
+						});
+						return;
+					}
+					else {
+						// validate key.
+						const reset = new passwordReset();
+						if (!reset.validateHash(req.params.hash, req.params.key)) {
+							sendJsonResponse(res, 404, {
+								error: 'Given reset key isn\'t valid',
+							});
+							return;
+						}
+						else{
+							sendJsonResponse(res, 200, 'ok');
+						}
+					}
+				})
 		}
 	})
 }

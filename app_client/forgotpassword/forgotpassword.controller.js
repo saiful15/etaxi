@@ -17,14 +17,13 @@
 	function forgotPasswordController(userservice, account, $routeParams){
 		const 	frp 		=	this;
 
-		// checking route has any query parameters.
-		if (!$routeParams.v || !$routeParams.hack || !$routeParams.for) {
-			frp.passResetRequest = true;
-			frp.passResetForm = false;
-		}
-		else{
+		if ($routeParams.v && $routeParams.hack && $routeParams.for) {
 			frp.passResetForm = true;
 			frp.passResetRequest = false;
+		}
+		else{
+			frp.passResetRequest = true;
+			frp.passResetForm = false;
 		}
 
 		// user object.
@@ -80,6 +79,23 @@
 				})
 				.catch((err) => alert(err));
 			}
+		}
+
+		/*
+		|----------------------------------------------
+		| Following method will validate reset key a token
+		| @author: jahid haque <jahid.haque@yahoo.com>
+		| @copyright: taxiaccounting, 2017
+		|----------------------------------------------
+		*/
+		frp.validateKey = function() {
+			// calling method from account service.
+			account
+				.validateResetKey($routeParams.v, $routeParams.hack, $routeParams.for)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((err) => alert(err));
 		}
 	}
 })();

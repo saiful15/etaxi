@@ -24,6 +24,13 @@
 				.catch(handleError);
 		}
 
+		const validateResetKey = (key, hash, user) => {
+			return $http
+				.get('/api/'+user+'/'+key+'/'+hash)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		function 	handleSuccess(response){
 			return response;
 		}
@@ -34,6 +41,7 @@
 
 		return {
 			passwordResetLink: passwordResetLink,
+			validateResetKey: validateResetKey,
 		}
 	}
 })();
