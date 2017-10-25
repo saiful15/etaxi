@@ -236,10 +236,72 @@ module.exports.varifyKey = (req, res) => {
 							return;
 						}
 						else{
-							sendJsonResponse(res, 200, 'ok');
+							sendJsonResponse(res, 200, {
+								success: true,
+							});
 						}
 					}
 				})
 		}
 	})
+}
+
+/*
+|----------------------------------------------
+| Following method will update user password
+| based on given user information
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.updatePassword = (req, res) => {
+	const updatePassword = Joi.object().keys({
+		user: Joi.string().email().min(3).required(),		
+		newpassword: Joi.string().min(6).max(18).regex(/^[a-zA-Z0-9]+/).required(),
+		repeatpassword: Joi.ref('newpassword'),
+	});
+
+	Joi.validate(req.params, updatePassword, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 400, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			users
+				.findOne({email: req.params.user})
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No user found with this ${req.params.user}`,
+						});
+						return;
+					}
+					else{
+						user.password = user.setPassword(req.params.repeatpassword);
+						// now save this change.
+						user.save((err, user) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: `Error! while saving changes. Contact admin`,
+								});
+								return;
+							}
+							else{
+								sendJsonResponse(res, 200, {
+									success: true,
+								});
+							}
+						})
+					}
+				})
+		}
+	});
 }

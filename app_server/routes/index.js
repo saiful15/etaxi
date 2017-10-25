@@ -19,6 +19,7 @@ routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
 routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
 routes.get('/:user/:key/:hash', authentication.varifyKey);
+routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword);
 
 // route for contact page.
 routes.post('/contact', systemController.sendMessage);

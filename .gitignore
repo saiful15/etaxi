@@ -3,5 +3,6 @@
 /public/*.txt
 /public/*.json
 package.json
+package-lock.json
 /public/db/*.json
 .env

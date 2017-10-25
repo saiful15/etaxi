@@ -12,9 +12,9 @@
 		.module('etaxi')
 		.controller('forgotPasswordController', forgotPasswordController);
 
-	forgotPasswordController.$inject = ['userservice', 'account', '$routeParams'];
+	forgotPasswordController.$inject = ['userservice', 'account', '$routeParams', '$location'];
 
-	function forgotPasswordController(userservice, account, $routeParams){
+	function forgotPasswordController(userservice, account, $routeParams, $location){
 		const 	frp 		=	this;
 
 		if ($routeParams.v && $routeParams.hack && $routeParams.for) {
@@ -93,9 +93,48 @@
 			account
 				.validateResetKey($routeParams.v, $routeParams.hack, $routeParams.for)
 				.then((response) => {
-					console.log(response);
+					if (response.data.success === true) {
+						frp.passwordChangeOn = true;
+					}
+					else{
+						frp.passwordChangeOn = false;
+					}
 				})
 				.catch((err) => alert(err));
+		}
+
+		/*
+		|----------------------------------------------
+		| Following method will update with new password
+		| @author: jahid haque <jahid.haque@yahoo.com>
+		| @copyright: taxiaccounting, 2017
+		|----------------------------------------------
+		*/
+		frp.newpasswordinfo = {
+			newpassword: '',
+			repeatpassword: '',
+		};
+		frp.updatePassword = () => {
+			if (frp.newpasswordinfo.newpassword !== frp.newpasswordinfo.repeatpassword) {
+				frp.updatePassError = true;
+				frp.updatePassErrorMsg = `Error! New password and Repeat Password doesn't match.`;
+			}
+			else {
+				// calling method from account service.
+				account
+					.updatePassword($routeParams.for, frp.newpasswordinfo.newpassword, frp.newpasswordinfo.repeatpassword)
+					.then((response) => {
+						if (response.data.error) {
+							frp.updatePassError = true;
+							frp.updatePassErrorMsg = response.data.error;
+						}
+						else if (response.data.success === true){
+							frp.updatePassError = false;
+							$location.path('/signin');
+						}
+					})
+					.catch((err) => alert(err));
+			}			
 		}
 	}
 })();

@@ -31,6 +31,13 @@
 				.catch(handleError);
 		}
 
+		const updatePassword = (user, password, repeatpassword) => {
+			return $http 
+				.put('/api/'+user+'/'+password+'/'+repeatpassword)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		function 	handleSuccess(response){
 			return response;
 		}
@@ -42,6 +49,7 @@
 		return {
 			passwordResetLink: passwordResetLink,
 			validateResetKey: validateResetKey,
+			updatePassword: updatePassword,
 		}
 	}
 })();
