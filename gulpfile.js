@@ -16,13 +16,13 @@ var     gulp        =       require('gulp'),
 
 var     paths       =       {
     scripts: [
+        "public/libs/angular.js",
+        "public/libs/angular-resource.js",
+        "public/libs/angular-route.js",
         "public/libs/jquery.js",
         "public/libs/bootstrap.js"
     ],
     clientFiles: [
-        "public/libs/angular.js",
-        "public/libs/angular-resource.js",
-        "public/libs/angular-route.js",
     	"app_client/app.js",
         "app_client/common/services/authentication/authentication.js",
         "app_client/common/services/user/user.service.js",
@@ -47,7 +47,6 @@ var     paths       =       {
         "app_client/dashboard/expense/expense.controller.js",
         "app_client/dashboard/financialstatement/financialstatement.controller.js",
         "app_client/dashboard/settings/settings.controller.js"
-
     ],
     styles: [
         "public/sass/app.scss"

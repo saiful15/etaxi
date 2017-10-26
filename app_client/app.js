@@ -77,8 +77,8 @@
 			})
 			.when('/financialstatement', {
 				templateUrl: "dashboard/financialstatement/financialstatement.view.html",
-				controller: "financialstatementCtrl",
-				controllers: 'fsvm'
+				controller: "financeCtrl",
+				controllerAs: 'fstvm'
 			})
 			.when('/settings', {
 				templateUrl: "dashboard/settings/settings.view.html",

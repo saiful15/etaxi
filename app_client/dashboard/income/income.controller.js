@@ -21,7 +21,6 @@
 			incomeDate: '',
 			income_source: ''
 		};
-
 		invm.addIncome = function () {
 			if (!invm.Income.amount || !invm.Income.income_source) {
 				invm.incomeError = true;
