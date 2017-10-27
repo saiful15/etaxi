@@ -189,6 +189,13 @@
 				.catch(handleError);
 		}
 
+		const exportToCSV = (user, source)  => {
+			return $http 
+				.get('/api/'+user+'/'+source)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -223,6 +230,7 @@
 			showInsurance: showInsurance,
 			addLisence: addLisence,
 			userLisence: userLisence,
+			exportToCSV: exportToCSV,
 		};
 	}
 })();

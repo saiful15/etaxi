@@ -7,6 +7,8 @@
 */
 var 		mongoose 		=		require('mongoose'),
 			Joi 				=		require('joi'),
+			fs 				=		require('fs'),
+			json2csv 		=  	require('json2csv'),
 			users 			=		mongoose.model('users');
 
 
@@ -18,6 +20,67 @@ var 		sendJsonResponse 	=	function(res, status, content){
 const userId = Joi.object().keys({
 	userId: Joi.string().email().min(3).required(),
 });
+
+/*
+|----------------------------------------------
+| Following method will export data to csv
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.exportToCSV = (req, res) => {
+	const exportCVSInfo = Joi.object().keys({
+		user: Joi.string().email().min(3).required(),
+		source: Joi.string().min(7).max(8).required(),
+	})
+	Joi.validate(req.params, exportCVSInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 400, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			users
+				.findOne({email: req.params.user}) 
+				.select(req.params.source)
+				.exec((err, user) => {
+					if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No user found with ${req.params.user} email address`,
+						});
+						return;
+					}
+					else if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else {
+						const fields = ['income', 'incomeType', 'incomeDate'];
+						const incomes = user[req.params.source];
+						const incomeCsv = json2csv({ data: incomes, fields: fields});
+						fs.writeFile('incomecsv.xlsx', incomeCsv, (err) => {
+							if (err) {
+								sendJsonResponse(res, 400, {
+									error: `Error! while creating excel file. contact admin`,
+								});
+								return;
+							}
+							else{
+								sendJsonResponse(res, 200, {
+									success: true, 
+									data: incomeCsv,
+								});
+							}
+						})						
+					}
+				})
+		}
+	})
+}
+
 
 /*
 |----------------------------------------------

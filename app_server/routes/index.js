@@ -50,6 +50,8 @@ routes.post('/:userId/addincome', userController.addIncome);
 
 // show incomes for given user id.
 routes.get('/:userId/showincome', userController.showIncome);
+// export to csv
+routes.get('/:user/:source', userController.exportToCSV);
 
 // show single income for given user id and income id
 routes.get('/:userId/getincome/:incomeId', userController.showSingleIncome);
