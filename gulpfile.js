@@ -20,7 +20,8 @@ var     paths       =       {
         "public/libs/angular-resource.js",
         "public/libs/angular-route.js",
         "public/libs/jquery.js",
-        "public/libs/bootstrap.js"
+        "public/libs/bootstrap.js",
+        "public/libs/html2canvas.js"
     ],
     clientFiles: [
     	"app_client/app.js",

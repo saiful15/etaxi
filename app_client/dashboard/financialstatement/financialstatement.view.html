@@ -28,67 +28,66 @@
 		<div class="row m-t-3 m-b-2">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="container-box shadow wbg">
-					<h1 class="text-center medium title">Your Income Statement</h1>
-					<hr>
-					<div class="row">
-						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-							<p class="text-center medium sub-title">Incomes</p>
-							<hr>
-							<p class="light no-margin text-center">Cash</p>
-							<p class="light no-margin text-center">Card</p>
-							<p class="light no-margin text-center">Account</p>
+					<div id="incomeStatement">
+						<h1 class="text-center medium title">Your Financial Statement</h1>
+						<hr>
+						<div class="row">
+							<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+								<p class="text-center medium sub-title">Incomes</p>
+								<hr>
+								<p class="light no-margin text-center">Cash</p>
+								<p class="light no-margin text-center">Card</p>
+								<p class="light no-margin text-center">Account</p>
 
-							<!-- for expenses -->
-							<p class="text-center medium sub-title">Expenses</p>
-							<hr>
-							<p class="light text-right">Fuel</p>
-							<p class="light text-right">Oi</p>
-							<p class="light text-right">Road Tax</p>
-							<p class="light text-right">Insurance</p>
-							<p class="light text-right">Repair</p>
-							<p class="light text-right">Car Rent</p>
-							<p class="light text-right">Car Insurance</p>
-							<p class="light text-right">Car Wash</p>
-							<p class="light text-right">MOT</p>
-							<p class="light text-right">Tyres</p>
-							<p class="light text-right">Phone</p>
-							<p class="light text-right">Accountancy</p>
-							<p class="light text-right">Other</p>
-						</div>
-						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-							<p class="text-center medium sub-title">Income Amounts</p>
-							<hr>
-							<p class="regular no-margin">{{fstvm.totalCash | currency: '£'}}</p>
-							<p class="regular no-margin">{{fstvm.totalCard | currency: '£'}}</p>
-							<p class="regular no-margin">{{fstvm.totalAccountIncome | currency: '£'}}</p>
+								<!-- for expenses -->
+								<p class="text-center medium sub-title">Expenses</p>
+								<hr>
+								<p class="light text-right">Fuel</p>
+								<p class="light text-right">Oi</p>
+								<p class="light text-right">Road Tax</p>
+								<p class="light text-right">Insurance</p>
+								<p class="light text-right">Repair</p>
+								<p class="light text-right">Car Rent</p>
+								<p class="light text-right">Car Insurance</p>
+								<p class="light text-right">Car Wash</p>
+								<p class="light text-right">MOT</p>
+								<p class="light text-right">Tyres</p>
+								<p class="light text-right">Phone</p>
+								<p class="light text-right">Accountancy</p>
+								<p class="light text-right">Other</p>
+							</div>
+							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+								<p class="text-center medium sub-title">Income Amounts</p>
+								<hr>
+								<p class="regular no-margin">{{fstvm.totalCash | currency: '£'}}</p>
+								<p class="regular no-margin">{{fstvm.totalCard | currency: '£'}}</p>
+								<p class="regular no-margin">{{fstvm.totalAccountIncome | currency: '£'}}</p>
 
-							<!-- for expense -->
-							<p class="text-center medium sub-title">Expenses Amounts</p>
-							<hr>
-							<p class="regular text-right">{{fstvm.fuelTotalCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.oilExpense | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.roadTax | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.insuranceCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.repairCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.carRentCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.carFinanceCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.carWashCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.motCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.tyresCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.phoneCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.accountancyCost | currency: '£'}}</p>
-							<p class="regular text-right">{{fstvm.otherCost | currency: '£'}}</p>
-							<hr>
-							<p class="regular text-right">Total Incomes {{fstvm.totalIncome | currency: '£'}}</p>
-							<p class="regular text-right">Total Expenses {{fstvm.totalExpense | currency: '£'}}</p>
-							<hr>
-							<h3 class="text-right regular sub-title m-b-3"><strong class="m-r-2">Total Net Income</strong>{{fstvm.totalIncome - fstvm.totalExpense | currency: '£'}}</h3>
+								<!-- for expense -->
+								<p class="text-center medium sub-title">Expenses Amounts</p>
+								<hr>
+								<p class="regular text-right">{{fstvm.fuelTotalCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.oilExpense | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.roadTax | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.insuranceCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.repairCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.carRentCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.carFinanceCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.carWashCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.motCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.tyresCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.phoneCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.accountancyCost | currency: '£'}}</p>
+								<p class="regular text-right">{{fstvm.otherCost | currency: '£'}}</p>
+								<hr>
+								<p class="regular text-right">Total Incomes {{fstvm.totalIncome | currency: '£'}}</p>
+								<p class="regular text-right">Total Expenses {{fstvm.totalExpense | currency: '£'}}</p>
+								<hr>
+								<h3 class="text-right regular sub-title m-b-3"><strong class="m-r-2">Total Net Income</strong>{{fstvm.totalIncome - fstvm.totalExpense | currency: '£'}}</h3>
+							</div>
 						</div>
 					</div>
-
-					<a href="#" class="btn btn-info pull-left" ng-click="fstvm.exportAsPDF('expenses')">Export to PDF</a>
-					<a href="#" class="btn btn-danger pull-right" ng-click="fstvm.exportAsCSV('expenses')">Export to Excel</a>
-
+					<a href="#" class="btn btn-info pull-left" ng-click="fstvm.exportAsPDF()">Export to PDF</a>			
 					<div class="clearfix"></div>
 				</div>
 			</div>

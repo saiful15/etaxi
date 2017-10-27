@@ -183,13 +183,19 @@
 		| @copyright: comany name, 2017
 		|----------------------------------------------
 		*/
-		fstvm.exportAsCSV = (source) => {
-			userservice
-				.exportToCSV(authentication.currentUser().email, source)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((err) => alert(err));
+		fstvm.exportAsPDF = () => {
+			html2canvas(document.getElementById('incomeStatement'), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var docDefinition = {
+                    content: [{
+                        image: data,
+                        width: 500,
+                    }]
+                };
+                pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
+            }
+        });
 		}
 	}
 })();
