@@ -21,7 +21,6 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		};
-
 		var				getUserStatus 		=		function(email){
 			return $http
 					.get('/api/userstatus/'+email)

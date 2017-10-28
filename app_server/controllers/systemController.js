@@ -20,6 +20,7 @@ const 			sendJsonResponse	=	(res, status, content) => {
 	res.json(content);
 };
 
+
 // defining Joi object for message.
 const message = Joi.object().keys({
 	name: Joi.string().min(2).max(24).regex(/^[a-zA-Z ]{3,24}$/).required(),

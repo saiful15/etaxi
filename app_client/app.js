@@ -95,7 +95,7 @@
 				controller: 'forgotPasswordController',
 				controllerAs: 'frp',
 			})
-
+			
 		// enable html5 mode
 		$locationProvider.html5Mode({
 			enabled: true
