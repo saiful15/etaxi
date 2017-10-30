@@ -94,6 +94,7 @@
 				userservice
 					.showContact(authentication.currentUser().email)
 					.then(response => {
+						console.log(authentication.currentUser().email);
  						if (response.data.error) {
  							stvm.showContactError = true;
  						}
