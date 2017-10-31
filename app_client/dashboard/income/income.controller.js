@@ -71,10 +71,25 @@
 								return income.incomeDate === x;
 							});
 						});
-
 						invm.weeklyIncome = weeklyIncomes.filter(function(income){
 							return income.length > 0;
 						});	
+
+						let weeklyAmount = invm.weeklyIncome.map((week) => {
+							return week.map((day) => {
+								return day.income;
+							});							
+						});
+
+						const weeklyTotal = weeklyAmount.map((incomes) => {
+							return incomes.reduce((sum, val) => {
+								return sum + val;
+							}, 0);
+						});
+
+						invm.sevendaysIncome = 	weeklyTotal.reduce((sum, value) => {
+							return sum + value;
+						}, 0);
 					}
 				})
 				.catch(err => function(){
