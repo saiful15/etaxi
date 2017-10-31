@@ -18,14 +18,13 @@
 
 		exvm.expense = {
 			startDate: "",
-			endDate: "",
 			expense_sector: "",
 			amount: ""
 		};
 		
 		exvm.addExpense = function () {
 			// check at least one expense has been added.
-			if(!exvm.expense.startDate || !exvm.expense.endDate || !exvm.expense.expense_sector || !exvm.expense.amount ) {
+			if(!exvm.expense || !exvm.expense.expense_sector || !exvm.expense.amount ) {
 				exvm.expenseError = true;
 				exvm.expenseSuccess = false;
 				exvm.errorMessage = "All fields required. Must not be empty";

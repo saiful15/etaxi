@@ -99,15 +99,14 @@ var 			statusSchema 	=	new mongoose.Schema({
 });
 
 var expenseSchema = new mongoose.Schema({
-	startDate: { type: Date},
-	endDate: { type: Date },
+	startDate: { type: String, "default": Date.now},
 	expense_sector: {type: String, required: true },
 	amount: {type: Number, required: true, min: 0 },
 	createdAt: { type: Date, "default": Date.now }
 });
 
 const incomeSchema = new mongoose.Schema({
-	incomeDate: { type: Date, default: Date.now },
+	incomeDate: { type: String, default: Date.now },
 	income: { type: Number, required: true, min: 1},
 	incomeType: {type: String, required: true },
 })

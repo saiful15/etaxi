@@ -7,7 +7,7 @@
 */
 (function(){
 	angular
-		.module('etaxi', ['ngResource', 'ngRoute'])
+		.module('etaxi', ['ngResource', 'ngRoute', '720kb.datepicker'])
 		.config(['$routeProvider', '$locationProvider', config]);
 
 	function config($routeProvider, $locationProvider){

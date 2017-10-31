@@ -89,7 +89,7 @@
 		    var yyyy = date.getFullYear();
 		    if(dd<10) {dd='0'+dd}
 		    if(mm<10) {mm='0'+mm}
-		    date = yyyy+'-'+mm+'-'+dd+'T00:00:00.000Z';
+		    date = dd+'-'+mm+'-'+yyyy;
 		    return date;
  		}
 

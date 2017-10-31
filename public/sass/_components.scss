@@ -136,6 +136,14 @@
 .dashboard-wrapper{
 	position: relative;
 	min-height: 700px;
+}
 
+.datepicker_icon{
+	position: relative;
+	i{
+		position: absolute;
+		right: 53%;
+		top: 11px;
+	}
 }
 

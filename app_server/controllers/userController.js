@@ -454,8 +454,7 @@ module.exports.addExpenses = function (req, res) {
 				}
 				else {
 					user.expenses.push({
-						startDate: req.body.startDate,
-						endDate: req.body.endDate,
+						startDate: req.body.date,
 						expense_sector: req.body.expense_sector,
 						amount: req.body.amount
 					});
