@@ -76,7 +76,6 @@
 								return formatDateFromISO(expense.createdAt) === x;
 							});
 						});
-
 						exvm.weeklyExpense = weeklyExpenses.filter(function(expense){
 							return expense.length > 0;
 						});

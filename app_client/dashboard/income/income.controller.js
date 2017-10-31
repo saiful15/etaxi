@@ -74,7 +74,7 @@
 
 						invm.weeklyIncome = weeklyIncomes.filter(function(income){
 							return income.length > 0;
-						});												
+						});	
 					}
 				})
 				.catch(err => function(){
