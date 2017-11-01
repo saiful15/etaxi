@@ -71,14 +71,32 @@
 
 						// now sorting out last 7 days income.
 						var last7Days = Last7Days();
-						let weeklyExpenses = last7Days.map(function(x){
-							return exvm.expensesList.filter(function(expense){
-								return formatDateFromISO(expense.createdAt) === x;
+						
+						let weeklyExpense = last7Days.map(function(date){							
+							return exvm.expensesList.filter(function(exp) {
+								return exp.startDate === date;
 							});
 						});
-						exvm.weeklyExpense = weeklyExpenses.filter(function(expense){
+
+						exvm.weeklyExpense = weeklyExpense.filter(function(expense){
 							return expense.length > 0;
 						});
+
+						let weeklyExpenseSummary = exvm.weeklyExpense.map((week) => {
+							return week.map((day) => {
+								return day.amount;
+							});							
+						});
+
+						const weeklyTotal = weeklyExpenseSummary.map((expense) => {
+							return expense.reduce((sum, val) => {
+								return sum + val;
+							}, 0);
+						});
+
+						exvm.weeklyTotalExpenses = weeklyTotal.reduce((sum, value) => {
+							return sum + value;
+						}, 0);
 					}
 					else if(response.data.error) {
 						exvm.expenseSummaryError = true;
@@ -89,18 +107,7 @@
 				})
 		}
 
-		function formatDateFromISO(date) {
-		    var d = new Date(date),
-		        month = '' + (d.getMonth() + 1),
-		        day = '' + d.getDate(),
-		        year = d.getFullYear();
-
-		    if (month.length < 2) month = '0' + month;
-		    if (day.length < 2) day = '0' + day;
-
-		    return [year, month, day].join('-');
-		}
-
+		
 		// function to formate date.
 		function formatDate(date){
 		    var dd = date.getDate();
@@ -108,7 +115,7 @@
 		    var yyyy = date.getFullYear();
 		    if(dd<10) {dd='0'+dd}
 		    if(mm<10) {mm='0'+mm}
-		    date = yyyy+'-'+mm+'-'+dd;
+		    date = dd+'-'+mm+'-'+yyyy;
 		    return date;
  		}
 
@@ -120,7 +127,6 @@
 		        d.setDate(d.getDate() - i);
 		        result.push( formatDate(d) )
 		    }
-
 		    return result;
 		 }
 	}

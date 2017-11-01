@@ -66,11 +66,13 @@
 						
 						// now sorting out last 7 days income.
 						var last7Days = Last7Days();
+
 						let weeklyIncomes = last7Days.map(function(x){
 							return invm.incomeList.filter(function(income){
 								return income.incomeDate === x;
 							});
 						});
+						
 						invm.weeklyIncome = weeklyIncomes.filter(function(income){
 							return income.length > 0;
 						});	
@@ -116,7 +118,6 @@
 		        d.setDate(d.getDate() - i);
 		        result.push( formatDate(d) )
 		    }
-
 		    return result;
 		 }
 	}

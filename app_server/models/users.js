@@ -99,7 +99,7 @@ var 			statusSchema 	=	new mongoose.Schema({
 });
 
 var expenseSchema = new mongoose.Schema({
-	startDate: { type: String, "default": Date.now},
+	startDate: { type: String, default: Date.now},
 	expense_sector: {type: String, required: true },
 	amount: {type: Number, required: true, min: 0 },
 	createdAt: { type: Date, "default": Date.now }

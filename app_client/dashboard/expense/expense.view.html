@@ -3,7 +3,7 @@
 
 <div class="container">
 	<div class="row m-t-2">
-     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">         
+     <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">         
          <div class="panel panel-default">
              <div class="panel-heading">
                  <h1 class="sub-title light">Add Your Expense</h1>
@@ -42,35 +42,61 @@
 
                         <div class="form-group"><label for="expense_amount">Amount</label><input type="text" class="form-control half" id="expense_amount" ng-model="exvm.expense.amount" placeholder="&pound;"></div>
                     
-                     <div class="alert alert-danger" ng-if="exvm.expenseError === true">
-                         {{exvm.errorMessage}}
-                     </div>
-                     <div class="alert alert-success" ng-if="exvm.expenseSuccess === true">
-                         {{exvm.expenseSuccessMessage}}
-                     </div>
-                     <button type="submit" class="btn btn-success">Save Epenses</button>
-                     </form>
-                 
+                         <div class="alert alert-danger" ng-if="exvm.expenseError === true">
+                             {{exvm.errorMessage}}
+                         </div>
+                         <div class="alert alert-success" ng-if="exvm.expenseSuccess === true">
+                             {{exvm.expenseSuccessMessage}}
+                         </div>
+                         <button type="submit" class="btn btn-success">Save Epenses</button>
+                    </form>                 
              </div>
-         </div>         
+         </div>   
+
+         <!-- last added expense -->
+             <div class="panel panel-default wbg">
+                 <h1 class="text-center sub-title medium">Your last added expense</h1>
+                 <hr>
+                 <h2 class="text-center medium big-title" ng-repeat="expense in exvm.expensesList track by $index">
+                     <span ng-show="$last">{{expense.amount | currency: '£'}}</span>   
+                 </h2>
+             </div>      
      </div>
-     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-init="exvm.loadExpenseSummary()">  
+     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7" ng-init="exvm.loadExpenseSummary()">  
         <div class="panel panel-default">
-            <h1 class="text-center sub-title medium">Your last 7 days expenses</h1>
+            <h1 class="text-center title light">Last Week Added Income (Mon - Sun)</h1>
             <hr>
-            <div class="weekly-expenses" ng-repeat="expenses in exvm.weeklyExpense">
-                <div class="weekly-expense" ng-repeat="expense in expenses">
-                    <h2 class="text-left light pull-left no-margin">Expense Added: {{expense.createdAt | date: 'yyyy-MM-dd'}}</h2>
-                    <div class="clearfix"></div>
-                    <h2 class="text-center light pull-center">Expensed Amount: {{expense.amount | currency: '£'}}</h2>
-                    <div class="clearfix"></div>
-                </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>Date</th>
+                    <th>Account Type</th>
+                    <th>Amount</th>
+                </tr>
+                <tbody ng-repeat="expenses in exvm.weeklyExpense">
+                    <tr ng-repeat="expense in expenses">
+                        <td>
+                            {{expense.startDate}}
+                        </td>
+
+                        <td>
+                            {{expense.expense_sector}}
+                        </td>
+                        <td>
+                            {{expense.amount | currency: '£'}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="panel-body wbg">
+                <h1 class="text-center medium sub-title">   
+                    Last week expenses {{exvm.weeklyTotalExpenses | currency: '£'}}
+                </h1>
             </div>
         </div>       
          <div class="panel panel-default" ng-if="exvm.expenseSummarySuccess === true">             
-             <h2 class="title text-center medium">Your total expenses so far</h2>
+             <h2 class="title text-center light">Your Expense Summary</h2>
              <hr>
-             <h3 class="sub-title text-center light"><span class="medium">{{exvm.totalAmount | currency: '£'}}</span></h3>
+             <h3 class="big-title text-center medium"><span class="medium">{{exvm.totalAmount | currency: '£'}}</span></h3>
 
              <div class="panel panel-body">
                  <a href="#" class="btn btn-success pull-right" title="view all your expense">
@@ -80,15 +106,6 @@
 
          <div class="panel-heading" ng-if="exvm.expenseSummaryError === true">
              Error while loading your expense summary. Please contact admin
-         </div>
-
-         <!-- last added expense -->
-         <div class="panel panel-default">
-             <h1 class="text-center sub-title medium">Your last added expense</h1>
-             <hr>
-             <h2 class="text-center medium sub-title" ng-repeat="expense in exvm.expensesList track by $index">
-                 <span ng-show="$last">{{expense.amount | currency: '£'}}</span>   
-             </h2>
          </div>
      </div>
     </div>
