@@ -50,4 +50,6 @@ process.on('SIGTERM', function() {
 |----------------------------------------------------------------
  */
 require("./users");
+require('./incomes');
+require('./expenses');
 require('./password-reset');

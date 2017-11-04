@@ -95,6 +95,11 @@
 				controller: 'forgotPasswordController',
 				controllerAs: 'frp',
 			})
+			.when("/messages", {
+				templateUrl: 'messages/messages.view.html',
+				controller: 'msgController',
+				controllerAs: 'msgvm',
+			})
 			
 		// enable html5 mode
 		$locationProvider.html5Mode({

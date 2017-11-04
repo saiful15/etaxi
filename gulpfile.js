@@ -49,6 +49,7 @@ var     paths       =       {
         "app_client/dashboard/expense/expense.controller.js",
         "app_client/dashboard/financialstatement/financialstatement.controller.js",
         "app_client/dashboard/settings/settings.controller.js",
+        "app_client/messages/messages.controller.js"
     ],
     styles: [
         "public/sass/app.scss"

@@ -18,7 +18,7 @@ var 		systemController = require('../controllers/systemController');
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
 routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
-routes.get('/:user/:key/:hash', authentication.varifyKey);
+// routes.get('/:user/:key/:hash', authentication.varifyKey);
 routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword);
 
 // route for contact page.
@@ -26,7 +26,7 @@ routes.post('/contact', systemController.sendMessage);
 
 // route to get user status.
 routes.get('/:email/user', userController.showUser);
-routes.get('/userstatus/:email', userController.getStatusCollection);
+
 routes.get('/userprofile/:email', userController.getUserProfile);
 routes.post('/userstatus', userController.updateStatus);
 

@@ -7,8 +7,9 @@ var 			mongoose 		=	require('mongoose'),
 				validator 		=	require('validator'),
 				passport 		=	require('passport'),
 				passwordReset 	=	mongoose.model('password-reset'),
-				users 			=	mongoose.model('users');
-
+				users 			=	mongoose.model('users'),
+				fs 				=	require('fs');
+const Uid = require('uid');
 const Joi = require('joi');
 const Mailer = require('../config/nodemailer');
 
@@ -93,11 +94,14 @@ module.exports.register		=	function(req, res){
 		else{
 			// creating empty user and filling it with data.
 			var 		user 		=	new users();
+			const userId = Uid(10);
+			const userDir = './users/'+userId;
 			user.email = req.body.email;
+			user.userId = userId;
+			user.userDir = userDir;
 			user.password = user.setPassword(req.body.password);
 			user.status   =	"promo_free";
 			user.account_type = "customer";
-			user.statusCollection = {};
 			// save user into the database.
 			user.save(function(err){
 				if(err){
@@ -114,10 +118,18 @@ module.exports.register		=	function(req, res){
 					return false;
 				}
 				else{
-					var 	token	=	user.generateJwt();
-					sendJsonResponse(res, 200, {
-						token: token
-					});
+					if (!fs.mkdirSync(userDir)) {
+						var 	token	=	user.generateJwt();
+						sendJsonResponse(res, 200, {
+							token: token
+						});
+					}
+					else {
+						sendJsonResponse(res, 400, {
+							error: "System Error! while creating user directory. Please contact admin"
+						});
+					}
+					
 				}
 			})
 		}

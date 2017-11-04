@@ -1,7 +1,7 @@
 <!-- navigation -->
 <site-nav></site-nav>
 
-<div class="dashboard-wrapper">
+<div class="dashboard-wrapper" ng-if="dsvm.customerOpr === true">
 <div class="flash-message flash-message-gray" ng-if="dsvm.statusCollection[0].profile === false">
 	<div class="container">
 		<h1 class="text-center light title">You haven't set up your profile yet.</h1>
@@ -140,6 +140,10 @@
 		</div>
 	</div>
 </div>
+</div>
+
+<div class="dashboard-wrapper" ng-if="dsvm.adminOpr === true">
+	admin
 </div>
 
 <!-- site-footer -->

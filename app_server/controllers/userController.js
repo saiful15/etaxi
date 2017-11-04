@@ -8,8 +8,10 @@
 var 		mongoose 		=		require('mongoose'),
 			Joi 				=		require('joi'),
 			fs 				=		require('fs'),
+			uId 				=		require('uid'),
 			json2csv 		=  	require('json2csv'),
-			users 			=		mongoose.model('users');
+			expenses 		=		mongoose.model('expenses'),
+			incomes 			=		mongoose.model('incomes');
 
 
 var 		sendJsonResponse 	=	function(res, status, content){
@@ -72,45 +74,6 @@ module.exports.showUser = (req, res) => {
 		})
 	}
 }
-
-/*
-|----------------------------------------------
-| Following function get all status collection.
-| @author: jahid haque <jahid.haque@yahoo.com>
-| @copyright: etaxi, 2017
-|----------------------------------------------
-*/
-module.exports.getStatusCollection 		=		function(req, res){
-	if(!req.params && !req.params.email){
-		sendJsonResponse(res, 404, {
-			message: "Invalid request"
-		});
-	}
-	else{
-		// calling users model and run the query.
-		users
-			.findOne({email: req.params.email})
-			.select('statusCollection')
-			.exec(function(err, statusCollection){
-				if(!statusCollection){
-					sendJsonResponse(res, 404, {
-						error: 'No status collections found with this email address.'
-					});
-				}
-				else if(err){
-					sendJsonResponse(res, 404, {
-						error: err
-					});
-				}
-				else{					
-					sendJsonResponse(res, 200, {
-						status: statusCollection
-					});
-				}
-			})
-	}
-}
-
 
 /*
 |----------------------------------------------
@@ -435,46 +398,26 @@ module.exports.addExpenses = function (req, res) {
 		});
 	}
 	else{
-		// find the user based on given id.
-		users
-			.findOne({email: req.params.userId})
-			.select('expenses')
-			.exec(function(err, user){
-				if(!user) {
-					sendJsonResponse(res, 404, {
-						error: "No user found with given user id"
-					});
-					return;
-				}
-				if(err) {
-					sendJsonResponse(res, 404, {
-						error: err
-					});
-					return;
-				}
-				else {
-					user.expenses.push({
-						startDate: req.body.date,
-						expense_sector: req.body.expense_sector,
-						amount: req.body.amount
-					});
+		const expense = new expenses();
+		expense.expenseId = uId(10);
+		expense.whos = req.params.userId;
+		expense.startDate = req.body.date;
+		expense.expense_sector = req.body.expense_sector;
+		expense.amount = req.body.amount;
 
-					// save the change
-					user.save(function(err, expenses) {
-						if(err) {
-							sendJsonResponse(res, 404, {
-								error: err
-							});
-							return;
-						}
-						else{
-							sendJsonResponse(res, 200, {
-								success: true
-							});
-						}
-					})
-				}
-			})
+		expense.save((err) => {
+			if(err) {
+				sendJsonResponse(res, 404, {
+					error: err
+				});
+				return;
+			}
+			else {
+				sendJsonResponse(res, 200, {
+					success: true
+				});
+			}
+		});
 	}
 }
 
@@ -494,13 +437,12 @@ module.exports.showExpense = function (req, res) {
 	}
 	else{
 		// get user expense object.
-		users
-			.findOne({email: req.params.userId})
-			.select('expenses')
-			.exec(function(err, user){
-				if(!user) {
+		expenses
+			.find({whos: req.params.userId})
+			.exec(function(err, expenses){
+				if(!expenses) {
 					sendJsonResponse(res, 404, {
-						error: "No user found with given user id"
+						error: "No expenses found with given user id"
 					});
 					return;
 				}
@@ -513,7 +455,7 @@ module.exports.showExpense = function (req, res) {
 				else{
 					sendJsonResponse(res, 200, {
 						success: true,
-						expense: user.expenses
+						expense: expenses
 					});
 				}
 			})
@@ -534,40 +476,28 @@ module.exports.addIncome = function (req,res) {
 		});
 	}
 	else {
-		// check user against the user id
-		users
-		 	.findOne({email: req.params.userId})
-		 	.select('incomes')
-		 	.exec(function (err, user) {
-		 		if(err) {
-		 			sendJsonResponse(res, 404, {
-		 				error: err,
-		 			});
-		 			return;
-		 		}
-		 		if (!user) {
-		 			sendJsonResponse(res, 404, {
-		 				error: 'no user found with given user id',
-		 			});
-		 			return;
-		 		}
-		 		else {
-		 			// pusing income to incomes array.
-		 			user.incomes.push({
-		 				income: req.body.amount,
-		 				incomeDate: req.body.incomeDate,
-		 				incomeType: req.body.income_source
-		 			});
-
-		 			// now save the change.
-		 			user.save(function (err, income) {
-		 				sendJsonResponse(res, 200, {
-		 					success: true,
-		 					data: income
-		 				});
-		 			}) 
-		 		}
-		 	})
+		var income = new incomes();
+		var incomeId = uId(10);
+		income.incomeId = incomeId;
+		income.whos = req.params.userId;
+		income.incomeDate = req.body.incomeDate;
+		income.income = req.body.amount;
+		income.incomeType = req.body.income_source;
+		
+		income.save(function(err){
+			if(err) {
+	 			sendJsonResponse(res, 404, {
+	 				error: err,
+	 			});
+	 			return;
+	 		}
+	 		else {
+	 			sendJsonResponse(res, 200, {
+ 					success: true,
+ 					data: income
+ 				});
+	 		}
+		});
 	}
 }
 
@@ -586,26 +516,25 @@ module.exports.showIncome = function (req, res) {
 		});
 	}
 	else {
-		users
-		 	.findOne({email: req.params.userId})
-		 	.select('incomes')
-		 	.exec(function (err, user) {
+		incomes
+		 	.find({whos: req.params.userId})
+		 	.exec(function (err, incomes) {
 		 		if(err) {
 		 			sendJsonResponse(res, 404, {
 		 				error: err,
 		 			});
 		 			return;
 		 		}
-		 		if (!user) {
+		 		if (!incomes) {
 		 			sendJsonResponse(res, 404, {
-		 				error: 'no user found with given user id',
+		 				error: 'no income found with given user id',
 		 			});
 		 			return;
 		 		}
 		 		else {
 		 			sendJsonResponse(res, 200, {
 		 				success: true,
-		 				data: user.incomes
+		 				data: incomes
 		 			});
 		 		}
 		 	})
@@ -621,67 +550,37 @@ module.exports.showIncome = function (req, res) {
 |----------------------------------------------
 */
 module.exports.deleteIncome = function (req, res) {
-	if(!req.params && !req.params.userId && !req.params.incomeId) {
-		sendJsonResponse(res, 404, {
-			error: 'invalid request',
-		});
-	}
-	else{
-		// find user incomes based on given user id
-		users
-			.findOne({email: req.params.userId})
-			.select('incomes')
-			.exec(function (err, user) {
-					if(err) {
-			 			sendJsonResponse(res, 404, {
+	const incomeDelObject = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+		incomeId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/),
+	});
+
+	Joi.validate(req.params, incomeDelObject, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message
+			});
+			return;
+		}
+		else {
+			incomes
+				.findOneAndRemove({whos: req.params.userId, _id: req.params.incomeId})
+				.exec((err, income) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
 			 				error: err,
 			 			});
 			 			return;
-			 		}
-			 		if (!user) {
-			 			sendJsonResponse(res, 404, {
-			 				error: 'no user found with given user id',
-			 			});
-			 			return;
-			 		}
-			 		else{
-			 			// checking the lenth of the incomes to ensure we have incomes to delete
-			 			if(user.incomes && user.incomes.length > 0) {
-			 				// check the income id against all income ids from db
-			 				if(!user.incomes.id(req.params.incomeId)) {
-			 					sendJsonResponse(res, 404, {
-			 						error: 'income does not match',
-			 					});
-			 					return;
-			 				}
-			 				else{
-			 					// now delete and save change.
-			 					user.incomes.id(req.params.incomeId).remove();
-			 					user.save(function(err){
-			 						if(err){
-			 							sendJsonResponse(res, 404, {
-			 								error: err,
-			 							});
-			 							return;
-			 						}
-			 						else{
-			 							sendJsonResponse(res, 200, {
-			 								success: true,
-			 								data: 'income successfully deleted',
-			 							});
-			 						}
-			 					})
-			 				}
-			 			}
-			 			else{
-			 				sendJsonResponse(res, 404, {
-			 					error: 'no income to delete'
-			 				});
-			 				return;
-			 			}
-			 		}
-			})
-	}
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							data: 'income successfully deleted',
+						});
+					}
+				})
+		}
+	});
 }
 
 
@@ -693,54 +592,46 @@ module.exports.deleteIncome = function (req, res) {
 |----------------------------------------------
 */
 module.exports.showSingleIncome = function (req, res) {
-	if(!req.params && !req.params.userId && !req.params.incomeId) {
-		sendJsonResponse(res, 404, {
-			error: 'invalid request',
-		});
-	}
-	else{
-		users
-			.findOne({email: req.params.userId})
-			.select('incomes')
-			.exec(function (err, user) {
-					if(err) {
-			 			sendJsonResponse(res, 404, {
-			 				error: err,
-			 			});
-			 			return;
-			 		}
-			 		if (!user) {
-			 			sendJsonResponse(res, 404, {
-			 				error: 'no user found with given user id',
-			 			});
-			 			return;
-			 		}
-			 		else{
-			 			// checking the lenth of the incomes to ensure we have incomes to delete
-			 			if(user.incomes && user.incomes.length > 0) {
-			 				// check the income id against all income ids from db
-			 				if(!user.incomes.id(req.params.incomeId)) {
-			 					sendJsonResponse(res, 404, {
-			 						error: 'income does not match',
-			 					});
-			 					return;
-			 				}
-			 				else{
-			 					sendJsonResponse(res, 200, {
-			 						success: true,
-			 						data: user.incomes.id(req.params.incomeId)
-			 					});
-			 				}
-			 			}
-			 			else{
-			 				sendJsonResponse(res, 404, {
-			 					error: 'no income to show'
-			 				});
-			 				return;
-			 			}
-			 		}
-			})
-	}
+	const incomeEditObject = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+		incomeId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/),
+	});
+
+	Joi.validate(req.params, incomeEditObject, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			incomes
+				.find({whos: req.params.userId, _id: req.params.incomeId})
+				.exec((err, income) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else {
+						// checking whether this user has any income.
+						if (income.length > 0) {
+							sendJsonResponse(res, 200, {
+		 						success: true,
+		 						data: income,
+		 					});
+						}
+						else{
+							sendJsonResponse(res, 404, {
+								error: `Error! No income found with ${req.params.userId} user email`,
+							});
+							return;
+						}
+					}
+				})
+		}
+	})
 }
 
 /*
@@ -752,68 +643,39 @@ module.exports.showSingleIncome = function (req, res) {
 |----------------------------------------------
 */
 module.exports.updateIncome = function (req, res) {
-	if(!req.params && !req.params.userId && !req.params.incomeId) {
-		sendJsonResponse(res, 404, {
-			error: 'invalid request',
-		});
-	}
-	else{
-		users
-			.findOne({email: req.params.userId})
-			.select('incomes')
-			.exec(function (err, user) {
-					if(err) {
-			 			sendJsonResponse(res, 404, {
-			 				error: err,
-			 			});
-			 			return;
-			 		}
-			 		if (!user) {
-			 			sendJsonResponse(res, 404, {
-			 				error: 'no user found with given user id',
-			 			});
-			 			return;
-			 		}
-			 		else{
-			 			// checking the lenth of the incomes to ensure we have incomes to delete
-			 			if(user.incomes && user.incomes.length > 0) {
-			 				var thisIncome = user.incomes.id(req.params.incomeId);
+	const updateIncomeObject = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+		incomeId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/),
+	});
 
-			 				if(!thisIncome) {
-			 					sendJsonResponse(res, 404, {
-			 						error: 'income id not found',
-			 					});
-			 					return;
-			 				}
-			 				else{
-			 					thisIncome.income = req.body.amount;
-			 					thisIncome.incomeType = req.body.income_source;
-			 					thisIncome.incomeDate = req.body.incomeDate;
-			 					// now save this change.
-			 					user.save(function(err) {
-			 						if(err) {
-			 							sendJsonResponse(res, 404, {
-			 								error: 'Error! while saving your updates',
-			 							});
-			 							return;
-			 						}
-			 						else{
-			 							sendJsonResponse(res, 200, {
-			 								success: true,
-			 							});
-			 						}
-			 					})
-			 				}
-			 			}
-			 			else{
-			 				sendJsonResponse(res, 404, {
-			 					error: 'no income to show'
-			 				});
-			 				return;
-			 			}
-			 		}
-			})
-	}
+	Joi.validate(req.params, updateIncomeObject, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			incomes
+				.update({whos: req.params.userId, _id: req.params.incomeId}, {
+					income: req.body.amount,
+					incomeType: req.body.income_source,
+					incomeDate: req.body.incomeDate, 
+				}, (err) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: `Error! while updating income.`
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+						});
+					}
+				})
+		}
+	})
 }
 
 /*

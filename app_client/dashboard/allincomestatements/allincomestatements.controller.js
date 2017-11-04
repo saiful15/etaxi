@@ -36,7 +36,6 @@
 
 								// incomeList
 								inStmt.incomesList = response.data.data;
-
 								let totalIncome = 0;
 								for(var i =0; i < inStmt.incomesList.length; i++){
 									totalIncome += parseFloat(inStmt.incomesList[i].income);
@@ -72,9 +71,9 @@
 							inStmt.editDataLoadError = false;
 							// load initial data for given income id.							
 							inStmt.incomeEdit = {
-								incomeDate: $filter('date')(response.data.data.incomeDate, "yyyy-MM-dd"),
-								amount: response.data.data.income,
-								income_source: response.data.data.incomeType,
+								incomeDate: response.data.data[0].incomeDate,
+								amount: response.data.data[0].income,
+								income_source: response.data.data[0].incomeType,
 							};
 						}
 					})

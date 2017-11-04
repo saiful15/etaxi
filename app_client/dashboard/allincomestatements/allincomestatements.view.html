@@ -78,7 +78,14 @@
 				<h1 class="text-center light medium">Edit Following Income</h1>
 				<hr>
 				<form ng-submit="inStmt.saveEditIncome()">
-					<div class="form-group"><label for="incomeDate">Income Date</label><input type="text" class="form-control half" ng-model="inStmt.incomeEdit.incomeDate" id="incomeDate"></div>
+					<div class="form-group"><label for="incomeDate">Income Date</label>
+						<div class='datepicker_icon'>
+							<datepicker date-format="dd-MM-yyyy">
+								<input type="text" class="form-control half" ng-model="inStmt.incomeEdit.incomeDate" id="incomeDate">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</datepicker>
+						</div>
+					</div>
 						<div class="form-group"><label for="incomeAmount">Amount * </label>
 							<input type="text" placeholder="£" ng-model='inStmt.incomeEdit.amount' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"  
 							id="incomeAmount" class="form-control half"></div>

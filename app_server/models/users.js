@@ -98,12 +98,6 @@ var 			statusSchema 	=	new mongoose.Schema({
 	lisence: {type: Boolean, required: true, default: false}
 });
 
-var expenseSchema = new mongoose.Schema({
-	startDate: { type: String, default: Date.now},
-	expense_sector: {type: String, required: true },
-	amount: {type: Number, required: true, min: 0 },
-	createdAt: { type: Date, "default": Date.now }
-});
 
 const incomeSchema = new mongoose.Schema({
 	incomeDate: { type: String, default: Date.now },
@@ -113,23 +107,13 @@ const incomeSchema = new mongoose.Schema({
 
 var 			userSchema 		=	new mongoose.Schema({
 	email: {type: String, required: true, unique: true},
+	userId: {type: String, required: true, unique: true },
+	userDir: {type: String, required: true, },
 	hash: {type: String},
 	salt: {type: String},
 	status: {type: String},
 	account_type: {type: String},
 	created_at: {type: Date, default: Date.now},
-	profile: [profileSchema],
-	contact: [contactSchema],
-	businessAddress: [businessAddressSchema],
-	business: [businessSchema],
-	lisence: [lisenceSchema],
-	vehicle: [vehicleSchema],
-	additional_info: [additional_infoSchema],
-	insurance: [insuranceSchema],
-	statusCollection: [statusSchema],
-	history: {type: Array},
-	expenses: [expenseSchema],
-	incomes: [incomeSchema],
 });
 
 

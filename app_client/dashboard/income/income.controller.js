@@ -28,6 +28,7 @@
 			}
 			else{
 				invm.incomeError = false;
+
 				// calling method from user service service.
 				userservice
 				 .addIncome(authentication.currentUser().email, invm.Income)
@@ -63,7 +64,6 @@
 						for(var i =0; i < invm.incomeList.length; i++) {
 							invm.totalIncome += parseFloat(invm.incomeList[i].income);
 						}
-						
 						// now sorting out last 7 days income.
 						var last7Days = Last7Days();
 

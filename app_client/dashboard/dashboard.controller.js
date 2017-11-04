@@ -20,6 +20,7 @@
 		if(authentication.isLoggedIn()){
 			// when logged in user is customer.
 			if(authentication.currentUser().account_type === 'customer'){
+				dsvm.customerOpr = true;
 				dsvm.getUserStatus 	=	function(){
 					// calling user service method 
 					userservice
@@ -131,8 +132,8 @@
 				}
 			}
 			// when logged in user is admin
-			else if(authentication.currentUser().status === 'admin'){
-
+			else if(authentication.currentUser().account_type === 'admin'){
+				dsvm.adminOpr = true;
 			}			
 		}
 		else{
