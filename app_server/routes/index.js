@@ -21,6 +21,9 @@ routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
 // routes.get('/:user/:key/:hash', authentication.varifyKey);
 routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword);
 
+// file upload routes.
+routes.post('/fileupload/:documentId/:userId', systemController.uploadFile);
+
 // route for contact page.
 routes.post('/contact', systemController.sendMessage);
 

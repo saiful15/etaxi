@@ -402,6 +402,8 @@ module.exports.addExpenses = function (req, res) {
 		expense.expenseId = uId(10);
 		expense.whos = req.params.userId;
 		expense.startDate = req.body.date;
+		expense.documentId = req.body.documentId;
+		expense.documentDir = req.body.documentDir;
 		expense.expense_sector = req.body.expense_sector;
 		expense.amount = req.body.amount;
 

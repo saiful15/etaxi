@@ -155,6 +155,7 @@ userSchema.methods.generateJwt 	=	function(){
 		email: this.email,
 		name: this.name,
 		account_type: this.account_type,
+		userId: this.userId,
 		exp: parseInt(expiry.getTime() / 1000 ),
 	}, process.env.jswntokenkey);
 }

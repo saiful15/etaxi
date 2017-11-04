@@ -15,6 +15,8 @@ const expenseSchema = new mongoose.Schema({
 	startDate: { type: String, default: Date.now},
 	expense_sector: {type: String, required: true },
 	amount: {type: Number, required: true, min: 0 },
+	documentId: {type: String, min: 3, },
+	documentDir: {type: String, },
 	createdAt: { type: Date, default: Date.now }
 });
 

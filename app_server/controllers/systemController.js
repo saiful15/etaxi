@@ -9,6 +9,8 @@
 'use strict';
 
 const Joi = require('joi');
+const multer = require('multer');
+const uid = require('uid');
 const NodeMailer = require('nodemailer');
 /*
 |----------------------------------------------------------------
@@ -86,4 +88,74 @@ module.exports.sendMessage = (req, res) => {
 			})
 		}
 	})
+}
+
+
+/*
+|----------------------------------------------
+| Following function to upload file
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.uploadFile = (req, res) => {
+	var storage = multer.diskStorage({
+	destination: function(req, file, cb) {
+      cb(null, './users/'+req.params.userId);
+    	},
+	    filename: function(req, file, cb) {
+	        if (!file.originalname.match(/\.(png|jpeg|jpg|JPG|pdf)$/)) {
+	            var err = new Error();
+	            err.code = 'filetype';
+	            return cb(err);
+	        } else {
+	        	var fileid 		=	uid(8);
+	        	cb(null, fileid+file.originalname);
+	        }
+	    }
+	});
+	var upload = multer({
+	    storage: storage,
+	    limits: { fileSize: 5000000 }
+	}).single('accountImg');
+
+	upload(req, res, function(err){
+		if(err){
+			if(err.code === 'LIMIT_FILE_SIZE'){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "File size is too large"
+				});
+			}
+			else if(err.code === 'filetype'){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error : "Invalid file type"
+				});
+			}
+			else {
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "Enable to upload!"
+				});
+			}
+		}
+		else{
+			if(!req.file){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "Please select a product image"
+				});
+			}
+			else{
+				sendJsonResponse(res, 200, {
+					success: true,
+					filename: req.file.filename,
+					fileLocation: './users/'+req.params.userId+'/'+req.file.filename,
+				});
+			}
+		}
+	});
+
+
 }

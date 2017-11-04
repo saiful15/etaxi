@@ -49,7 +49,9 @@ function authentication ($window, $http){
 				payload =	$window.atob(payload);
 				payload =	JSON.parse(payload);
 			return {
+				userId: payload._id,
 				email: payload.email,
+				userDirId: payload.userId,
 				account_type: payload.account_type
 			};
 		}

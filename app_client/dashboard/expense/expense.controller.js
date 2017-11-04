@@ -5,21 +5,25 @@
 | @copyright: etaxiaccounting, 2017
 |----------------------------------------------
 */
+'use strict';
 (function(){
 	angular
 		.module('etaxi')
 		.controller('expenseCtrl', expenseCtrl);
 
 	// dependency injection
-	expenseCtrl.$inject = ['authentication', 'userservice'];
+	expenseCtrl.$inject = ['$scope', 'authentication', 'userservice', 'fileupload', '$route'];
 
-	function expenseCtrl(authentication, userservice){
+	function expenseCtrl($scope, authentication, userservice, fileupload, $route){
 		const 	exvm 		=	this;
 
 		exvm.expense = {
 			startDate: "",
 			expense_sector: "",
-			amount: ""
+			amount: "",
+			documentId: '',
+			documentDir: '',
+			accountImg: '',
 		};
 		
 		exvm.addExpense = function () {
@@ -31,8 +35,41 @@
 			}
 			else{
 				exvm.expenseError = false;
+				exvm.expense.accountImg = $scope.accountImg;
+
+				// checking if file exists.
+				if (!exvm.expense.accountImg) {
+					exvm.pushExpense();
+				}
+				else {
+					// where there is a file to upload.
+					exvm.uploadInfo = {
+						documentId: authentication.currentUser().userId,
+						userId: authentication.currentUser().userDirId,
+					};
+					fileupload
+						.uploadProductFile(exvm.expense.accountImg, exvm.uploadInfo.documentId, exvm.uploadInfo.userId)
+						.then((response) => {
+							if (response.data.success === true) {
+								exvm.expense.documentId = exvm.uploadInfo.documentId;
+								exvm.expense.documentDir = response.data.fileLocation;
+								exvm.pushExpense();
+								$route.reload();
+							}
+							else {
+								exvm.expenseError = true;
+								exvm.errorMessage = response.data.error;
+							}
+						})
+						.catch((err) => alert(err));
+					
+				}
 				
-				// calling method from userservice service.
+			}
+		}
+
+		exvm.pushExpense = () => {
+			// calling method from userservice service.
 				userservice
 					.addExpense(authentication.currentUser().email, exvm.expense)
 					.then(function(response){
@@ -50,9 +87,7 @@
 					.catch(function(err){
 						alert(err);
 					})
-			}
 		}
-
 		// load user expense summary 
 		exvm.loadExpenseSummary = function() {
 			// calling method user service to load expense summary.
