@@ -75,7 +75,7 @@
         <div class="panel panel-default">
             <h1 class="text-center title light">Last Week Added Income (Mon - Sun)</h1>
             <hr>
-            <table class="table table-striped">
+            <table class="table table-hover statementTable">
                 <tr>
                     <th>Date</th>
                     <th>Account Type</th>
@@ -92,6 +92,9 @@
                         </td>
                         <td>
                             {{expense.amount | currency: '£'}}
+                            <a href='{{expense.documentDir}}' target="_self" download title="Download associated file" class="statement-btn statement-btn-circle m-l-3" ng-if="expense.documentId">
+                                <i class="fa fa-download" aria-hidden="true"></i>
+                            </a>
                         </td>
                     </tr>
                 </tbody>

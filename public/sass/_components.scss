@@ -147,3 +147,74 @@
 	}
 }
 
+.statementTable{
+	tbody{
+		tr{
+			td{
+				padding: 20px 15px;
+			}
+		}
+	}
+}
+
+.statement-btn{
+	display: inline-block;
+	position: relative;
+	padding: 8px;
+}
+.statement-btn-circle{
+	width: 30px;
+	height: 30px;
+	border: 1px solid #2cabe3;
+	border-radius: 500px;
+	&:hover{
+		background-color: #fff;
+	}
+}
+
+// message
+.compose-message{
+	position: relative;
+	padding: 20px;
+	.btn-compose{
+		padding: 15px 0;
+	}
+}
+
+.message-sidebar-list{
+	padding: 25px 0 0 0;
+	margin-bottom: 0px;
+
+	li{
+		list-style: none;
+		padding: 15px 0;
+		margin: 0px -20px;
+		border-bottom: 1px solid #dcdbdb;
+		a{
+			display: block;
+			width: 100%;
+			padding: 0px 20px;
+			font-size: 16px;
+			font-weight: 300;
+			color: #4a4a4a;
+			&:hover{
+				text-decoration: none;
+			}
+			.head{
+				padding: 0px 40px;
+			}
+		}
+		&:last-child{
+			border-bottom: 0px;
+		}
+		&:hover{
+			background-color: #eff4f6;
+			a{
+				color: #000;
+				i{
+					color: #4a4a4a !important;
+				}
+			}
+		}
+	}
+}
