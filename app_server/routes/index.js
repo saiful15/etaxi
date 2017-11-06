@@ -14,6 +14,7 @@ var 		express 		=		require('express'),
 var 		authentication 	=		require("../controllers/authentication");
 var 		userController	=		require("../controllers/userController");
 var 		systemController = require('../controllers/systemController');
+const 	messageController = require('../controllers/message.controller');
 
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
@@ -87,6 +88,16 @@ routes.post('/:userId/lisence', userController.addLisence);
 
 // show user lisence information.
 routes.get('/:userId/lisence', userController.showLisence);
+
+/*
+|----------------------------------------------
+| Following routes are for message
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccountant, 2017
+|----------------------------------------------
+*/
+routes.post('/message', messageController.sendMessage);
+routes.get('/:userid/messages', messageController.viewMessages);
 
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

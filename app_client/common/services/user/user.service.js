@@ -195,6 +195,20 @@
 				.catch(handleError);
 		}
 
+		const sendMessage = (message) => {
+			return $http
+				.post('/api/message', message)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const viewAllMessage = (userId) => {
+			return $http
+				.get('/api/'+userId+'/messages')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		
 		function 	handleSuccess(response){
 			return response;
@@ -230,6 +244,8 @@
 			addLisence: addLisence,
 			userLisence: userLisence,
 			exportToCSV: exportToCSV,
+			sendMessage: sendMessage,
+			viewAllMessage: viewAllMessage,
 		};
 	}
 })();

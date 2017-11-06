@@ -218,3 +218,33 @@
 		}
 	}
 }
+
+.message-contact{
+	position: relative;
+	padding: 20px;
+	.contact-badge{
+		width: 80px;
+		height: 80px;
+		img{
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.message-inbox-body{
+	position: relative;
+	.inbox-load-error{
+		img{
+			width: 400px;
+			height: 400px;
+			opacity: 0.6;
+		}
+	}
+}
+
+.message-body{
+	position: relative;
+	padding: 20px;
+}

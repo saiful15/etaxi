@@ -52,4 +52,5 @@ process.on('SIGTERM', function() {
 require("./users");
 require('./incomes');
 require('./expenses');
+require('./message');
 require('./password-reset');
