@@ -242,6 +242,32 @@
 			opacity: 0.6;
 		}
 	}
+	table{
+		tr{
+			td{
+				padding: 20px 0;
+			}
+		}
+	}
+}
+
+.message-view {
+	hr{
+		margin: 0px -20px;
+	}
+}
+
+.single-message-controll{
+	padding: 20px 0 0 0;
+	.list{
+		li{
+			display: inline-block;
+			list-style: none;
+			&:first-child{
+				margin-right: 15px;
+			}
+		}
+	}
 }
 
 .message-body{

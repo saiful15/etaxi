@@ -98,6 +98,6 @@ routes.get('/:userId/lisence', userController.showLisence);
 */
 routes.post('/message', messageController.sendMessage);
 routes.get('/:userid/messages', messageController.viewMessages);
-
+routes.get('/:messageId', messageController.viewMessage);
 // export routes so that we can use it in other part of the application.
 module.exports = routes;

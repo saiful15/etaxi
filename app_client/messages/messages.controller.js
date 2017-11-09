@@ -12,17 +12,25 @@
 		.module('etaxi')
 		.controller('msgController', msgController);
 
-	msgController.$inject = ['authentication', '$location', 'userservice', '$route'];
+	msgController.$inject = ['authentication', '$location', 'userservice', '$route', '$routeParams'];
 
-	function msgController (authentication, $location, userservice, $route) {
+	function msgController (authentication, $location, userservice, $route, $routeParams) {
 		const msgvm = this;
 
 		if (authentication.isLoggedIn()) {
 			msgvm.composeOn = false;
+			msgvm.singleMessage = false;
 			msgvm.inboxOn = true;
 			msgvm.turnComposeOn = () => {
 				msgvm.composeOn = true;
 				msgvm.inboxOn = false;
+				msgvm.singleMessage = false;
+			}
+
+			msgvm.turnInboxOn = () => {
+				msgvm.inboxOn = true;
+				msgvm.composeOn = false;
+				msgvm.singleMessage = false;
 			}
 
 			msgvm.turnComposeOff = () => {
@@ -74,6 +82,41 @@
 						}
 					})	
 					.catch((err) => alert(err));
+			}
+
+			msgvm.viewMessage = (messageId) => {				
+				// turn off index view.
+				msgvm.inboxOn = false;
+				msgvm.singleMessage = true;
+
+				// calling userservice.
+				userservice
+					.viewSingleMessage(messageId)
+					.then((response) => {
+						if (response.data.error) {
+							msgvm.singleMessageError = true;
+							msgvm.singleMessageErrorMessage = response.data.error;
+						}
+						else {
+							msgvm.singleMessageError = false;
+							msgvm.singleMessageData = response.data.message;
+						}
+					})
+					.catch((err) => alert(err));
+			}
+
+			// to reply to a message.
+			msgvm.replyMessage = () => {
+				msgvm.replyOn = true;
+				msgvm.replyMessage = {
+					_id: '',
+					reply: '',
+					sender: '',
+					receiver: '',
+				};
+				msgvm.sendReply = () => {
+					console.log(msgvm.replyMessage);
+				}
 			}
 		}
 		else {

@@ -97,3 +97,42 @@ module.exports.viewMessages = (req, res) => {
 		}
 	})
 }
+
+module.exports.viewMessage = (req, res) => {
+	const messageid = Joi.object().keys({
+		messageId : Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+	});
+
+	Joi.validate(req.params, messageid, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Message
+				.findOne({_id: req.params.messageId})
+				.exec((err, message) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!message) {
+						sendJsonResponse(res, 404, {
+							error: `Error! while loding message`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							message: message,
+						});
+					}
+				})
+		}
+	})
+}

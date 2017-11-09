@@ -12,7 +12,7 @@
 
 						<ul class="message-sidebar-list">
 							<li>
-								<a href="#">
+								<a href="#" ng-click="msgvm.turnInboxOn()">
 									<i class="fa fa-inbox color-gray" aria-hidden="true"></i>
 									<span class="head">Inbox</span>
 									<span class="badge bg-green pull-right">2</span>
@@ -74,7 +74,9 @@
 								<tbody>
 									<tr ng-repeat="message in msgvm.messages">
 										<td>
-											{{message.sender}}
+											<a href="#" title="reply to {{message.subject}}" ng-click="msgvm.viewMessage(message._id)">
+												{{message.sender}}
+											</a>
 										</td>
 
 										<td>
@@ -131,6 +133,54 @@
 								</div>
 
 							</form>
+						</div>
+
+						<!-- show single message with reply -->
+						<div class="message-view" ng-if="msgvm.singleMessage === true">
+							<h1 class="title light m-b-3">View Message</h1>
+							<hr>
+							<!-- when we have error loading the message -->
+							<div class="alert alert-danger" ng-if="msgvm.singleMessageError === true">
+								<p class="text-center regular">{{msgvm.singleMessageErrorMessage}}</p>
+							</div>
+
+							<!-- when we have no error loading the message -->
+							<div ng-if="msgvm.singleMessageError === false">
+								<h2 class="sub-title light">
+									Message from: {{msgvm.singleMessageData.sender}}
+								</h2>
+								<hr>
+								<h3 class="blue-txt sub-title regular m-b-3">
+									Message subject: {{msgvm.singleMessageData.subject}}
+								</h3>
+								<hr>
+
+								<p class="light title">{{msgvm.singleMessageData.message}}</p>
+								
+								<div class="single-message-controll">
+									<hr>
+									<div class="pull-right half">
+										<ul class="list pull-right">
+											<li><a href="#" ng-click='msgvm.replyMessage()' title="reply to {{msgvm.singleMessageData.subject}}" class="btn btn-primary"><i class="fa fa-reply" aria-hidden="true"></i></a></li>
+											<li><a href="#" title="Delete {{msgvm.singleMessageData.subject}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden='true'></i></a></li>
+										</ul>
+									</div>
+									<div class="clearfix"></div>
+									<form ng-submit="msgvm.sendReply()" ng-if="msgvm.replyOn === true">
+										<div class="form-group">
+											<label for="replyMessage">Reply Message</label>
+											<textarea col='10' rows='6' class="form-control" ng-model="msgvm.replyMessage.reply" placeholder='Write your reply'></textarea>
+										</div>
+										<input type="text" class="hidden" ng-value="msgvm.singleMessageData._id" >
+										<input type="text" class="hidden" value="{{msgvm.singleMessageData.sender}}" ng-model="msgvm.replyMessage.sender">
+										<input type="text" class="hidden" value="{{msgvm.singleMessageData.receiver}}" ng-model="msgvm.replyMessage.receiver">
+										<button type="submit" class="btn btn-primary">
+											<i class="fa fa-reply m-r-2" aria-hidden="true"></i>
+											Send Reply
+										</button>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

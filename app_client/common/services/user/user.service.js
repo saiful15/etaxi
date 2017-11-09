@@ -209,6 +209,12 @@
 				.catch(handleError);
 		}
 
+		const viewSingleMessage = (messageId) => {
+			return $http
+				.get('/api/'+messageId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		
 		function 	handleSuccess(response){
 			return response;
@@ -246,6 +252,7 @@
 			exportToCSV: exportToCSV,
 			sendMessage: sendMessage,
 			viewAllMessage: viewAllMessage,
+			viewSingleMessage: viewSingleMessage,
 		};
 	}
 })();
