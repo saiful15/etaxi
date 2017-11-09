@@ -136,3 +136,42 @@ module.exports.viewMessage = (req, res) => {
 		}
 	})
 }
+
+module.exports.viewSent = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().min(3).required(),
+	});
+
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Message
+				.find({sender: req.params.userId})
+				.exec((err, messages) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!messages) {
+						sendJsonResponse(res, 404, {
+							error: `Error! while loading message inbox`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							message: messages,
+						});
+					}
+				})
+		}
+	});
+}

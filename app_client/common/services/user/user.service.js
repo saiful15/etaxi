@@ -209,6 +209,13 @@
 				.catch(handleError);
 		}
 
+		const viewAllSentMessage = (userId) => {
+			return $http
+				.get('/api/'+userId+'/sentmessages')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		const viewSingleMessage = (messageId) => {
 			return $http
 				.get('/api/'+messageId)
@@ -253,6 +260,7 @@
 			sendMessage: sendMessage,
 			viewAllMessage: viewAllMessage,
 			viewSingleMessage: viewSingleMessage,
+			viewAllSentMessage: viewAllSentMessage,
 		};
 	}
 })();

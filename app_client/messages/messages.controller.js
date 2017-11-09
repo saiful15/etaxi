@@ -21,14 +21,24 @@
 			msgvm.composeOn = false;
 			msgvm.singleMessage = false;
 			msgvm.inboxOn = true;
+			msgvm.sentboxOn = false;
 			msgvm.turnComposeOn = () => {
 				msgvm.composeOn = true;
+				msgvm.sentboxOn = false;
+				msgvm.inboxOn = false;
+				msgvm.singleMessage = false;
+			}
+
+			msgvm.turnSentOn = () => {
+				msgvm.sentboxOn = true;
+				msgvm.composeOn = false;
 				msgvm.inboxOn = false;
 				msgvm.singleMessage = false;
 			}
 
 			msgvm.turnInboxOn = () => {
 				msgvm.inboxOn = true;
+				msgvm.sentboxOn = false;
 				msgvm.composeOn = false;
 				msgvm.singleMessage = false;
 			}
@@ -81,6 +91,29 @@
 							}
 						}
 					})	
+					.catch((err) => alert(err));
+			}
+
+			// sent box.
+			msgvm.loadSentBox = () => {
+				userservice
+					.viewAllSentMessage(authentication.currentUser().email)
+					.then((response) => {
+						if (response.data.error) {
+							msgvm.sentboxLoadError = true;
+							msgvm.sentBoxLoadErrorMessage = response.data.error;
+						}
+						else if (response.data.success === true) {
+							msgvm.sentboxLoadError = false;
+
+							if(response.data.message.length > 0) {
+								msgvm.sentMessages = response.data.message;
+							}
+							else {
+								msgvm.emptySentBox = true;
+							}
+						}
+					})
 					.catch((err) => alert(err));
 			}
 

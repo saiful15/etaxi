@@ -19,7 +19,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="#">
+								<a href="#" ng-click="msgvm.turnSentOn()">
 									<i class="fa fa-paper-plane color-gray" aria-hidden="true"></i>
 									<span class="head">Sent items</span>
 									<span class="badge bg-blue pull-right">8</span>
@@ -89,6 +89,41 @@
 								</tbody>
 							</table>
 						</div>
+
+						<!-- show sentbox -->
+						<div class="message-sentbox-body" ng-if="msgvm.sentboxOn === true" ng-init="msgvm.loadSentBox()">
+							<!-- when there is error loading inbox -->
+							<div class="inbox-load-error" ng-if='msgvm.sentboxLoadError === true'>
+								<img src="img/icons/error.png" alt="error" class="block-centered">
+								<p class="text-center light">{{msgvm.sentBoxLoadErrorMessage}}</p>
+							</div>
+							<!-- when inbox is empty -->
+							<div class="alert alert-danger" ng-if="msgvm.emptySentBox === true">
+								<p class="text-center light">You Have no message in your inbox</p>
+							</div>
+
+							<table class="table table-hover">
+								<tbody>
+									<tr ng-repeat="sentmessage in msgvm.sentMessages">
+										<td>
+											<a href="#" title="reply to {{sentmessage.subject}}" ng-click="msgvm.viewSentMessage(sentmessage._id)">
+												{{sentmessage.sender}}
+											</a>
+										</td>
+
+										<td>
+											{{sentmessage.subject}}
+										</td>
+										<td>
+											{{sentmessage.createdAt | date: 'dd MMM yyyy'}}
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+
+
 						<!-- for composing new message -->
 						<div class="compose-message-body" ng-if="msgvm.composeOn === true">
 							<h1 class="light title">Send new Message</h1>
