@@ -274,3 +274,55 @@
 	position: relative;
 	padding: 20px;
 }
+
+.controlbox{
+	padding: 0;
+	margin: 0px -15px;
+}
+.controlbox-bottom{
+	margin-bottom: -15px;
+}
+.radiusbottom{
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+}
+.controbox-gray{
+	background-color: #5a5a5c;
+	li{
+		a{
+			&:hover{
+				background-color: #6e6f73;
+			}
+		}
+	}
+}
+.controbox-green{
+	background-color: #83be6f;
+	li{
+		a{
+			&:hover{
+				background-color: #8acb73;
+			}
+		}
+	}
+}
+
+.controlbox-list{
+	padding: 10px 15px;
+	margin: 0;
+	li{
+		font-size: 0;
+		line-height: 0;
+		a{
+			padding: 10px 12px;
+			font-size: 12px;
+			color: #fff;
+			&:hover{
+				text-decoration: none;
+			}
+		}
+		&:first-child{
+			margin-left: -15px;
+		}
+	}
+}

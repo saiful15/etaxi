@@ -32,6 +32,11 @@ h1, h2, h3, h4, h5, h6{
 .wtxt{
 	color: #fff;
 }
+.list-inline{
+	li{
+		display: inline-block;
+	}
+}
 .big-title{
 	font-size: 4.0625rem;
 	line-height: 4.375rem;
