@@ -10,7 +10,10 @@ var 		mongoose 		=		require('mongoose'),
 			fs 				=		require('fs'),
 			uId 				=		require('uid'),
 			json2csv 		=  	require('json2csv'),
+			users 			=		mongoose.model('users'),
+			contacts 		=		mongoose.model('contacts'),
 			expenses 		=		mongoose.model('expenses'),
+			vehicles 		=		mongoose.model('vehicles'),
 			incomes 			=		mongoose.model('incomes');
 
 
@@ -22,6 +25,44 @@ var 		sendJsonResponse 	=	function(res, status, content){
 const userId = Joi.object().keys({
 	userId: Joi.string().email().min(3).required(),
 });
+
+/*
+|----------------------------------------------
+| Following function get all status collection.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: etaxi, 2017
+|----------------------------------------------
+*/
+module.exports.getStatusCollection 		=		function(req, res){
+	if(!req.params && !req.params.email){
+		sendJsonResponse(res, 404, {
+			message: "Invalid request"
+		});
+	}
+	else{
+		// calling users model and run the query.
+		users
+			.findOne({email: req.params.email})
+			.select('statusCollection')
+			.exec(function(err, statusCollection){
+				if(!statusCollection){
+					sendJsonResponse(res, 404, {
+						error: 'No status collections found with this email address.'
+					});
+				}
+				else if(err){
+					sendJsonResponse(res, 404, {
+						error: err
+					});
+				}
+				else{					
+					sendJsonResponse(res, 200, {
+						status: statusCollection
+					});
+				}
+			})
+	}
+}
 
 /*
 |----------------------------------------------
@@ -688,80 +729,68 @@ module.exports.updateIncome = function (req, res) {
 | @copyright: taxiaccounting, 2017
 |----------------------------------------------
 */
-module.exports.addContact = (req, res) => {
-	if(!req.params && !req.params.userId) {
-		sendJsonResponse(res, 404, {
-			error: 'Invalid request',
-		});
-	}
-	else{
-		const userId = Joi.object().keys({
-			userId: Joi.string().email().required(),
-		});
+module.exports.addContact = (req, res) => {	
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().required(),
+	});
 
-		// console.log(Joi.validate(req.params, userId));
-		Joi.validate(req.params, userId, (err, value) => {
-			if (err) {
-				sendJsonResponse(res, 404, {
-					error: err,
-				});
-			}
-			else{
-				// find user with user id.
-				users
-					.findOne({email: req.params.userId})
-					.select('contact')
-					.exec((err, user) => {
-						if (err) {
-							sendJsonResponse(res, 404, {
-								error: err,
-							});
-							return;
-						}
-						if (!user) {
-							sendJsonResponse(res, 404, {
-								error: 'no user found with given user id',
-							});
-							return;
-						}
-						// now we need validate our contact data passed from the form
-						const contact = Joi.object().keys({
-							mobile: Joi.string().min(11).max(11).regex(/^[0-9]+/).required(),
-							landline: Joi.string().min(11).max(11),
+	// console.log(Joi.validate(req.params, userId));
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+		}
+		else{
+			const basicContact = Joi.object().keys({
+				house: Joi.string().min(1).max(4).regex(/^[0-9]{1,4}$/).required(),
+				street: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+				city: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+				county: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+				postcode: Joi.string().min(3).max(8).regex(/^[a-zA-Z0-9 ]{5,8}$/).required(),
+				mobile: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).required(),
+				landline: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/),
+				business: Joi.boolean(),
+			});
+			if (req.body.business === true) {
+				Joi.validate(req.body, basicContact, (err, value) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err.details[0].message,
 						});
-						Joi.validate(req.body, contact, (err, value) => {
+					}
+					else {
+						const contact = new contacts();
+						contact.contactId = uId(10);
+						contact.whos = req.params.userId;
+						contact.house_no = req.body.house;
+						contact.street_name = req.body.street;
+						contact.city = req.body.city;
+						contact.county = req.body.county;
+						contact.postcode = req.body.postcode;
+						contact.mobile = req.body.mobile;
+						contact.landLine = req.body.landLine;
+
+						// save contact
+						contact.save((err, contact) => {
 							if (err) {
 								sendJsonResponse(res, 404, {
 									error: err,
 								});
 								return;
 							}
-							else{
-								user.contact.push({
-									mobile: req.body.mobile,
-									landLine: req.body.landline,
-								});
-								// now saving the change
-								user.save((err, user) => {
-									if (err) {
-										sendJsonResponse(res, 404, {
-											error: err,
-										});
-										return;
-									}
-									else{
-										sendJsonResponse(res, 200, {
-											success: true,
-											data: user.contact,
-										});
-									}
+							else {
+								sendJsonResponse(res, 200, {
+									success: true,
+									data: contact,
 								});
 							}
 						})
-					});
+					}
+				});
 			}
-		})
-	}
+		}
+	});	
 }
 
 
@@ -936,7 +965,7 @@ module.exports.addVehicle = (req, res) => {
 	Joi.validate(req.userId, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
-				error: err,
+				error: err.details[0].message,
 			});
 			return;
 		}
@@ -946,8 +975,8 @@ module.exports.addVehicle = (req, res) => {
 				brand: Joi.string().min(3).required(),
 				registration: Joi.string().min(5).required(),
 				car_value: Joi.number().min(3).required(),
-				mot: Joi.date().iso().required(),
-				roadtax: Joi.date().iso().required(),
+				mot: Joi.required(),
+				roadtax: Joi.required(),
 				car_status: Joi.string().min(3).required(),
 			});
 
@@ -955,52 +984,37 @@ module.exports.addVehicle = (req, res) => {
 			Joi.validate(req.body, vehicle, (err, value) => {
 				if (err) {
 					sendJsonResponse(res, 404, {
-						error: err,
+						error: err.details[0].message,
 					})
 					return;
 				}
 				else{
-					users 
-						.findOne({email: req.params.userId})
-						.select('vehicle')
-						.exec((err, user) => {
-							if (err) {
-								sendJsonResponse(res, 404, {
-									error: err,
-								});
-								return;
-							}
-							if (!user) {
-								sendJsonResponse(res, 404, {
-									error: 'no user found',
-								});
-								return;
-							}
-							user.vehicle.push({
-								car_type: req.body.type,
-								brand: req.body.brand,
-								rg_number: req.body.registration,
-								car_value: req.body.car_value,
-								mot: req.body.mot,
-								road_tax: req.body.roadtax,
-								car_status: req.body.car_status,
-							});
+					const uservehicle = new vehicles();
+					uservehicle.settingId = uId(10);
+					uservehicle.whos = req.params.userId;
+					uservehicle.car_type =  req.body.type;
+					uservehicle.brand = req.body.brand;
+					uservehicle.rg_number = req.body.registration;
+					uservehicle.car_value = req.body.car_value;
+					uservehicle.mot = req.body.mot;
+					uservehicle.road_tax = req.body.roadtax;
+					uservehicle.car_status = req.body.car_status;
 
-							user.save((err, user) => {
-								if (err) {
-									sendJsonResponse(res, 404, {
-										error: 'Error! while saving',
-									});
-									return;
-								}
-								else{
-									sendJsonResponse(res, 200, {
-										success: true,
-										data: user.vehicle,
-									});
-								}
-							})
-						})
+					// save the vehicle.
+					uservehicle.save((err) => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+							return;
+						}
+						else {
+							sendJsonResponse(res, 200, {
+								success: true,
+								data: uservehicle,
+							});
+						}
+					});
 				}
 			})
 		}
@@ -1020,31 +1034,32 @@ module.exports.showVehicle = (req, res) => {
 	Joi.validate(req.userId, userId, (err, value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
-				error: err,
+				error: err.details[0].message,
 			});
 			return;
 		}
 		else{
-			users
-				.findOne({email: req.params.userId})
-				.select('vehicle')
-				.exec((err, user) => {
+			vehicles
+				.findOne({whos: req.params.userId})
+				.exec((err, vehicle) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					if (!user) {
+					else if (!vehicle) {
 						sendJsonResponse(res, 404, {
-							error: 'user not found',
+							error: 'vehicle not found',
 						});
 						return;
 					}
-					sendJsonResponse(res, 200, {
-						success: true,
-						data: user.vehicle,
-					});
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							data: vehicle,
+						});
+					}
 				})
 		}
 	});

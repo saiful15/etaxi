@@ -53,4 +53,6 @@ require("./users");
 require('./incomes');
 require('./expenses');
 require('./message');
+require('./vehicles');
+require('./contact');
 require('./password-reset');

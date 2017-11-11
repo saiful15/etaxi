@@ -12,6 +12,26 @@
 					<hr>
 					<form ng-submit="stvm.addContact()">
 						<div class="form-group">
+							<label for="house">House *</label>
+							<input type="text" class="form-control half" id="house" ng-model='stvm.contact.house' placeholder="your house number">
+						</div>
+						<div class="form-group">
+							<label for="street">Street Name *</label>
+							<input type="text" class="form-control half" id="street" ng-model='stvm.contact.street' placeholder="your street name">
+						</div>
+						<div class="form-group">
+							<label for="city">City *</label>
+							<input type="text" class="form-control half" id="city" ng-model='stvm.contact.city' placeholder="your city name">
+						</div>
+						<div class="form-group">
+							<label for="county">County *</label>
+							<input type="text" class="form-control half" id="county" ng-model='stvm.contact.county' placeholder="your county name">
+						</div>
+						<div class="form-group">
+							<label for="postcode">Postcode *</label>
+							<input type="text" class="form-control half" id="postcode" ng-model='stvm.contact.postcode' placeholder="your postcode">
+						</div>
+						<div class="form-group">
 							<label for="mobile">Mobile *</label>
 							<input type="text" class="form-control half" id="mobile" ng-model='stvm.contact.mobile' placeholder="your mobile number">
 						</div>
@@ -19,6 +39,19 @@
 							<label for="land_line">Land line</label>
 							<input type="text" class="form-control half" id="land_line" ng-model='stvm.contact.landline' placeholder="your land line number">
 						</div>
+
+						<div class="radio">
+							<label>
+								<input type="radio" data-js='addressOptionRadio' name="businessContact" ng-model='stvm.contact.business' 
+									ng-value="true">
+								This is my business contact too
+							</label>
+							<label class="pull-right">
+								<input type="radio" data-js='addressOptionRadio' name="businessContact" ng-model='stvm.contact.business' value="false">
+								No, Its not.
+							</label>
+						</div>
+						<div class="clearfix"></div>
 
 						<div class="alert alert-danger" ng-if="stvm.addContactError === true">
 							<p class="text-center light">{{stvm.addContactErrorMessage}}</p>
@@ -126,14 +159,24 @@
 
 						<div class="form-group">
 							<label for="mot_valid">MOT Valid Till *</label>
-							<input type="text" class="form-control half" id="mot_valid" 
-							ng-model='stvm.vehicle.mot' placeholder="your mot valid till">
+							<div class='datepicker_icon'>
+								<datepicker date-format="dd-MM-yyyy">
+									<input type="text" class="form-control half" placeholder="your mot valid till"
+									 ng-model="stvm.vehicle.mot" id="mot_valid">
+									<i class="fa fa-calendar" aria-hidden="true"></i>
+								</datepicker>
+							</div>
 						</div>
 
 						<div class="form-group">
 							<label for="road_tax">Road Tax *</label>
-							<input type="text" class="form-control half" id="road_tax" 
-							ng-model='stvm.vehicle.roadtax' placeholder="your road tax amount">
+							<div class='datepicker_icon'>
+								<datepicker date-format="dd-MM-yyyy">
+									<input type="text" class="form-control half" placeholder="your road tax valid till"
+									 ng-model="stvm.vehicle.roadtax" id="road_tax">
+									<i class="fa fa-calendar" aria-hidden="true"></i>
+								</datepicker>
+							</div>
 						</div>
 
 						<div class="form-group">
@@ -162,12 +205,12 @@
 					</div>
 					<h1 class="text-center title medium">Your vehicle information</h1>
 					<hr>
-					<p class="medium sub-title">Car Type: <span class="m-l-2">{{stvm.vehicleList[0].car_type}}</span></p>
-					<p class="medium sub-title">Car Value: <span class="m-l-2">{{stvm.vehicleList[0].car_value | currency: '£'}}</span></p>
-					<p class="medium sub-title">Car Brand: <span class="m-l-2">{{stvm.vehicleList[0].brand}}</span></p>
-					<p class="medium sub-title">Car Status: <span class="m-l-2">{{stvm.vehicleList[0].car_status}}</span></p>
-					<p class="medium sub-title">Car MOT: <span class="m-l-2">{{stvm.vehicleList[0].mot | date: 'yyyy-MM-dd'}}</span></p>
-					<p class="medium sub-title">Road Tax: <span class="m-l-2">{{stvm.vehicleList[0].road_tax | date: 'yyyy-MM-dd'}}</span></p>
+					<p class="medium sub-title">Car Type: <span class="m-l-2">{{stvm.vehicleList.car_type}}</span></p>
+					<p class="medium sub-title">Car Value: <span class="m-l-2">{{stvm.vehicleList.car_value | currency: '£'}}</span></p>
+					<p class="medium sub-title">Car Brand: <span class="m-l-2">{{stvm.vehicleList.brand}}</span></p>
+					<p class="medium sub-title">Car Status: <span class="m-l-2">{{stvm.vehicleList.car_status}}</span></p>
+					<p class="medium sub-title">Car MOT: <span class="m-l-2">{{stvm.vehicleList.mot}}</span></p>
+					<p class="medium sub-title">Road Tax: <span class="m-l-2">{{stvm.vehicleList.road_tax}}</span></p>
 					
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 /node_modules
+/users
 /public/img/*.jpg
 /public/*.txt
 /public/*.json

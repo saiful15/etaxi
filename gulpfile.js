@@ -22,7 +22,8 @@ var     paths       =       {
         "public/libs/jquery.js",
         "public/libs/bootstrap.js",
         "public/libs/html2canvas.js",
-        "public/libs/angular-datepicker.js"
+        "public/libs/angular-datepicker.js",
+        "public/libs/operation.js"
     ],
     clientFiles: [
     	"app_client/app.js",

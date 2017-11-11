@@ -33,6 +33,7 @@ routes.get('/:email/user', userController.showUser);
 
 routes.get('/userprofile/:email', userController.getUserProfile);
 routes.post('/userstatus', userController.updateStatus);
+routes.get('/userstatus/:email', userController.getStatusCollection);
 
 // create user profile collection.
 routes.post('/saveprofile/:email', userController.createProfile);

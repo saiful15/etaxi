@@ -11,7 +11,7 @@
 					<p class="light">From here you will run full management of the users. We encourage you change all user related issues from here only. </p>
 					<div class="controlbox controlbox-bottom radiusbottom controbox-gray">
 						<ul class="controlbox-list list-inline">
-							<li><a class="light" href="#" title="manage user">Manage</a></li>
+							<li><a class="light" href="#" title="manage user" ng-click="cvm.showUserManager()">Manage</a></li>
 							<li><a class="light" href="#" title="view users">View</a></li>
 							<li><a class="light" href="#" title="assign accountant to users">Assign Accountant</a></li>
 							<li><a class="light" href="#" title="give promotional discount">Promotional Discount</a></li>
@@ -27,7 +27,7 @@
 					<p class="light">From here you will run full management of the accountants. We encourage you change all accountants related issues from here only. </p>
 					<div class="controlbox controlbox-bottom radiusbottom controbox-green">
 						<ul class="controlbox-list list-inline">
-							<li><a class="light" href="#" title="manage user">Manage</a></li>
+							<li><a class="light" href="#" title="manage accountant">Manage</a></li>
 							<li><a class="light" href="#" title="view users">View</a></li>
 							<li><a class="light" href="#" title="assign accountant to users">Assigned users</a></li>
 						</ul>
@@ -42,6 +42,26 @@
 				</div>
 			</div>
 
+		</div>
+	</div>
+</div>
+
+<div class="full-page-container p-t-2 p-b-2 m-b-3" ng-if="cvm.usermanagement === true">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="container-box shadow wbg" ng-if='cvm.usersearchOn === true'>
+					<h1 class="hero-big-title thin text-center">Search For user by name or email and change setting</h1>
+					<hr>
+					<form ng-submit="cvm.searchuser()">
+						<input class="form-control no-border no-shadow text-center"
+							ng-model='cvm.users.search' type="text" placeholder="search by name or email">
+					</form>
+					<div class="alert alert-danger" ng-if="cvm.searchError === true">
+						<h2 class="hero-big-title light text-center">{{cvm.searchErrorMessage}}</h2>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

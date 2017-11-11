@@ -102,6 +102,8 @@ module.exports.register		=	function(req, res){
 			user.password = user.setPassword(req.body.password);
 			user.status   =	"promo_free";
 			user.account_type = "customer";
+			user.statusCollection = {};
+			user.appContact = {};
 			// save user into the database.
 			user.save(function(err){
 				if(err){

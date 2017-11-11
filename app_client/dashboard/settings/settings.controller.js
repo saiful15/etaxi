@@ -31,7 +31,7 @@
 							stvm.initialError = false;
 							stvm.contactSettingOn = response.data.status.statusCollection[0].contact;
 							// calling add contact form submission.
-							stvm.addContact();
+							// stvm.addContact();
 
 							stvm.businessSettingOn = response.data.status.statusCollection[0].business;
 							stvm.vehicleSettingOn = response.data.status.statusCollection[0].vehicle;
@@ -44,25 +44,24 @@
 			}
 			// contact object.
 				stvm.contact = {
+					house: '',
+					street: '',
+					city: '',
+					county: '',
+					postcode: '',
 					mobile: '',
 					landline: '',
+					business: true,
 				};
 			// add contact form submit
-			stvm.addContact = () => {				
-				// checking contact is empty or not.
-				if(!stvm.contact.mobile) {
-					stvm.addContactError = true;
-					stvm.addContactErrorMessage = 'All * fields are required';
-				}
-				else{
-					stvm.addContactError = false;
-					// calling userservice method to add contact.
-					userservice
+			stvm.addContact = () => {			
+				// calling userservice method to add contact.
+				userservice
 						.addContactDetails(authentication.currentUser().email, stvm.contact)
 						.then(response => {
 							if (response.data.error) {
 								stvm.addContactError = true;
-								stvm.addContactErrorMessage = response.data.error.name;
+								stvm.addContactErrorMessage = response.data.error;
 							}
 							else {
 								// now update user status collection for contact.
@@ -86,7 +85,6 @@
 							}
 						})
 						.catch(err => alert(err));
-				}
 			}
 
 			// show contact details.

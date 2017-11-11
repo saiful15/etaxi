@@ -7,19 +7,13 @@ var 			mongoose			=	require('mongoose')
 				jwt 				=	require('jsonwebtoken'),
 				crypto 			=	require('crypto');
 
-var 		addressSchema 		=	new mongoose.Schema({
-	county: {type: String},
-	city_name: {type: String},
-	postcode: {type: String},
-	street_name: {type: String},
-	house_number: {type: Number},
-}) 
+ 
 
 var 			profileSchema 	=	new mongoose.Schema({
 	created_at: {type: Date},
 	first_name: {type: String},
 	last_name: {type: String},
-	address: [addressSchema]
+	// address: [addressSchema]
 })
 
 const bisinssContactSchema = new mongoose.Schema({
@@ -34,40 +28,6 @@ var 			contactSchema 	=	new mongoose.Schema({
 	landLine: {type: String},
 	businessContact: [bisinssContactSchema],
 	created_at: {type: Date, "default": Date.now}
-});
-
-var 	businessAddressSchema 	=	new mongoose.Schema({
-	house_no: {type: Number},
-	street_name: {type: String},
-	city: {type: String},
-	county: {type: String},
-	postcode: {type: String},
-	businessAddress: {type: Boolean},
-	created_at: {type: Date}
-})
-
-var 	businessSchema 			=	new mongoose.Schema({
-	name: {type: String},
-	type: {type: String},
-	created_at: {type: Date, default: Date.now}
-});
-
-var 			lisenceSchema 	=	new mongoose.Schema({
-	dvla: {type: Number},
-	taxi: {type: Array},
-	valid_till: {type: Date},
-	created_at: {type: Date, default: Date.now}
-});
-
-var 			vehicleSchema 	=	new mongoose.Schema({
-	car_type: {type: String},
-	brand: {type: String},
-	rg_number: {type: String},
-	car_value: {type: Number},
-	mot: {type: Date},
-	road_tax: {type: Date},
-	car_status: {type: String},
-	created_at: {type: Date, default: Date.now}
 });
 
 
@@ -105,6 +65,11 @@ const incomeSchema = new mongoose.Schema({
 	incomeType: {type: String, required: true },
 })
 
+const appContactSchema = new mongoose.Schema({
+	admin: {type: String, default: 'taxiadmin@taxiaccounting.co.uk'},
+	accoutant: {type: String, },
+});
+
 var 			userSchema 		=	new mongoose.Schema({
 	email: {type: String, required: true, unique: true},
 	userId: {type: String, required: true, unique: true },
@@ -112,6 +77,8 @@ var 			userSchema 		=	new mongoose.Schema({
 	hash: {type: String},
 	salt: {type: String},
 	status: {type: String},
+	statusCollection: [statusSchema],
+	appContact: [appContactSchema],
 	account_type: {type: String},
 	created_at: {type: Date, default: Date.now},
 });
