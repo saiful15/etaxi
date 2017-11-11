@@ -120,6 +120,7 @@
 			msgvm.viewMessage = (messageId) => {				
 				// turn off index view.
 				msgvm.inboxOn = false;
+				msgvm.sentboxOn = false;
 				msgvm.singleMessage = true;
 
 				// calling userservice.

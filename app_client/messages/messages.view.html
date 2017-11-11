@@ -106,7 +106,7 @@
 								<tbody>
 									<tr ng-repeat="sentmessage in msgvm.sentMessages">
 										<td>
-											<a href="#" title="reply to {{sentmessage.subject}}" ng-click="msgvm.viewSentMessage(sentmessage._id)">
+											<a href="#" title="reply to {{sentmessage.subject}}" ng-click="msgvm.viewMessage(sentmessage._id)">
 												{{sentmessage.sender}}
 											</a>
 										</td>

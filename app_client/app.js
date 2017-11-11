@@ -100,6 +100,11 @@
 				controller: 'msgController',
 				controllerAs: 'msgvm',
 			})
+			.when('/appcontrol', {
+				templateUrl: 'appcontrol/appcontrol.view.html',
+				controller: 'ctrlController',
+				controllerAs: 'cvm',
+			})
 			
 		// enable html5 mode
 		$locationProvider.html5Mode({

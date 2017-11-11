@@ -45,23 +45,20 @@
         </li>
         <li ng-if="nvm.userProfileOn === true"><a href="/profile">{{nvm.username}}</a></li>        
         <li ng-if="nvm.forLoggedInUser === true"><a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>        
-        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout</a></li>
+        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right" ng-if="nvm.accountType ==='admin'">
-        <li class="dropdown" ng-if="nvm.loggedIn !== false && nvm.accountType ==='admin'">
-          <a href="/controlpanel" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-tachometer m-r-1" aria-hidden="true"></i>Dashboard <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="/accountants">Accountants</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/servicestaffs">Service Staffs</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/usermanagements">User Management</a></li>
-            <li><a href="/adminsettings">Settings</a></li>
-          </ul>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a>
         </li>
-        <li ng-if="nvm.forLoggedInUser === true"><a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout</a></li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/appcontrol"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+        </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/profile"><i class="fa fa-user-circle" aria-hidden="true"></i> Profile</a>
+        </li>
+        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
