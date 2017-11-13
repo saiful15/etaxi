@@ -14,6 +14,9 @@ var 	businessAddressSchema 	=	new mongoose.Schema({
 	city: {type: String},
 	county: {type: String},
 	postcode: {type: String},
+	mobile: {type: String},
+	landLine: {type: String},
+	email: {type: String},
 	created_at: {type: Date}
 })
 

@@ -733,45 +733,59 @@ module.exports.addContact = (req, res) => {
 	const userId = Joi.object().keys({
 		userId: Joi.string().email().required(),
 	});
+	// 07476641288
+	const basicContact = Joi.object().keys({
+		house: Joi.string().min(1).max(4).regex(/^[0-9]{1,4}$/).required(),
+		street: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		city: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		county: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		postcode: Joi.string().min(3).max(8).regex(/^[a-zA-Z0-9 ]{5,8}$/).required(),
+		mobile: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).required(),
+		Landphone: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).allow(''),
+		business: Joi.boolean(),
+	});
+	const businessContact = Joi.object().keys({
+		building: Joi.string().min(1).max(4).regex(/^[0-9]{1,4}$/).required(),
+		street: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		city: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		county: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
+		postcode: Joi.string().min(3).max(8).regex(/^[a-zA-Z0-9 ]{5,8}$/).required(),
+		landphone: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).allow(''),
+		mobile: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).required(),
+		email: Joi.string().email().allow(''),
+	});	
 
-	// console.log(Joi.validate(req.params, userId));
-	Joi.validate(req.params, userId, (err, value) => {
+	// validate user id.
+	Joi.validate(req.params, userId, (err,  value) => {
 		if (err) {
 			sendJsonResponse(res, 404, {
 				error: err.details[0].message,
 			});
+			return;
 		}
-		else{
-			const basicContact = Joi.object().keys({
-				house: Joi.string().min(1).max(4).regex(/^[0-9]{1,4}$/).required(),
-				street: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
-				city: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
-				county: Joi.string().min(3).max(20).regex(/^[a-zA-Z ]{3,20}$/).required(),
-				postcode: Joi.string().min(3).max(8).regex(/^[a-zA-Z0-9 ]{5,8}$/).required(),
-				mobile: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).required(),
-				landline: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/),
-				business: Joi.boolean(),
-			});
+		else {
+			// when basic address is business address as well. 
 			if (req.body.business === true) {
-				Joi.validate(req.body, basicContact, (err, value) => {
+				Joi.validate(req.body.basic, basicContact, (err, value) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err.details[0].message,
 						});
+						return;
 					}
 					else {
 						const contact = new contacts();
 						contact.contactId = uId(10);
 						contact.whos = req.params.userId;
-						contact.house_no = req.body.house;
-						contact.street_name = req.body.street;
-						contact.city = req.body.city;
-						contact.county = req.body.county;
-						contact.postcode = req.body.postcode;
-						contact.mobile = req.body.mobile;
-						contact.landLine = req.body.landLine;
+						contact.house_no = req.body.basic.house;
+						contact.street_name = req.body.basic.street;
+						contact.city = req.body.basic.city;
+						contact.county = req.body.basic.county;
+						contact.postcode = req.body.basic.postcode;
+						contact.mobile = req.body.basic.mobile;
+						contact.landLine = req.body.basic.landphone;
 
-						// save contact
+						// now save the contact
 						contact.save((err, contact) => {
 							if (err) {
 								sendJsonResponse(res, 404, {
@@ -789,8 +803,96 @@ module.exports.addContact = (req, res) => {
 					}
 				});
 			}
+			else if (req.body.business === false) {
+				Joi.validate(req.body.basic, basicContact, (err, value) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err.details[0].message,
+						});
+						return;
+					}
+					else {
+						// validate business contact.
+						Joi.validate(req.body.businessadd, businessContact, (err, value) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err.details[0].message,
+								});
+								return;
+							}
+							else {
+								const contact = new contacts();
+								contact.contactId = uId(10);
+								contact.whos = req.params.userId;
+								contact.house_no = req.body.basic.house;
+								contact.street_name = req.body.basic.street;
+								contact.city = req.body.basic.city;
+								contact.county = req.body.basic.county;
+								contact.postcode = req.body.basic.postcode;
+								contact.mobile = req.body.basic.mobile;
+								contact.landLine = req.body.basic.landLine;
+								contact.businessContact = false;
+
+								contact.save((err, contact) => {
+									if (err) {
+										sendJsonResponse(res, 404, {
+											error: err,
+										});
+										return;
+									}
+									else {
+										contacts 
+											.findOne({whos: req.params.userId})
+											.select('businessAddress')
+											.exec((err, contact) => {
+												if (err) {
+													sendJsonResponse(res, 404, {
+														error: err,
+													});
+													return;
+												}												
+												else if (!contact) {
+													sendJsonResponse(res, 404, {
+														error: `Error! while adding business contact to the database. contact admin`,
+													});
+													return;
+												}
+												else {
+													contact.businessAddress.push({
+														house_no: req.body.businessadd.building,
+														street_name: req.body.businessadd.street,
+														city: req.body.businessadd.city,
+														county: req.body.businessadd.county,
+														postcode: req.body.businessadd.postcode,
+														mobile: req.body.businessadd.mobile,
+														landLine: req.body.businessadd.landphone,
+														email: req.body.businessadd.email,
+													});
+													contact.save((err, contact) => {
+														if (err) {
+															sendJsonResponse(res, 404, {
+																error: err,
+															});
+															return;
+														}
+														else {
+															sendJsonResponse(res, 200, {
+																success: true,
+																data: contact,
+															});
+														}
+													});
+												}												
+											});
+									}
+								});
+							}
+						});
+					}
+				});
+			}
 		}
-	});	
+	});
 }
 
 
@@ -811,27 +913,29 @@ module.exports.showContact = (req, res) => {
 			return;
 		}
 		else{
-			users
-				.findOne({email: req.params.userId})
-				.select('contact')
-				.exec((err, user) => {
+			// find contact based on given user id
+			contacts
+				.findOne({whos: req.params.userId})
+				.exec((err, contact) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					if (!user) {
+					if (!contact) {
 						sendJsonResponse(res, 404, {
-							error: 'user not found',
+							error: `No contact has been found for ${req.params.userId}`,
 						});
 						return;
 					}
-					sendJsonResponse(res, 200, {
-						success: false,
-						data: user.contact,
-					});
-				})
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							data: contact,
+						})
+					}
+				});
 		}
 	})
 }

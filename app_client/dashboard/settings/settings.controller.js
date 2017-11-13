@@ -44,17 +44,30 @@
 			}
 			// contact object.
 				stvm.contact = {
-					house: '',
-					street: '',
-					city: '',
-					county: '',
-					postcode: '',
-					mobile: '',
-					landline: '',
+					basic: {
+						house: '',
+						street: '',
+						city: '',
+						county: '',
+						postcode: '',
+						mobile: '',
+						Landphone: '',
+					},
 					business: true,
+					businessadd: {
+						building: '',
+						street: '',
+						city: '',
+						county: '',
+						postcode: '',
+						landphone: '',
+						mobile: '',
+						email: '',
+					},
 				};
 			// add contact form submit
-			stvm.addContact = () => {			
+			stvm.addContact = () => {	
+				console.log(stvm.contact);
 				// calling userservice method to add contact.
 				userservice
 						.addContactDetails(authentication.currentUser().email, stvm.contact)
@@ -92,7 +105,6 @@
 				userservice
 					.showContact(authentication.currentUser().email)
 					.then(response => {
-						console.log(authentication.currentUser().email);
  						if (response.data.error) {
  							stvm.showContactError = true;
  						}

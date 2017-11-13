@@ -11,10 +11,17 @@
 
 		// address radio option.
 		$(document).on('click', "[data-js='addressOptionRadio']", function(){
-			const value = $(this).val();
-			if (value ==== false) {
-				
+			if ($(this).val() === 'false') {
+				$('#businessAddress').removeClass('hidden');
 			}
+			else if($(this).val() === 'true') {
+				$('#businessAddress').addClass('hidden');
+			}
+		});
+
+		$(document).on('click', "[data-js='showBuss']", function(){
+			$(this).find('i').toggleClass('fa-eye').toggleClass('fa-eye-slash');
+			$("#showBusinessAddress").toggleClass('hidden');
 		});
 	});
 })();

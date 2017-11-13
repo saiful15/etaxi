@@ -13,31 +13,31 @@
 					<form ng-submit="stvm.addContact()">
 						<div class="form-group">
 							<label for="house">House *</label>
-							<input type="text" class="form-control half" id="house" ng-model='stvm.contact.house' placeholder="your house number">
+							<input type="text" class="form-control half" id="house" ng-model='stvm.contact.basic.house' placeholder="your house number">
 						</div>
 						<div class="form-group">
 							<label for="street">Street Name *</label>
-							<input type="text" class="form-control half" id="street" ng-model='stvm.contact.street' placeholder="your street name">
+							<input type="text" class="form-control half" id="street" ng-model='stvm.contact.basic.street' placeholder="your street name">
 						</div>
 						<div class="form-group">
 							<label for="city">City *</label>
-							<input type="text" class="form-control half" id="city" ng-model='stvm.contact.city' placeholder="your city name">
+							<input type="text" class="form-control half" id="city" ng-model='stvm.contact.basic.city' placeholder="your city name">
 						</div>
 						<div class="form-group">
 							<label for="county">County *</label>
-							<input type="text" class="form-control half" id="county" ng-model='stvm.contact.county' placeholder="your county name">
+							<input type="text" class="form-control half" id="county" ng-model='stvm.contact.basic.county' placeholder="your county name">
 						</div>
 						<div class="form-group">
 							<label for="postcode">Postcode *</label>
-							<input type="text" class="form-control half" id="postcode" ng-model='stvm.contact.postcode' placeholder="your postcode">
+							<input type="text" class="form-control half" id="postcode" ng-model='stvm.contact.basic.postcode' placeholder="your postcode">
 						</div>
 						<div class="form-group">
 							<label for="mobile">Mobile *</label>
-							<input type="text" class="form-control half" id="mobile" ng-model='stvm.contact.mobile' placeholder="your mobile number">
+							<input type="text" class="form-control half" id="mobile" ng-model='stvm.contact.basic.mobile' placeholder="your mobile number">
 						</div>
 						<div class="form-group">
 							<label for="land_line">Land line</label>
-							<input type="text" class="form-control half" id="land_line" ng-model='stvm.contact.landline' placeholder="your land line number">
+							<input type="text" class="form-control half" id="land_line" ng-model='stvm.contact.basic.Landphone' placeholder="your land line number">
 						</div>
 
 						<div class="radio">
@@ -47,10 +47,47 @@
 								This is my business contact too
 							</label>
 							<label class="pull-right">
-								<input type="radio" data-js='addressOptionRadio' name="businessContact" ng-model='stvm.contact.business' value="false">
+								<input type="radio" data-js='addressOptionRadio' name="businessContact" ng-model='stvm.contact.business' ng-value="false">
 								No, Its not.
 							</label>
 						</div>
+						
+						<div class="hidden" id="businessAddress">
+							<p class="text-center regular">Business Address</p>
+							<div class="form-group">
+								<label for="house">Building No *</label>
+								<input type="text" class="form-control half" id="house" ng-model='stvm.contact.businessadd.building' placeholder="your building number">
+							</div>
+							<div class="form-group">
+								<label for="bussstreet">Street Name *</label>
+								<input type="text" class="form-control half" id="bussstreet" ng-model='stvm.contact.businessadd.street' placeholder="your street name">
+							</div>
+							<div class="form-group">
+								<label for="busscity">City *</label>
+								<input type="text" class="form-control half" id="busscity" ng-model='stvm.contact.businessadd.city' placeholder="your city name">
+							</div>
+							<div class="form-group">
+								<label for="busscounty">County *</label>
+								<input type="text" class="form-control half" id="busscounty" ng-model='stvm.contact.businessadd.county' placeholder="your county name">
+							</div>
+							<div class="form-group">
+								<label for="busspostcode">Postcode *</label>
+								<input type="text" class="form-control half" id="busspostcode" ng-model='stvm.contact.businessadd.postcode' placeholder="your postcode name">
+							</div>
+							<div class="form-group">
+								<label for="busslandphone">Landphone </label>
+								<input type="text" class="form-control half" id="busslandphone" ng-model='stvm.contact.businessadd.landphone' placeholder="your business landphone number">
+							</div>
+							<div class="form-group">
+								<label for="bussmobile">Mobile </label>
+								<input type="text" class="form-control half" id="bussmobile" ng-model='stvm.contact.businessadd.mobile' placeholder="your business mobile number">
+							</div>
+							<div class="form-group">
+								<label for="bussemail">Email </label>
+								<input type="text" class="form-control half" id="bussemail" ng-model='stvm.contact.businessadd.email' placeholder="your business email">
+							</div>
+						</div>
+
 						<div class="clearfix"></div>
 
 						<div class="alert alert-danger" ng-if="stvm.addContactError === true">
@@ -66,12 +103,75 @@
 					<h1 class="text-center title medium">Your Contact Details</h1>
 					<p class="text-center light">We have Following - </p>
 					<hr>
-					<h3 class="medium"> Mobile: 
-						<span class="text-center light m-l-3">{{stvm.userContactDetails[0].mobile}}</span>
-					</h3>
-					<h3 class="medium"> Landline: 
-						<span class="text-center light m-l-3">{{stvm.userContactDetails[0].landLine}}</span>
-					</h3>
+					<ul class="list address-list">
+						<li>
+							<strong class="medium inline-block">House No.</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.house_no}}</p>
+						</li>
+						<li>
+							<strong class="medium inline-block">Street</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.street_name}}</p>
+						</li>
+						<li>
+							<strong class="medium inline-block">City</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.city}}</p>
+						</li>
+						<li>
+							<strong class="medium inline-block">Postcode</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.postcode}}</p>
+						</li>
+						<li>
+							<strong class="medium inline-block">Mobile</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.mobile}}</p>
+						</li>
+						<li>
+							<strong class="medium:">Landline</strong>
+							<p class="no-margin light inline-block">{{stvm.userContactDetails.landLine}}</p>
+						</li>
+						<li ng-if="stvm.userContactDetails.businessContact === true">
+							<strong class="medium:">This is my Business address too</strong>
+						</li>
+					</ul>
+
+					<hr ng-if="stvm.userContactDetails.businessContact === false">
+					<a href="#" data-js='showBuss' title="show me my business address" class="btn btn-default pull-right">
+						Business Address <i class="fa fa-eye" aria-hidden="true"></i>
+					</a>
+					<div class="clearfix"></div>
+
+					<div id="showBusinessAddress" class="hidden">
+						<ul class="list address-list">
+							<li>
+								<strong class="medium inline-block">House No.</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].house_no}}</p>
+							</li>
+							<li>
+								<strong class="medium inline-block">Street</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].street_name}}</p>
+							</li>
+							<li>
+								<strong class="medium inline-block">City</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].city}}</p>
+							</li>
+							<li>
+								<strong class="medium inline-block">Postcode</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].postcode}}</p>
+							</li>
+							<li>
+								<strong class="medium inline-block">Mobile</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].mobile}}</p>
+							</li>
+							<li>
+								<strong class="medium:">Landline</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].landLine}}</p>
+							</li>
+							<li>
+								<strong class="medium:">Landline</strong>
+								<p class="no-margin light inline-block">{{stvm.userContactDetails.businessAddress[0].email}}</p>
+							</li>
+					</ul>
+					</div>
+
 					<div class="alert alert-danger" ng-if="stvm.showContactError === true">
 						Error! while loading contact information. Contact admin.
 					</div>
