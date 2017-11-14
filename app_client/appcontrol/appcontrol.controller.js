@@ -12,29 +12,15 @@
 		.module('etaxi')
 		.controller('ctrlController', ctrlController);
 
-	ctrlController.$inject = ['userservice', 'authentication'];
+	ctrlController.$inject = ['userservice', 'authentication', '$location'];
 
-	function ctrlController(userservice, authentication) {
+	function ctrlController(userservice, authentication, $location) {
 		const cvm = this;
-
-		cvm.usermanagement = true;
-
-		cvm.showUserManager = () => {
-			cvm.usermanagement = true;
-			cvm.usersearchOn = true;
+		if (authentication.isLoggedIn()) {
+						
 		}
-
-		cvm.users = {
-			search: '',
-		};
-		cvm.searchuser = () => {
-			if (!cvm.users.search) {
-				cvm.searchError = true;
-				cvm.searchErrorMessage = 'Please enter your name or email address';
-			}
-			else {
-				cvm.usersearchOn = false;
-			}
+		else {
+			$location.path('/signin');
 		}
 	}
 })();

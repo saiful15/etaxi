@@ -326,3 +326,30 @@
 		}
 	}
 }
+
+.admin-summarybar{
+	position: relative;
+	p{
+		padding: 16px 0;
+	}
+	.app-control-list{
+		li{
+			display: inline-block;
+			padding: 16px 25px;
+			border: 0;
+			font-size: 0;
+			a{
+				font-size: 16px;
+				line-height: 16px;
+				display: block;
+				font-weight: 300;
+				&:hover{
+					text-decoration: none;
+				}
+				&:visited {
+					text-decoration: none;	
+				}
+			}
+		}
+	}
+}

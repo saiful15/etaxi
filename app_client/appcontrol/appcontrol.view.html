@@ -2,68 +2,27 @@
 <site-nav></site-nav>
 
 <div class="full-page-container">
-	<div class="container-fluid">
+	<div class="container wbg">
 		<div class="row">
-			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-				<div class="container-box shadow wbg small-radius">
-					<p class="text-center light">You will manage all users from here</p>
-					<hr>
-					<p class="light">From here you will run full management of the users. We encourage you change all user related issues from here only. </p>
-					<div class="controlbox controlbox-bottom radiusbottom controbox-gray">
-						<ul class="controlbox-list list-inline">
-							<li><a class="light" href="#" title="manage user" ng-click="cvm.showUserManager()">Manage</a></li>
-							<li><a class="light" href="#" title="view users">View</a></li>
-							<li><a class="light" href="#" title="assign accountant to users">Assign Accountant</a></li>
-							<li><a class="light" href="#" title="give promotional discount">Promotional Discount</a></li>
-						</ul>
-					</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="admin-summarybar small-radius">
+					<p class="light no-margin inline-block">Summary Bar</p>
+					<ul class="pull-right list-inline no-margin app-control-list">
+						<li><a href="#" data-js-app='usermanagement' title="admin control ">User Management <i class="fa fa-users" aria-hidden="true"></i></a></li>
+						<li><a href="#" data-js-app='promotional' title="admin control ">Promotional <i class="fa fa-gift" aria-hidden="true"></i></a></li>
+						<li><a href="#" data-js-app='accountant' title="admin control ">Accountants <i class="fa fa-user" aria-hidden="true"></i></a></li>
+						<li><a href="#" data-js-app='link' title="admin control ">link 4</a><i class="fa" aria-hidden="true"></i></li>
+						<li><a href="#" data-js-app='link' title="admin control ">link 5</a><i class="fa" aria-hidden="true"></i></li>
+						<li><a href="#" data-js-app='link' title="admin control ">link 6</a><i class="fa" aria-hidden="true"></i></li>
+					</ul>
 				</div>
 			</div>
-
-			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-				<div class="container-box shadow wbg small-radius">
-					<p class="text-center light">You will manage all accountant from here</p>
-					<hr>			
-					<p class="light">From here you will run full management of the accountants. We encourage you change all accountants related issues from here only. </p>
-					<div class="controlbox controlbox-bottom radiusbottom controbox-green">
-						<ul class="controlbox-list list-inline">
-							<li><a class="light" href="#" title="manage accountant">Manage</a></li>
-							<li><a class="light" href="#" title="view users">View</a></li>
-							<li><a class="light" href="#" title="assign accountant to users">Assigned users</a></li>
-						</ul>
-					</div>		
-				</div>
-			</div>
-
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-				<div class="container-box shadow wbg small-radius">
-					<p class="text-center light">General Site Management</p>
-					<hr>					
-				</div>
-			</div>
-
 		</div>
 	</div>
 </div>
 
-<div class="full-page-container p-t-2 p-b-2 m-b-3" ng-if="cvm.usermanagement === true">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<div class="container-box shadow wbg" ng-if='cvm.usersearchOn === true'>
-					<h1 class="hero-big-title thin text-center">Search For user by name or email and change setting</h1>
-					<hr>
-					<form ng-submit="cvm.searchuser()">
-						<input class="form-control no-border no-shadow text-center"
-							ng-model='cvm.users.search' type="text" placeholder="search by name or email">
-					</form>
-					<div class="alert alert-danger" ng-if="cvm.searchError === true">
-						<h2 class="hero-big-title light text-center">{{cvm.searchErrorMessage}}</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="full-page-container wbg">
+	
 </div>
 
 <!-- site-footer -->

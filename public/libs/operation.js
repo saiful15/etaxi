@@ -23,5 +23,11 @@
 			$(this).find('i').toggleClass('fa-eye').toggleClass('fa-eye-slash');
 			$("#showBusinessAddress").toggleClass('hidden');
 		});
+
+		$(document).on('click', "[data-js-app]", function(){
+			
+		});
+
+
 	});
 })();
