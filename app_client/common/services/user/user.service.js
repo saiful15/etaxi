@@ -80,6 +80,13 @@
 				.catch(handleError);
 		}
 
+		const showExpenseFile = (userId, expenseId) => {
+			return $http	
+				.get('/api/expense/'+userId+'/'+expenseId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		// add income
 		var addIncome = function (userId, data) {
 			return $http
@@ -261,6 +268,7 @@
 			viewAllMessage: viewAllMessage,
 			viewSingleMessage: viewSingleMessage,
 			viewAllSentMessage: viewAllSentMessage,
+			showExpenseFile: showExpenseFile,
 		};
 	}
 })();

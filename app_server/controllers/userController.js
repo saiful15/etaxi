@@ -507,6 +507,31 @@ module.exports.showExpense = function (req, res) {
 
 /*
 |----------------------------------------------
+| Following function will get the expense file
+| and send it
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.sendExpenseFile = (req, res) => {
+	expenses
+		.findOne({whos: req.params.userId, expenseId: req.params.expenseId})
+		.exec((err, expense) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+				return;
+			}
+			else {
+				const expenseFile = expense.documentDir;
+				res.download(expenseFile);
+			}
+		})
+}
+
+/*
+|----------------------------------------------
 | Following function will income to user collection
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: taxiaccount, 2017

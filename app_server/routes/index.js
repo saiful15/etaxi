@@ -49,6 +49,7 @@ routes.post('/addexpense/:userId', userController.addExpenses);
 
 // show expenses.
 routes.get('/showexpense/:userId', userController.showExpense);
+routes.get('/expense/:userId/:expenseId', userController.sendExpenseFile);
 
 // add income 
 routes.post('/:userId/addincome', userController.addIncome);

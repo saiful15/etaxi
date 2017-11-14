@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 // static resource
 app.use(express.static(__dirname + path.join("/public")));
 app.use(express.static(__dirname + path.join("/app_client")));
+app.use(express.static(__dirname + path.join("/users")));
 
 /*
 |----------------------------------------------

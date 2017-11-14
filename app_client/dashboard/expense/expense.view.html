@@ -92,7 +92,7 @@
                         </td>
                         <td>
                             {{expense.amount | currency: '£'}}
-                            <a href='{{expense.documentDir}}' target="_self" download title="Download associated file" class="statement-btn statement-btn-circle m-l-3" ng-if="expense.documentId">
+                            <a ng-href='{{expense.documentDir}}' target='_blank' download title="Download associated file" class="statement-btn statement-btn-circle m-l-3" ng-if="expense.documentId">
                                 <i class="fa fa-download" aria-hidden="true"></i>
                             </a>
                         </td>
