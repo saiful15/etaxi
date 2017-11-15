@@ -15,6 +15,12 @@
 
 	function userservice($http) {
 
+		const showUsers = () => {
+			return $http
+				.get('/api/users')
+				.then(handleSuccess)
+				.catch(handleError);
+		};
 		const showUser = (email) => {
 			return $http
 				.get('/api/'+email+'/user')
@@ -239,6 +245,7 @@
 		}
 
 		return {
+			showUsers: showUsers,
 			showUser: showUser,
 			getUserStatus: getUserStatus,
 			saveProfile: saveProfile,

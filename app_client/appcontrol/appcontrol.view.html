@@ -18,6 +18,15 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="usermanagement hidden" data-js-opr="usermanagement" ng-init='cvm.initialUserManagement()'>
+				<p class="hero-big-title light text-center" ng-if="cvm.countError === true">{{cvm.countErrorMsg}}</p>
+				<p class="hero-big-title light text-center" ng-if="cvm.countError === false">
+					<span class="title text-center light">You have</span> <br>
+					{{cvm.userCount}} users
+				</p>
+			</div>
+		</div>
 	</div>
 </div>
 

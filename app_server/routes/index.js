@@ -22,6 +22,17 @@ routes.post('/:email/:id/passwordresetlink', authentication.generateLink);
 // routes.get('/:user/:key/:hash', authentication.varifyKey);
 routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword);
 
+/*
+|----------------------------------------------
+| following routes for admin operation
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+routes.get('/users', userController.countUser);
+
+// end of admin routes.
+
 // file upload routes.
 routes.post('/fileupload/:documentId/:userId', systemController.uploadFile);
 

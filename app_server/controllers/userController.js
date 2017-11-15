@@ -28,6 +28,32 @@ const userId = Joi.object().keys({
 
 /*
 |----------------------------------------------
+| count user controller
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.countUser = (req, res) => {
+	users
+		.find()
+		.count((err, count) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+				return;
+			}
+			else {
+				sendJsonResponse(res, 200, {
+					success: true,
+					count: count,
+				});
+			}
+		})
+}
+
+/*
+|----------------------------------------------
 | Following function get all status collection.
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: etaxi, 2017

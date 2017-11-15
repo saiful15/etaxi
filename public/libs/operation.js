@@ -25,7 +25,10 @@
 		});
 
 		$(document).on('click', "[data-js-app]", function(){
-			
+			const val = $(this).attr('data-js-app');
+			if ($('.usermanagement').attr('data-js-opr') === val) {
+				$('.usermanagement').toggleClass('hidden');
+			}
 		});
 
 
