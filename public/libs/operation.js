@@ -31,6 +31,11 @@
 			}
 		});
 
+		$(document).on('click', "[data-js='usersearch']", () => {
+			$("[data-js='usercount']").addClass('hidden');
+			$("#searchform").toggleClass('hidden');
+		});
+
 
 	});
 })();

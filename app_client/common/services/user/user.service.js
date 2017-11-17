@@ -21,6 +21,12 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		};
+		const searchUser = (query) => {
+			return $http
+				.get('/api/'+query+'/search')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		const showUser = (email) => {
 			return $http
 				.get('/api/'+email+'/user')
@@ -246,6 +252,7 @@
 
 		return {
 			showUsers: showUsers,
+			searchUser: searchUser,
 			showUser: showUser,
 			getUserStatus: getUserStatus,
 			saveProfile: saveProfile,

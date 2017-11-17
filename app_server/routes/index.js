@@ -30,6 +30,7 @@ routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword)
 |----------------------------------------------
 */
 routes.get('/users', userController.countUser);
+routes.get('/:query/search', userController.searchUser);
 
 // end of admin routes.
 

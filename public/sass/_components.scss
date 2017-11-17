@@ -357,4 +357,21 @@
 .usermanagement{
 	position: relative;
 	padding: 25px 15px;
+	hr{
+		margin: 0px -15px;
+	}
+}
+.show-results{
+	.search-results-list{
+		li{
+			list-style: none;
+			display: block;
+			margin: 8px 0;
+			a{
+				&:hover{
+					font-weight: 500;
+				}
+			}
+		}
+	}
 }

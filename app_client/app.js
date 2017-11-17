@@ -105,6 +105,11 @@
 				controller: 'ctrlController',
 				controllerAs: 'cvm',
 			})
+			.when('/appcontrol/users/:userid', {
+				templateUrl: 'appcontrol/users/user.view.html',
+				controller: 'usrManageCtrl',
+				controllerAs: 'uvm',
+			})
 			
 		// enable html5 mode
 		$locationProvider.html5Mode({

@@ -20,6 +20,7 @@ var     paths       =       {
         "public/libs/angular-resource.js",
         "public/libs/angular-route.js",
         "public/libs/jquery.js",
+        "public/libs/chart.js",
         "public/libs/bootstrap.js",
         "public/libs/html2canvas.js",
         "public/libs/angular-datepicker.js",
@@ -53,7 +54,8 @@ var     paths       =       {
         "app_client/dashboard/financialstatement/financialstatement.controller.js",
         "app_client/dashboard/settings/settings.controller.js",
         "app_client/messages/messages.controller.js",
-        "app_client/appcontrol/appcontrol.controller.js"
+        "app_client/appcontrol/appcontrol.controller.js",
+        "app_client/appcontrol/users/users.controller.js"
     ],
     styles: [
         "public/sass/app.scss"

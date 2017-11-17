@@ -54,6 +54,58 @@ module.exports.countUser = (req, res) => {
 
 /*
 |----------------------------------------------
+| Following function will search the user collection
+| based on given useremail
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.searchUser = (req, res) => {
+	const searchQuery = Joi.object().keys({
+		query: Joi.string().required(),
+	});
+
+	Joi.validate(req.params, searchQuery, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			users
+				.find({email: req.params.query})
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `Error! while searching for user. Contact admin`,
+						});
+						return;
+					}
+					else if (user.length === 0) {
+						sendJsonResponse(res, 404, {
+							error: `No user has been found with ${req.params.query}`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							results: user,
+						});
+					}
+				})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
 | Following function get all status collection.
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: etaxi, 2017

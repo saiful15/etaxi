@@ -20,11 +20,31 @@
 		</div>
 		<div class="row">
 			<div class="usermanagement hidden" data-js-opr="usermanagement" ng-init='cvm.initialUserManagement()'>
+				<hr>
+				<a href="#" title="Search for user" data-js='usersearch' class="pull-left btn btn-default m-t-3 m-b-3">Sarch Users</a>
+				<div class="clearfix"></div>
 				<p class="hero-big-title light text-center" ng-if="cvm.countError === true">{{cvm.countErrorMsg}}</p>
-				<p class="hero-big-title light text-center" ng-if="cvm.countError === false">
+				<p class="hero-big-title light text-center" ng-if="cvm.countError === false" data-js='usercount'>
 					<span class="title text-center light">You have</span> <br>
 					{{cvm.userCount}} users
 				</p>
+				<div class="user-search-form hidden" id="searchform">
+						<form ng-submit="cvm.searchUser()">
+							<input type="text" ng-model='cvm.search.query' placeholder="Search user by name or email... & Enter" 
+							class="no-border no-shadow form-control">
+						</form>
+						<!-- when we don't have any search results to show -->
+						<div class="m-t-2 m-b-2" ng-if="cvm.searchError === true">
+								<p class="text-center light">{{cvm.searchErrorMsg}}</p>
+						</div>
+						<!-- when we do have search to show -->
+						<div class="show-results m-b-2 m-t-2" ng-if="cvm.searchError === false">
+							<p class="medium title text-center">Search Result(s) For - {{cvm.search.query}}</p>
+							<ul class="list search-results-list">
+								<li ng-repeat="result in cvm.searchResults"><a class='light title' href="/appcontrol/users/{{result._id}}">{{result.email}}</a></li>
+							</ul>
+						</div>
+				</div>
 			</div>
 		</div>
 	</div>

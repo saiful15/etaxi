@@ -34,6 +34,34 @@
 
 					})
 			}
+			/*
+			|----------------------------------------------
+			| Following function will search the database
+			| based on user input on name or emial
+			| @author: jahid haque <jahid.haque@yahoo.com>
+			| @copyright: taxiaccounting, 2017
+			|----------------------------------------------
+			*/
+			cvm.search = {
+				query: ''
+			};
+			cvm.searchUser = () => {
+				userservice
+					.searchUser(cvm.search.query)
+					.then((response) => {
+						if (response.data.error) {
+							cvm.searchError = true;
+							cvm.searchErrorMsg = response.data.error;
+						}
+						else {
+							cvm.searchError = false;
+							cvm.searchResults = response.data.results;
+						}
+					})
+					.catch((err) => {
+						alert(err);
+					});
+			}
 		}
 		else {
 			$location.path('/signin');
