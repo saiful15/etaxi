@@ -11,9 +11,9 @@
 		.controller('incomeCtrl', incomeCtrl);
 
 	// add dependency to controller
-	incomeCtrl.$inject = ['authentication', 'userservice'];
+	incomeCtrl.$inject = ['authentication', 'userservice', '$scope'];
 
-	function incomeCtrl (authentication, userservice) {
+	function incomeCtrl (authentication, userservice, $scope) {
 		const 	invm 		=	this;
 		// income object.
 		invm.Income = {
@@ -72,15 +72,20 @@
 								return income.incomeDate === x;
 							});
 						});
-						
+
 						invm.weeklyIncome = weeklyIncomes.filter(function(income){
 							return income.length > 0;
 						});	
+
 
 						let weeklyAmount = invm.weeklyIncome.map((week) => {
 							return week.map((day) => {
 								return day.income;
 							});							
+						});
+						
+						const chartd = weeklyAmount.map((amount) => {
+							return amount[0];
 						});
 
 						const weeklyTotal = weeklyAmount.map((incomes) => {
@@ -92,6 +97,20 @@
 						invm.sevendaysIncome = 	weeklyTotal.reduce((sum, value) => {
 							return sum + value;
 						}, 0);
+
+						$scope.colors = [
+			            {
+			              backgroundColor: "rgba(159,204,0, 0.2)",
+			              pointBackgroundColor: "rgba(159,204,0, 1)",
+			              pointHoverBackgroundColor: "rgba(159,204,0, 0.8)",
+			              borderColor: "rgba(159,204,0, 1)",
+			              pointBorderColor: '#fff',
+			              pointHoverBorderColor: "rgba(159,204,0, 1)"
+			            },"rgba(250,109,33,0.5)","#9a9a9a","rgb(233,177,69)"
+			          ];
+			         $scope.labels = last7Days;
+			         $scope.data = chartd;
+
 					}
 				})
 				.catch(err => function(){
