@@ -28,6 +28,11 @@
 			const val = $(this).attr('data-js-app');
 			if ($('.usermanagement').attr('data-js-opr') === val) {
 				$('.usermanagement').toggleClass('hidden');
+				$('.accountant-management').addClass('hidden');
+			}
+			else if ($('.accountant-management').attr('data-js-opr') === val) {
+				$('.accountant-management').toggleClass('hidden');
+				$('.usermanagement').addClass('hidden');
 			}
 		});
 

@@ -203,6 +203,12 @@
 			.head{
 				padding: 0px 40px;
 			}
+			&:visited {
+				text-decoration: none;
+			}
+			&:focus {
+				text-decoration: none;
+			}
 		}
 		&:last-child{
 			border-bottom: 0px;
@@ -354,6 +360,13 @@
 	}
 }
 
+.management-box{
+	position: relative;
+	padding: 25px 15px;
+	hr{
+		margin: 0px -15px;
+	}
+}
 .usermanagement{
 	position: relative;
 	padding: 25px 15px;
@@ -375,3 +388,4 @@
 		}
 	}
 }
+

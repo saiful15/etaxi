@@ -62,6 +62,59 @@
 						alert(err);
 					});
 			}
+			// load accountant init.
+			cvm.initAccounantManagement = () => {
+				// calling userservice.
+				userservice
+					.checkAccountantCollection()
+					.then((response) => {
+						if (response.data.error) {
+							cvm.accountantLoadError = true;
+						}
+						else {
+							cvm.accountantLoadError = false;
+							if (response.data.accountant.length === 0) {
+								cvm.noAccountant = true;
+							}
+							else {
+								cvm.noAccountant = false;
+								cvm.accountantsList = response.data.accountant;
+							}
+						}
+
+					})
+					.catch(err => alert(err));
+
+				// create new accountant.
+				cvm.accountant = {
+					profile: {
+						name: '',
+						email: '',
+						mobile: '',
+					},
+					company: {
+						company_name: '',
+						address: '',
+						tel: '',
+						company_email: '',
+						website: '',
+					}
+				}
+				cvm.addAccountant = () => {
+					userservice
+						.addAccountant(cvm.accountant)
+						.then((response) => {
+							if (response.data.error) {
+								cvm.addAccountantError = true;
+								cvm.addAccountantErrorMsg = response.data.error;
+							}
+							else {								
+								cvm.addAccountantError = false;								
+							}
+						})
+						.catch(err => alert(err));
+				}
+			}
 		}
 		else {
 			$location.path('/signin');

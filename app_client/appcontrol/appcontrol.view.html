@@ -46,6 +46,82 @@
 						</div>
 				</div>
 			</div>
+
+			<div class="accountant-management management-box hidden" data-js-opr="accountant" ng-init="cvm.initAccounantManagement()">
+				<p class="text-center light hero-big-title" ng-if="cvm.accountantLoadError === true">Error! while loading accountant info</p>
+				<p class="text-center light hero-big-title" ng-if="cvm.noAccountant === true">You don't have any accoutants in the system yet. Please add one now - <hr> </p>
+
+				<form ng-submit="cvm.addAccountant()">
+					<div class="alert alert-danger" ng-if="cvm.addAccountantError === true">
+						<p class="text-center light title">{{cvm.addAccountantErrorMsg}}</p>
+					</div>
+					<!-- when adding is successful -->
+					<div class="alert alert-success" ng-if="cvm.addAccountantError === false">
+						<p class="text-center light title">Accountant has been successful added</p>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+						<div class="form-group">
+							<label for="name">Name *</label>
+							<input type="text" id="name" ng-model="cvm.accountant.profile.name" class="form-control" placeholder="accoutant name">
+						</div>
+						<div class="form-group">
+							<label for="email">Email *</label>
+							<input type="text" id="email" ng-model="cvm.accountant.profile.email" class="form-control" placeholder="accoutant's email">
+						</div>
+						<div class="form-group">
+							<label for="mobile">Mobile *</label>
+							<input type="text" id="mobile" ng-model="cvm.accountant.profile.mobile" class="form-control" placeholder="accoutant's mobile">
+						</div>
+						<div class="form-group">
+							<label for="company_tel">Company Telephone </label>
+							<input type="text" id="company_tel" ng-model="cvm.accountant.company.tel" class="form-control" placeholder="accoutant's telephone number">
+						</div>
+						<button type="submit" class="btn btn-danger m-b-3 pull-left">Save Accountant</button>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+						<div class="form-group">
+							<label for="company_name">Company Name *</label>
+							<input type="text" id="company_name" ng-model="cvm.accountant.company.company_name" class="form-control" placeholder="company name">
+						</div>
+						<div class="form-group">
+							<label for="company_address">Address *</label>
+							<input type="text" id="company_address" ng-model="cvm.accountant.company.address" class="form-control" placeholder="accoutant's company address">
+						</div>
+						<div class="form-group">
+							<label for="company_email">Email </label>
+							<input type="text" id="company_email" ng-model="cvm.accountant.company.company_email" class="form-control" placeholder="accoutant's email">
+						</div>
+						<div class="form-group m-b-3">
+							<label for="company_website">Website </label>
+							<input type="text" id="company_website" ng-model="cvm.accountant.company.website" class="form-control" placeholder="accoutant's website">
+						</div>
+					</div>
+
+					<!-- load accountant -->
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-if="cvm.noAccountant === false">
+						<p class="text-center light title">Current Account(s)</p>
+						<hr>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Company</th>
+									<th>Contact</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="accountant in cvm.accountantsList">
+									<td>{{accountant.name}}</td>
+									<td>{{accountant.company[0].name}}</td>
+									<td>{{accountant.mobile}}</td>
+									<td><a href="/appcontrol/accountant/{{accountant._id}}" title="assign customers to {{accountant.name}}" class="btn btn-danger">Assign Customer</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

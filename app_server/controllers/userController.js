@@ -13,6 +13,7 @@ var 		mongoose 		=		require('mongoose'),
 			users 			=		mongoose.model('users'),
 			contacts 		=		mongoose.model('contacts'),
 			expenses 		=		mongoose.model('expenses'),
+			accoutants 		=		mongoose.model('accountant'),
 			vehicles 		=		mongoose.model('vehicles'),
 			incomes 			=		mongoose.model('incomes');
 
@@ -100,6 +101,104 @@ module.exports.searchUser = (req, res) => {
 						});
 					}
 				})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
+| Following function will check accoutant collection
+| exists or not.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccountant, 2017
+|----------------------------------------------
+*/
+module.exports.checkAccountantCollection = (req, res) => {
+	accoutants
+		.find()
+		.exec((err, accountant) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				})
+				return;
+			}
+			else {
+				sendJsonResponse(res, 200, {
+					success: true,
+					accountant: accountant,
+				});
+			}
+		})
+}
+
+/*
+|----------------------------------------------
+| Following function will add accountat to the 
+| system
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.createAccountant = (req, res) => {
+	const accountantProfile = Joi.object().keys ({
+		name: Joi.string().regex(/^[a-zA-Z ]{3,20}$/).required(),
+		email: Joi.string().email().required(),
+		mobile: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).required(),
+	});
+
+	const accountantCompany = Joi.object().keys({
+		company_name: Joi.string().regex(/^[a-zA-Z0-9 ]{5,50}$/).required(),
+		address: Joi.string().required(),
+		tel: Joi.string().regex(/^[0-9]{11,11}$/).allow(''),
+		company_email: Joi.string().email().allow(''),
+		website: Joi.string().uri().allow(''),
+	});
+	
+	Joi.validate(req.body.profile, accountantProfile, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			// now validate company information.
+			Joi.validate(req.body.company, accountantCompany, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err.details[0].message,
+					});
+					return;
+				}
+				else {
+					accoutants.create({
+						name: req.body.profile.name,
+						email: req.body.profile.email,
+						mobile: req.body.profile.mobile,
+						company: [{
+							name: req.body.company.company_name,
+							address: req.body.company.address,
+							email: req.body.company.company_email,
+							tel: req.body.company.tel,
+							website: req.body.company.website,
+						}]
+					}, (err, accountant) => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: `Error while adding accountant\t: ${err}`,
+							});
+							return;
+						}
+						else {
+							sendJsonResponse(res, 200, {
+								success: true,
+								accountant: accountant,
+							});
+						}
+					})
+				}
+			})
 		}
 	})
 }

@@ -55,4 +55,5 @@ require('./expenses');
 require('./message');
 require('./vehicles');
 require('./contact');
+require('./accountant');
 require('./password-reset');

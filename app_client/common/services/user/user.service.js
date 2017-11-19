@@ -33,6 +33,22 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		};
+
+		// for accountant init.
+		const checkAccountantCollection = () => {
+			return $http
+				.get('/api/checkaccountantcollection')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const addAccountant = (accountant) => {
+			return $http
+				.post('/api/addaccountant', accountant)
+				.then(handleSuccess)
+				.catch(handleError);
+		};
+
 		var				getUserStatus 		=		function(email){
 			return $http
 					.get('/api/userstatus/'+email)
@@ -254,6 +270,8 @@
 			showUsers: showUsers,
 			searchUser: searchUser,
 			showUser: showUser,
+			checkAccountantCollection: checkAccountantCollection,
+			addAccountant: addAccountant,
 			getUserStatus: getUserStatus,
 			saveProfile: saveProfile,
 			updateUserStatus: updateUserStatus,
