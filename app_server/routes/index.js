@@ -33,6 +33,7 @@ routes.get('/users', userController.countUser);
 routes.get('/:query/search', userController.searchUser);
 routes.get('/checkaccountantcollection', userController.checkAccountantCollection);
 routes.post('/addaccountant', userController.createAccountant);
+routes.get('/accountant/:accountantId', userController.getAccountantProfile);
 
 // end of admin routes.
 

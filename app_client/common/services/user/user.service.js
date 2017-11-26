@@ -257,6 +257,13 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		}
+
+		const accountantProfile = function (accountantId) {
+			return $http 
+				.get('/api/accountant/'+accountantId)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		
 		function 	handleSuccess(response){
 			return response;
@@ -301,6 +308,7 @@
 			viewSingleMessage: viewSingleMessage,
 			viewAllSentMessage: viewAllSentMessage,
 			showExpenseFile: showExpenseFile,
+			accountantProfile: accountantProfile,
 		};
 	}
 })();

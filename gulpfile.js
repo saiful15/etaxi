@@ -56,7 +56,8 @@ var     paths       =       {
         "app_client/dashboard/settings/settings.controller.js",
         "app_client/messages/messages.controller.js",
         "app_client/appcontrol/appcontrol.controller.js",
-        "app_client/appcontrol/users/users.controller.js"
+        "app_client/appcontrol/users/users.controller.js",
+        "app_client/appcontrol/accountant/accountant.controller.js"
     ],
     styles: [
         "public/sass/app.scss"

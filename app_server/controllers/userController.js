@@ -205,6 +205,51 @@ module.exports.createAccountant = (req, res) => {
 
 /*
 |----------------------------------------------
+| Following function will get accountant profile
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.getAccountantProfile = (req, res) => {
+	const accountantId = Joi.object().keys({
+		accountantId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+	});
+
+	Joi.validate(req.params, accountantId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			accoutants
+				.findOne({_id: req.params.accountantId})
+				.exec((err, accountant) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!accountant) {
+						sendJsonResponse(res, 404, {
+							error: `No accountant has been found with ${req.params.accountantId} id`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							accountant: accountant,
+						});
+					}
+				})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
 | Following function get all status collection.
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: etaxi, 2017

@@ -110,6 +110,11 @@
 				controller: 'usrManageCtrl',
 				controllerAs: 'uvm',
 			})
+			.when('/appcontrol/accountant/:accountantId', {
+				templateUrl: 'appcontrol/accountant/accountant.view.html',
+				controller: 'accountantCtrl',
+				controllerAs: 'acvm',
+			})
 			
 		// enable html5 mode
 		$locationProvider.html5Mode({
