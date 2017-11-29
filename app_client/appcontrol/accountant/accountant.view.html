@@ -26,6 +26,16 @@
 				<div class="container-box shadow small-radius">
 					<h1 class="text-center title light">Progress</h1>
 					<hr>
+					<p class="text-center light title" ng-if="acvm.accountantCreationSuccess === true">
+						{{acvm.accountantCreationSuccessMsg}}
+					</p>
+					<p class="text-center light title" ng-if="acvm.accountantCreationError === true">
+						{{acvm.accountantCreationErrorMsg}}
+					</p>
+					<div class="half block-centered">
+						<button ng-if='acvm.accountantInfo.accountCreated === false' ng-click="acvm.createLoginForAccountant()" title="Create login account for {{acvm.accountantInfo.name}}" class="btn btn-danger">
+						Create Login details</button>
+					</div>
 				</div>
 			</div>
 		</div>

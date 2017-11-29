@@ -49,6 +49,13 @@
 				.catch(handleError);
 		};
 
+		const createAccountantLogin = (data) => {
+			return $http
+				.post('/api/createaccountantlogin', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		var				getUserStatus 		=		function(email){
 			return $http
 					.get('/api/userstatus/'+email)
@@ -279,6 +286,7 @@
 			showUser: showUser,
 			checkAccountantCollection: checkAccountantCollection,
 			addAccountant: addAccountant,
+			createAccountantLogin: createAccountantLogin,
 			getUserStatus: getUserStatus,
 			saveProfile: saveProfile,
 			updateUserStatus: updateUserStatus,

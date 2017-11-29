@@ -17,6 +17,8 @@ var 		mongoose 		=		require('mongoose'),
 			vehicles 		=		mongoose.model('vehicles'),
 			incomes 			=		mongoose.model('incomes');
 
+const Mailer = require('../config/nodemailer');
+
 
 var 		sendJsonResponse 	=	function(res, status, content){
 	res.status(status);
@@ -244,6 +246,106 @@ module.exports.getAccountantProfile = (req, res) => {
 						});
 					}
 				})
+		}
+	})
+}
+
+/*
+|----------------------------------------------
+| Following function will create accountant login
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.CreateAccountantLogin = (req, res) => {
+	const accountantInfo = Joi.object().keys({
+		email: Joi.string().email().required(),
+		account_type: Joi.string().min(10).max(10).regex(/^[a-z]{10,10}$/).required(),
+	});
+
+	Joi.validate(req.body, accountantInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			// create new users object.
+			const accountant = new users();
+			const userId = uId(10);
+			const userPassword = uId(8);
+			const userDir = './users/'+userId;
+			accountant.email = req.body.email;
+			accountant.userId = userId;
+			accountant.userDir = userDir;
+			accountant.password = accountant.setPassword(userPassword);
+			accountant.status   =	"premium";
+			accountant.account_type = req.body.account_type;
+			accountant.statusCollection = {};
+			accountant.appContact = {};
+
+			// now saving accountant.
+			accountant.save((err) => {
+				if (err) {
+					if(err.code == '11000'){
+						sendJsonResponse(res, 400, {
+							error: "This email address has been taken."
+						});
+					}
+					else{
+						sendJsonResponse(res, 400, {
+							error: "System Error! Please contact admin"
+						});	
+					}
+					return false;
+				}
+				else {
+					if (!fs.mkdirSync(userDir)) {
+						// now send email to accountant.
+						const message = {
+							form: process.env.mailuser,
+							to: req.body.email,
+							subject: `TaxiAccounting - Accountant login details`,
+							html: `<p>Taxi accounting admin has created an accountant profile for you.
+							Your username is ${req.body.email} and password is <pre>${userPassword} </pre>. 
+							Please also check your junk inbox for this email.Please visit following link to log 
+							into your account.<br/> <a href='http://www.taxiaccounting.co.uk/signin' target='_blank'>Login</a></p>`,
+						};
+
+						// verifing connection.
+						Mailer.verify((err, success) => {
+							if (err) {
+								sendJsonResponse(res, 400, {
+									error: 'Error! while connecting with mail server',
+								});
+								return;
+							}
+							else {
+								Mailer.sendMail(message, (err, info) => {
+									if (err) {
+										sendJsonResponse(res, 400, {
+											error: `Error! while emailing account details ${err}`,
+										});
+										return;
+									}
+									else{
+										sendJsonResponse(res, 200, {
+											success: true,
+										});
+									}
+								});
+							}
+						});
+
+					}
+					else {
+						sendJsonResponse(res, 400, {
+							error: "System Error! while creating user directory. Please contact admin"
+						});
+					}
+				}
+			})
 		}
 	})
 }

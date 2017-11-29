@@ -23,6 +23,7 @@ const accountantSchema = new mongoose.Schema({
 	name: {type: String, min: 3, required: true, },
 	email: {type: String, required: true, },
 	mobile: {type: String, min: 11, max: 11, required: true, },
+	accountCreated: {type: Boolean, default: false, },
 	company: [companySchema],
 	customers: [customerSchema],
 });
