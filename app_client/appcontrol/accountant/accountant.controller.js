@@ -11,9 +11,9 @@
 		.module('etaxi')
 		.controller('accountantCtrl', accountantCtrl);
 
-	accountantCtrl.$inject = ['authentication', 'userservice', '$routeParams', '$location'];
+	accountantCtrl.$inject = ['authentication', 'userservice', '$routeParams', '$location', '$route'];
 
-	function accountantCtrl(authentication, userservice, $routeParams, $location) {
+	function accountantCtrl(authentication, userservice, $routeParams, $location, $route) {
 		if (authentication.isLoggedIn() && authentication.currentUser().account_type === 'admin') {
 			const acvm = this;
 			acvm.loadAccountant = () => {
@@ -49,11 +49,31 @@
 							acvm.accountantCreationError = false;
 							acvm.accountantCreationSuccessMsg = `Account successfully create. 
 							Ask accountant to check ${acvm.accountantLoginInfo.email}`;
+
+							// now Set a timeout and call UpdateAccountantLoingCrated
+							setTimeout(() =>{
+								acvm.UpdateAccountantLoginCreated();
+							},500);
 						}
 						else {
 							acvm.accountantCreationError = true;
 							acvm.accountantCreationSuccess = false;
 							acvm.accountantCreationErrorMsg = response.data.error;
+						}
+					})
+					.catch((err) => {
+						alert(err);
+					})
+			}
+
+			// update accouantant login created status.
+			acvm.UpdateAccountantLoginCreated = () => {
+				userservice
+					.updateLoginAccountantCreation($routeParams.accountantId)
+					.then((response) => {
+						if (response.data.success) {
+							// reload the current page.
+							$route.reload();
 						}
 					})
 					.catch((err) => {

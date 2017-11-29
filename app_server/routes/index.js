@@ -35,6 +35,7 @@ routes.get('/checkaccountantcollection', userController.checkAccountantCollectio
 routes.post('/addaccountant', userController.createAccountant);
 routes.get('/accountant/:accountantId', userController.getAccountantProfile);
 routes.post('/createaccountantlogin', userController.CreateAccountantLogin);
+routes.put('/:accountantId/updatelogincreation', userController.UpdateLoginCreation);
 
 // end of admin routes.
 

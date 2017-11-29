@@ -352,6 +352,65 @@ module.exports.CreateAccountantLogin = (req, res) => {
 
 /*
 |----------------------------------------------
+| Following function will update the accountant's
+| login account creation status on accountant 
+| schema.
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.UpdateLoginCreation = (req, res) => {
+	const accountantId = Joi.object().keys({
+		accountantId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+	});
+
+	Joi.validate(req.params, accountantId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			accoutants
+				.findById(req.params.accountantId)
+				.exec((err, accountant) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!accountant) {
+						sendJsonResponse(res, 404, {
+							error: `Error! No Accountant has been found`,
+						});
+						return;
+					}
+					else {
+						accountant.accountCreated = true;
+						// saving the change.
+						accountant.save((err) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: `Error! while saving accountant info. Please contact admin`,
+								});
+								return;
+							}
+							else {
+								sendJsonResponse(res, 200, {
+									success: true,
+								});
+							}
+						})
+					}
+				})
+		}
+	});
+}
+
+/*
+|----------------------------------------------
 | Following function get all status collection.
 | @author: jahid haque <jahid.haque@yahoo.com>
 | @copyright: etaxi, 2017
