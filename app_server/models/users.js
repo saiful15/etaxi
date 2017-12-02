@@ -66,8 +66,7 @@ const incomeSchema = new mongoose.Schema({
 })
 
 const appContactSchema = new mongoose.Schema({
-	admin: {type: String, default: 'taxiadmin@taxiaccounting.co.uk'},
-	accoutant: {type: String, },
+	contactEmail: {type: String, default: 'taxiadmin@taxiaccounting.co.uk'},
 });
 
 var 			userSchema 		=	new mongoose.Schema({

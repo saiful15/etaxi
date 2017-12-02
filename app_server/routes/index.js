@@ -15,6 +15,7 @@ var 		authentication 	=		require("../controllers/authentication");
 var 		userController	=		require("../controllers/userController");
 var 		systemController = require('../controllers/systemController');
 const 	messageController = require('../controllers/message.controller');
+const 	adminController = require('../controllers/adminController');
 
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
@@ -36,7 +37,9 @@ routes.post('/addaccountant', userController.createAccountant);
 routes.get('/accountant/:accountantId', userController.getAccountantProfile);
 routes.post('/createaccountantlogin', userController.CreateAccountantLogin);
 routes.put('/:accountantId/updatelogincreation', userController.UpdateLoginCreation);
-
+routes.get('/:userId/showuser', userController.getSingleUserDetails);
+routes.get('/accountants', adminController.showAccountants);
+routes.post('/:userId/:accountantId/assignaccountant', adminController.assignAccountant);
 // end of admin routes.
 
 // file upload routes.

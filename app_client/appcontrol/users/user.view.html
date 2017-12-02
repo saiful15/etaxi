@@ -1,8 +1,45 @@
 <!-- navigation -->
 <site-nav></site-nav>
 
-<div class="full-page-container">
-	sinlge user for admin.
+<div class="full-page-container" ng-init='uvm.userDetails()'>
+	<div class="container-fluid" ng-if='uvm.userLoaded === true'>
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<div class="container-box shadow small-radius wbg" ng-init='uvm.showAccountants()'>
+					<!-- when we don't have any accountant assigned -->
+					<div ng-if="uvm.weHaveCustomers === false">
+						<p class="text-center sub-title light">Assign Accountant</p>
+						<hr>
+						<h1 class="text-center light title" ng-if="uvm.loadAccountantError === true">
+							{{uvm.loadAccountantErrorMsg}}
+						</h1>
+						<!-- show accountants -->
+						<ul class="list list-block accountant-list no-margin no-padding">
+							<li ng-repeat="accountant in uvm.accountants">
+								<span class="pull-left sub-title">{{accountant.name}}</span>
+								<a class="pull-right sub-title btn btn-danger btn-small no-margin no-padding" ng-click='uvm.assignAccountant(accountant._id)' href="#">Assign</a>
+								<div class="clearfix"></div>
+							</li>
+						</ul>
+						<div class="alert alert-danger" ng-if="uvm.accountantAssignmentError === true">
+							<p class="text-center sub-title no-margin">{{uvm.accountantAssignmentErrorMsg}}</p>
+						</div>
+					</div>
+					<!-- when we do have accountant already assigned -->
+					<div ng-if="uvm.weHaveCustomers === true">
+						<div class="alert alert-success m-t-2 m-b-2">
+							<p class="text-center sub-title no-margin">Accountant {{uvm.accountants[0].name}} has been assigned</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- when user loading is failed. -->
+	<div class="container-fluid" ng-if='uvm.userLoaded === false'>
+		<h1 class="hero-big-title text-center">Error! while loading user</h1>
+	</div>
+
 </div>
 
 <!-- site-footer -->

@@ -31,6 +31,7 @@ var     paths       =       {
     	"app_client/app.js",
         "app_client/common/services/authentication/authentication.js",
         "app_client/common/services/user/user.service.js",
+        "app_client/common/services/user/admin.service.js",
         "app_client/common/services/fileupload/fileupload.service.js",
         "app_client/common/services/system/system.service.js",
         "app_client/common/services/authentication/account.service.js",

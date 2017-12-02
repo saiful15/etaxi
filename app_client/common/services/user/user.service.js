@@ -34,6 +34,13 @@
 				.catch(handleError);
 		};
 
+		const getSingleCustomerDetails = (userId) => {
+			return $http
+				.get('/api/'+userId+'/showuser')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		// for accountant init.
 		const checkAccountantCollection = () => {
 			return $http
@@ -325,6 +332,7 @@
 			viewAllSentMessage: viewAllSentMessage,
 			showExpenseFile: showExpenseFile,
 			accountantProfile: accountantProfile,
+			getSingleCustomerDetails: getSingleCustomerDetails
 		};
 	}
 })();

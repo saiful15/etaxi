@@ -55,6 +55,7 @@ module.exports.countUser = (req, res) => {
 		})
 }
 
+
 /*
 |----------------------------------------------
 | Following function will search the user collection
@@ -407,6 +408,47 @@ module.exports.UpdateLoginCreation = (req, res) => {
 				})
 		}
 	});
+}
+
+/*
+|----------------------------------------------
+| Following method will get details for a single
+| user
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.getSingleUserDetails = (req, res) => {
+	const UserId = Joi.object().keys({
+		userId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/)
+	});
+
+	Joi.validate(req.params, UserId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			users
+				.findById(req.params.userId)
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							user: user,
+						});
+					}
+				})
+		}
+	})
 }
 
 /*
