@@ -31,6 +31,7 @@ routes.put('/:user/:newpassword/:repeatpassword', authentication.updatePassword)
 |----------------------------------------------
 */
 routes.get('/users', userController.countUser);
+routes.get('/allcontacts', adminController.getAllContact);
 routes.get('/:query/search', userController.searchUser);
 routes.get('/checkaccountantcollection', userController.checkAccountantCollection);
 routes.post('/addaccountant', userController.createAccountant);
@@ -118,6 +119,7 @@ routes.get('/:userId/lisence', userController.showLisence);
 | @copyright: taxiaccountant, 2017
 |----------------------------------------------
 */
+routes.get('/:email/contacts', messageController.loadContacts);
 routes.post('/message', messageController.sendMessage);
 routes.get('/:userid/messages', messageController.viewMessages);
 routes.get('/:messageId', messageController.viewMessage);

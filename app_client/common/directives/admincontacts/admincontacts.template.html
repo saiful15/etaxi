@@ -1,0 +1,5 @@
+<select class="form-control half" id="to" ng-model="msgvm.createMessage.receiver" ng-init='adcon.loadAdminContacts()'>
+    <option value="" selected>Select message receiver</option>
+    <option ng-repeat="customer in adcon.customers" value="{{customer.email}}">{{customer.email}} (Cus)</option>
+    <option ng-repeat="accountant in adcon.accountants" value="{{accountant.email}}">{{accountant.email}} (Act)</option>
+</select>

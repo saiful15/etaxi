@@ -9,11 +9,52 @@
 const Joi = require('joi');
 const Mongoose = require('mongoose');
 const Message = Mongoose.model('messages');
+const Users = Mongoose.model('users');
 const Uid = require('uid');
 
 const sendJsonResponse = function (res, status, content) {
 	res.status(status);
 	res.json(content);
+}
+
+module.exports.loadContacts = (req, res) => {
+	const userIdentity = Joi.object().keys({
+		email: Joi.string().email().min(3).required(),
+	});
+
+	Joi.validate(req.params, userIdentity, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Users
+				.find({ email: req.params.email })
+				.select('appContact')
+				.exec((err, contacts) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!contacts) {
+						sendJsonResponse(res, 404, {
+							error: `No contact found`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true, 
+							contacts: contacts,
+						});
+					}
+				})
+		}
+	})
 }
 
 module.exports.sendMessage = (req, res) => {

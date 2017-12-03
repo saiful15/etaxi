@@ -251,6 +251,20 @@
 				.catch(handleError);
 		}
 
+		const loadUserContact = (email) => {
+			return $http 
+				.get('/api/'+email+'/contacts')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
+		const adminContact = ()=> {
+			return $http
+				.get('/api/allcontacts')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		const sendMessage = (message) => {
 			return $http
 				.post('/api/message', message)
@@ -326,6 +340,8 @@
 			addLisence: addLisence,
 			userLisence: userLisence,
 			exportToCSV: exportToCSV,
+			loadUserContact: loadUserContact,
+			adminContact: adminContact,
 			sendMessage: sendMessage,
 			viewAllMessage: viewAllMessage,
 			viewSingleMessage: viewSingleMessage,

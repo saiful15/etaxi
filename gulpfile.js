@@ -39,6 +39,8 @@ var     paths       =       {
         "app_client/common/directives/navigation/navigation.controller.js",
         "app_client/common/directives/site-footer/sitefooter.directive.js",
         "app_client/common/directives/fileModel/fileModel.directive.js",
+        "app_client/common/directives/admincontacts/admincontacts.directive.js",
+        "app_client/common/directives/admincontacts/admincontacts.controller.js",
     	"app_client/home/home.controller.js",
     	"app_client/services/services.controller.js",
     	"app_client/price/price.controller.js",

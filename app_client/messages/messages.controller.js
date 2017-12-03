@@ -22,6 +22,30 @@
 			msgvm.singleMessage = false;
 			msgvm.inboxOn = true;
 			msgvm.sentboxOn = false;
+
+			if (authentication.currentUser().account_type === 'admin'){
+				msgvm.loadAdminContactList = true;
+			}
+			else {
+				msgvm.loadAdminContactList = false
+			}
+
+			// load contact for the user.
+			msgvm.loadContact = () => {
+				userservice
+					.loadUserContact(authentication.currentUser().email)
+					.then((response) => {
+						if (response.data.success) {
+							msgvm.contacts = response.data.contacts[0].appContact.filter((contact) => {
+								return contact.contactEmail !== 'taxiadmin@taxiaccounting.co.uk';
+							})
+						}
+					})
+					.catch((err) => {
+						alert(err);
+					})
+			}
+
 			msgvm.turnComposeOn = () => {
 				msgvm.composeOn = true;
 				msgvm.sentboxOn = false;
@@ -76,6 +100,7 @@
 				userservice
 					.viewAllMessage(authentication.currentUser().email)
 					.then((response) => {
+						console.log(response);
 						if (response.data.error) {
 							msgvm.inboxLoadError = true;
 							msgvm.inboxLoadErrorMessage = response.data.error;

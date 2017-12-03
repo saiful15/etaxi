@@ -125,16 +125,21 @@
 
 
 						<!-- for composing new message -->
-						<div class="compose-message-body" ng-if="msgvm.composeOn === true">
+						<div class="compose-message-body" ng-if="msgvm.composeOn === true" ng-init='msgvm.loadContact()'>
 							<h1 class="light title">Send new Message</h1>
 							<form ng-submit="msgvm.sendMessage()">
-								<div class="form-group">
+								<div class="form-group" ng-if='msgvm.loadAdminContactList === false'>
 									<label for="to">To (Receiver)</label>
-									<select class="form-control half" id="to"                              ng-model="msgvm.createMessage.receiver">
-		                                <option value="" selected>Select expense area</option>
-		                                <option value="admin">Admin</option>
-		                                <option value="accountant">Accountant</option>	                                
-		                            </select>
+									<select class="form-control half" id="to" ng-model="msgvm.createMessage.receiver">
+                      <option value="" selected>Select message receiver</option>
+                      <option value="taxiadmin@taxiaccounting.co.uk">Admin</option>
+                      <option value="{{contact.contactEmail}}" ng-repeat="contact in msgvm.contacts">Accountant</option>
+                  </select>
+								</div>
+								
+								<!-- admin contact list -->
+								<div class="form-group" ng-if='msgvm.loadAdminContactList === true'>									
+                  <admin-contacts></admin-contacts>
 								</div>
 
 								<div class="form-group">
@@ -223,6 +228,5 @@
 		</div>
 	</div>
 </div>
-
 <!-- site-footer -->
 <site-footer></site-footer>

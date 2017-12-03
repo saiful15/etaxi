@@ -20,6 +20,38 @@ const sendJsonResponse	=	function(res, status, content){
 	res.json(content);
 }
 
+/*
+|----------------------------------------------
+| Following function will get all contacts
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.getAllContact = (req, res) => {
+	users
+		.find()
+		.select('account_type email')
+		.exec((err, contacts) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+				return;
+			}
+			else if (!contacts) {
+				sendJsonResponse(res, 404, {
+					error: `No contact has been found`,
+				});
+			}
+			else {
+				sendJsonResponse(res, 200, {
+					success: true,
+					contacts: contacts,
+				});
+			}
+		})
+}
+
 module.exports.showAccountants = (req, res) => {
 	accoutants
 		.find()
