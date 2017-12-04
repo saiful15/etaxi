@@ -293,6 +293,13 @@
 				.catch(handleError);
 		}
 
+		const sendReply = (messageId, replymessage) => {
+			return $http 
+				.post('/api/'+messageId+'/replymessage', replymessage)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		const accountantProfile = function (accountantId) {
 			return $http 
 				.get('/api/accountant/'+accountantId)
@@ -345,6 +352,7 @@
 			sendMessage: sendMessage,
 			viewAllMessage: viewAllMessage,
 			viewSingleMessage: viewSingleMessage,
+			sendReply: sendReply,
 			viewAllSentMessage: viewAllSentMessage,
 			showExpenseFile: showExpenseFile,
 			accountantProfile: accountantProfile,

@@ -60,6 +60,21 @@
         </li>
         <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
       </ul>
+
+      <!-- accountant -->
+      <ul class="nav navbar-nav navbar-right" ng-if="nvm.accountType ==='accountant'">
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+        </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i></a>
+        </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/profile"><i class="fa fa-user-circle" aria-hidden="true"></i> Profile</a>
+        </li>
+        <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
+      </ul>
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

@@ -100,7 +100,6 @@
 				userservice
 					.viewAllMessage(authentication.currentUser().email)
 					.then((response) => {
-						console.log(response);
 						if (response.data.error) {
 							msgvm.inboxLoadError = true;
 							msgvm.inboxLoadErrorMessage = response.data.error;
@@ -157,6 +156,7 @@
 							msgvm.singleMessageErrorMessage = response.data.error;
 						}
 						else {
+							console.log(response);
 							msgvm.singleMessageError = false;
 							msgvm.singleMessageData = response.data.message;
 						}
@@ -165,16 +165,28 @@
 			}
 
 			// to reply to a message.
-			msgvm.replyMessage = () => {
+			msgvm.replyMessage = (id, sender, receiver) => {
 				msgvm.replyOn = true;
 				msgvm.replyMessage = {
-					_id: '',
 					reply: '',
-					sender: '',
-					receiver: '',
+					sender: receiver,
+					receiver: sender,
 				};
 				msgvm.sendReply = () => {
-					console.log(msgvm.replyMessage);
+					userservice
+						.sendReply(id, msgvm.replyMessage)
+						.then((response) => {
+							if (response.data.error) {
+								msgvm.replyError = true;
+								msgvm.replyErrorMsg = response.data.error;
+							}
+							else if (response.data.success) {
+								msgvm.replyError = false;	
+							}
+						})
+						.catch((err) => {
+							alert(err);
+						})
 				}
 			}
 		}

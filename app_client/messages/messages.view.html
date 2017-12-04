@@ -107,7 +107,7 @@
 									<tr ng-repeat="sentmessage in msgvm.sentMessages">
 										<td>
 											<a href="#" title="reply to {{sentmessage.subject}}" ng-click="msgvm.viewMessage(sentmessage._id)">
-												{{sentmessage.sender}}
+												{{sentmessage.receiver}}
 											</a>
 										</td>
 
@@ -201,7 +201,7 @@
 									<hr>
 									<div class="pull-right half">
 										<ul class="list pull-right">
-											<li><a href="#" ng-click='msgvm.replyMessage()' title="reply to {{msgvm.singleMessageData.subject}}" class="btn btn-primary"><i class="fa fa-reply" aria-hidden="true"></i></a></li>
+											<li><a href="#" ng-click='msgvm.replyMessage(msgvm.singleMessageData._id, msgvm.singleMessageData.sender, msgvm.singleMessageData.receiver)' title="reply to {{msgvm.singleMessageData.subject}}" class="btn btn-primary"><i class="fa fa-reply" aria-hidden="true"></i></a></li>
 											<li><a href="#" title="Delete {{msgvm.singleMessageData.subject}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden='true'></i></a></li>
 										</ul>
 									</div>
@@ -211,9 +211,12 @@
 											<label for="replyMessage">Reply Message</label>
 											<textarea col='10' rows='6' class="form-control" ng-model="msgvm.replyMessage.reply" placeholder='Write your reply'></textarea>
 										</div>
-										<input type="text" class="hidden" ng-value="msgvm.singleMessageData._id" >
-										<input type="text" class="hidden" value="{{msgvm.singleMessageData.sender}}" ng-model="msgvm.replyMessage.sender">
-										<input type="text" class="hidden" value="{{msgvm.singleMessageData.receiver}}" ng-model="msgvm.replyMessage.receiver">
+										<div class="alert alert-danger" ng-if="msgvm.replyError === true">
+											<p class="no-margin sub-title light">{{msgvm.replyErrorMsg}}</p>
+										</div>
+										<div class="alert alert-success" ng-if="msgvm.replyError === false">
+											<p class="no-margin sub-title light">Reply has been successfully sent.</p>
+										</div>
 										<button type="submit" class="btn btn-primary">
 											<i class="fa fa-reply m-r-2" aria-hidden="true"></i>
 											Send Reply

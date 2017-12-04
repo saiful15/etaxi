@@ -216,3 +216,76 @@ module.exports.viewSent = (req, res) => {
 		}
 	});
 }
+
+module.exports.replyMessage = (req, res) => {
+	const MessageId = Joi.object().keys({
+		messageId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+	});
+
+	Joi.validate(req.params, MessageId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			const replyMessage = Joi.object().keys({
+				reply: Joi.string().max(255).required(),
+				sender: Joi.string().email().required(),
+				receiver: Joi.string().email().required(),
+			});
+
+			Joi.validate(req.body, replyMessage, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err.details[0].message,
+					});
+					return;
+				}
+				else {
+					Message
+						.findById(req.params.messageId)
+						.select('replyMessage')
+						.exec((err, reply) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: err,
+								});
+								return;
+							}
+							else if (!reply) {
+								sendJsonResponse(res, 404, {
+									error: `No message found to reply`,
+								});
+								return;
+							}
+							else {
+
+								reply.replyMessage.push({
+									replyId : Uid(10),
+									replyMessage : req.body.reply,
+									sender : req.body.sender,
+									receiver : req.body.receiver,
+								});
+
+								reply.save((err) => {
+									if (err) {
+										sendJsonResponse(res, 404, {
+											error: err,
+										});
+										return;
+									}
+									else {
+										sendJsonResponse(res, 200, {
+											success: true,
+										});
+									}
+								})
+							}
+						})
+				}
+			})
+		}
+	})
+}

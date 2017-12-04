@@ -14,6 +14,7 @@ const replySchema = new mongoose.Schema({
 	replyMessage: {type: String, },
 	sender: {type: String, },
 	receiver: {type: String, },
+	seenstatus: {type: Boolean, default: false },
 });
 
 const messageSchema = new mongoose.Schema({

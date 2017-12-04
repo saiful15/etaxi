@@ -124,5 +124,6 @@ routes.post('/message', messageController.sendMessage);
 routes.get('/:userid/messages', messageController.viewMessages);
 routes.get('/:messageId', messageController.viewMessage);
 routes.get('/:userId/sentmessages', messageController.viewSent);
+routes.post('/:messageId/replymessage', messageController.replyMessage);
 // export routes so that we can use it in other part of the application.
 module.exports = routes;
