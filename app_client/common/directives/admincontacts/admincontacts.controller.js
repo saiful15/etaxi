@@ -21,7 +21,7 @@
 			userservice
 				.adminContact()
 				.then((response) => {
-					console.log(response);
+					console.log('response', response);
 					adcon.customers = response.data.contacts.filter((customer) => {
 						return customer.account_type === 'customer';
 					});

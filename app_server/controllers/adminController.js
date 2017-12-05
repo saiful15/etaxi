@@ -144,10 +144,45 @@ module.exports.assignAccountant = (req, res) => {
 													return;
 												}
 												else {
-													sendJsonResponse(res, 200, {
-														success: true,
-														accountant: accountant,
-													});
+
+													// now add the user email to accountant app contact.
+													users
+														.findOne({email: accountantEmail})
+														.exec((err, CusAccountant) => {
+															if (err) {
+																sendJsonResponse(res, 404, {
+																	error: err,
+																});
+																return;
+															}
+															else if (!CusAccountant) {
+																sendJsonResponse(res, 404, {
+																	error: `No accoutant found to assign`,
+																});
+																return;
+															}
+															else {
+																CusAccountant.appContact.push({
+																	contactEmail: user.email,
+																});
+
+																CusAccountant.save((err) => {
+																	if (err) {
+																		sendJsonResponse(res, 404, {
+																			error: `Error while saving customer contact to accountant user account`,
+																		});
+																		return;
+																	}
+																	else {
+																		sendJsonResponse(res, 200, {
+																			success: true,
+																			accountant: accountant,
+																		});
+																	}
+																})
+
+															}
+														})
 												}
 											})
 										}

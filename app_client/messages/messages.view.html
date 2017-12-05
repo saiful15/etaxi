@@ -123,12 +123,11 @@
 
 						</div>
 
-
 						<!-- for composing new message -->
 						<div class="compose-message-body" ng-if="msgvm.composeOn === true" ng-init='msgvm.loadContact()'>
 							<h1 class="light title">Send new Message</h1>
 							<form ng-submit="msgvm.sendMessage()">
-								<div class="form-group" ng-if='msgvm.loadAdminContactList === false'>
+								<div class="form-group" ng-if='msgvm.loadAdminContactList === false && msgvm.loadAccountantContactList === false' >
 									<label for="to">To (Receiver)</label>
 									<select class="form-control half" id="to" ng-model="msgvm.createMessage.receiver">
                       <option value="" selected>Select message receiver</option>
@@ -139,6 +138,11 @@
 								
 								<!-- admin contact list -->
 								<div class="form-group" ng-if='msgvm.loadAdminContactList === true'>									
+                  <admin-contacts></admin-contacts>
+								</div>
+								
+								<!-- for accountants -->
+								<div class="form-group" ng-if='msgvm.loadAccountantContactList === true'>									
                   <admin-contacts></admin-contacts>
 								</div>
 

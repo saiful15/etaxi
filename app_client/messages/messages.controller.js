@@ -25,9 +25,15 @@
 
 			if (authentication.currentUser().account_type === 'admin'){
 				msgvm.loadAdminContactList = true;
+				msgvm.loadAccountantContactList = false;
+			}
+			else if (authentication.currentUser().account_type === 'accountant'){
+				msgvm.loadAdminContactList = false;
+				msgvm.loadAccountantContactList = true;
 			}
 			else {
-				msgvm.loadAdminContactList = false
+				msgvm.loadAdminContactList = false;
+				msgvm.loadAccountantContactList = false;
 			}
 
 			// load contact for the user.
