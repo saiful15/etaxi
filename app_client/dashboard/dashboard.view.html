@@ -146,5 +146,30 @@
 	admin
 </div>
 
+<div class="dashboard-wrapper m-t-4" ng-if="dsvm.accountantOpr === true">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<div class="container-box shadow wbg" ng-init='dsvm.loadCustomers()'>
+					<h1 class="text-center sub-title">Customers</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+				<div class="container-box shadow wbg small-radius">
+					<h2 class="text-center sub-title">Not sure</h2>
+					<hr>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="container-box shadow wbg small-radius">
+					<h3 class="text-center sub-title">Not sure 2</h3>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!-- site-footer -->
 <site-footer></site-footer>

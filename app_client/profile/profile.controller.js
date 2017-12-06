@@ -33,7 +33,6 @@
 							prvm.profileLoadError = false;
 							prvm.profileOn = response.data.status.statusCollection[0].profile;
 
-							console.log(response.data.status);
 							// additional info prompt.
 							prvm.additionInfo = response.data.status.statusCollection[0].additional_info;
 

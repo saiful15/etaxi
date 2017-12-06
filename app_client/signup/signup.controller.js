@@ -17,6 +17,7 @@
 		const 	sgnvm 		=	this;
 
 		sgnvm.newuser 		=	{
+			name: "",
 			email: "",
 			password: ""
 		};

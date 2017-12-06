@@ -70,32 +70,26 @@ module.exports.login 	=	function(req, res){
 |----------------------------------------------------------------
 */
 module.exports.register		=	function(req, res){
-	// checking some validation.
-	if(!req.body.email || !req.body.password){
-		sendJsonResponse(res, 400, {
-			error: "All fields required. must not be empty"
-		});
-	}
-	else{
-		// validating given input values.
-		if(!validator.isEmail(req.body.email, {allow_display_name: true})){
-			sendJsonResponse(res, 400, {
-				error: "Invalid email address. Please enter again."
+	const NewUser = Joi.object().keys({
+		name: Joi.string().min(3).max(12).regex(/^[a-zA-Z ]{3,12}$/),
+		email: Joi.string().email().required(),
+		password: Joi.string().required(),
+	});
+
+
+	Joi.validate(req.body, NewUser, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
 			});
-			return false;
+			return;
 		}
-		
-		if(!validator.isLength(req.body.password, {min: 5, max: 12})){
-			sendJsonResponse(res, 400, {
-				error: "Your password should be between 5 to 12 characters"
-			});
-			return false;
-		}
-		else{
+		else {
 			// creating empty user and filling it with data.
 			var 		user 		=	new users();
 			const userId = Uid(10);
 			const userDir = './users/'+userId;
+			user.name = req.body.name;
 			user.email = req.body.email;
 			user.userId = userId;
 			user.userDir = userDir;
@@ -135,7 +129,7 @@ module.exports.register		=	function(req, res){
 				}
 			})
 		}
-	}
+	})
 }
 
 /*

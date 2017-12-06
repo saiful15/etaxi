@@ -27,6 +27,7 @@
 		if(authentication.isLoggedIn()){
 			nvm.forLoggedInUser = true;
 			nvm.accountType = authentication.currentUser().account_type;
+			nvm.name = authentication.currentUser().name;
 			// chech whether profile status is true
 			userservice
 				.getUserStatus(authentication.currentUser().email)

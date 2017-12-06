@@ -51,6 +51,7 @@ function authentication ($window, $http){
 			return {
 				userId: payload._id,
 				email: payload.email,
+				name: payload.name,
 				userDirId: payload.userId,
 				account_type: payload.account_type
 			};

@@ -21,6 +21,8 @@
 			// when logged in user is customer.
 			if(authentication.currentUser().account_type === 'customer'){
 				dsvm.customerOpr = true;
+				dsvm.adminOpr = false;
+				dsvm.accountantOpr = false;
 				dsvm.getUserStatus 	=	function(){
 					// calling user service method 
 					userservice
@@ -134,7 +136,16 @@
 			// when logged in user is admin
 			else if(authentication.currentUser().account_type === 'admin'){
 				dsvm.adminOpr = true;
-			}			
+				dsvm.accountantOpr = false;
+			}
+			else if (authentication.currentUser().account_type === 'accountant')	{
+				dsvm.accountantOpr = true;
+
+				// load customers.
+				dsvm.loadCustomers = () => {
+					console.log('hi there');
+				}
+			}
 		}
 		else{
 			$location.path('/signin');
