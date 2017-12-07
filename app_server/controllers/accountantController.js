@@ -56,7 +56,7 @@ module.exports.getCustomers = (req, res) => {
 							customers: accountant,
 						});
 					}
-				})
+				})			
 		}
 	})
 }

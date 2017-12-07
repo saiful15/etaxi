@@ -146,6 +146,7 @@
 					AccountantService
 						.getCustomers(authentication.currentUser().email)
 						.then((response) => {
+							console.log(response);
 							if (response.data.error) {
 								dsvm.loadCustomerError = true;
 								dsvm.loadCustomerErrorMsg = response.data.error;
