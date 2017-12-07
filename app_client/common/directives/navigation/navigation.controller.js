@@ -29,35 +29,36 @@
 			nvm.accountType = authentication.currentUser().account_type;
 			nvm.name = authentication.currentUser().name;
 			// chech whether profile status is true
-			userservice
-				.getUserStatus(authentication.currentUser().email)
-				.then(function(response){
-					if(response.data.status){
-						if(response.data.status.statusCollection[0].profile === true){
+			// userservice
+			// 	.getUserStatus(authentication.currentUser().email)
+			// 	.then(function(response){
+			// 		console.log(response);
+			// 		if(response.data.status){
+			// 			if(response.data.status.statusCollection[0].profile === true){
 							
-							// get user profile
-							userservice
-								.getProfile(authentication.currentUser().email)
-								.then(function(response){
-									if(response.data.success === true){
-										nvm.userProfileOn 	=	true;
-										nvm.userProfile = response.data.profile.profile;
-										nvm.username = nvm.userProfile[0].first_name+ " "+nvm.userProfile[0].last_name;
-									}
-									else{
-										nvm.userProfileOn 	=	false;
-									}
+			// 				// get user profile
+			// 				userservice
+			// 					.getProfile(authentication.currentUser().email)
+			// 					.then(function(response){
+			// 						if(response.data.success === true){
+			// 							nvm.userProfileOn 	=	true;
+			// 							nvm.userProfile = response.data.profile.profile;
+			// 							nvm.username = nvm.userProfile[0].first_name+ " "+nvm.userProfile[0].last_name;
+			// 						}
+			// 						else{
+			// 							nvm.userProfileOn 	=	false;
+			// 						}
 
-								})
-								.catch(function(err){
-									alert(err);
-								})
-						}
-					}
-				})
-				.catch(function(err){
-					alert(err);
-				})
+			// 					})
+			// 					.catch(function(err){
+			// 						alert(err);
+			// 					})
+			// 			}
+			// 		}
+			// 	})
+			// 	.catch(function(err){
+			// 		alert(err);
+			// 	})
 		}
 	}
 })();

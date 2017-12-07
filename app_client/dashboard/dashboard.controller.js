@@ -11,9 +11,9 @@
 		.controller('dashboardCtrl', dashboardCtrl);
 
 	// dependency
-	dashboardCtrl.$inject 	=	['authentication', '$location', 'userservice'];
+	dashboardCtrl.$inject 	=	['authentication', '$location', 'userservice', 'AccountantService'];
 
-	function dashboardCtrl(authentication, $location, userservice){
+	function dashboardCtrl(authentication, $location, userservice, AccountantService){
 		const 	dsvm 		=	this;
 
 		// chekcing if user logged in or not.
@@ -143,7 +143,19 @@
 
 				// load customers.
 				dsvm.loadCustomers = () => {
-					console.log('hi there');
+					AccountantService
+						.getCustomers(authentication.currentUser().email)
+						.then((response) => {
+							if (response.data.error) {
+								dsvm.loadCustomerError = true;
+								dsvm.loadCustomerErrorMsg = response.data.error;
+							}
+							else {
+								dsvm.loadCustomerError = false;
+								dsvm.assignedCustomers = response.data.customers.customers;
+							}
+						})
+						.catch((err) => alert(err));
 				}
 			}
 		}

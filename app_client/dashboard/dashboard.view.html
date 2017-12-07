@@ -151,8 +151,16 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 				<div class="container-box shadow wbg" ng-init='dsvm.loadCustomers()'>
-					<h1 class="text-center sub-title">Customers</h1>
+					<h1 class="text-center sub-title">Customers List</h1>
 					<hr>
+					<ul class="list-block no-padding" ng-if='dsvm.loadCustomerError === false'>
+						<li ng-repeat="customer in dsvm.assignedCustomers">
+							<a class="m-t-1" href='/dashboard?cus={{customer.customerid}}' title="Check details">{{customer.customerid}}</a>
+						</li>
+					</ul>
+					<div class="alert alert-danger" ng-if="dsvm.loadCustomerError === true">
+						<p class="text-center no-margin sub-title">{{dsvm.loadCustomerErrorMsg}}</p>
+					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">

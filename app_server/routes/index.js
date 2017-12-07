@@ -16,6 +16,7 @@ var 		userController	=		require("../controllers/userController");
 var 		systemController = require('../controllers/systemController');
 const 	messageController = require('../controllers/message.controller');
 const 	adminController = require('../controllers/adminController');
+const AccountantController = require('../controllers/accountantController');
 
 routes.post('/register', authentication.register);
 routes.post('/login', authentication.login);
@@ -42,6 +43,18 @@ routes.get('/:userId/showuser', userController.getSingleUserDetails);
 routes.get('/accountants', adminController.showAccountants);
 routes.post('/:userId/:accountantId/assignaccountant', adminController.assignAccountant);
 // end of admin routes.
+
+/*
+|----------------------------------------------
+| Following routes for accountants
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+routes.get('/:email/customers', AccountantController.getCustomers);
+
+
+//end of of accountant routes.
 
 // file upload routes.
 routes.post('/fileupload/:documentId/:userId', systemController.uploadFile);
