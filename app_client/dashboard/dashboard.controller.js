@@ -153,7 +153,7 @@
 							}
 							else {
 								dsvm.loadCustomerError = false;
-								dsvm.assignedCustomers = response.data.customers.customers;
+								dsvm.assignedCustomers = response.data.customers;
 							}
 						})
 						.catch((err) => alert(err));

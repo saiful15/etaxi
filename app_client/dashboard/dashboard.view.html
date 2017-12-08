@@ -155,7 +155,7 @@
 					<hr>
 					<ul class="list-block no-padding" ng-if='dsvm.loadCustomerError === false'>
 						<li ng-repeat="customer in dsvm.assignedCustomers">
-							<a class="m-t-1" href='/dashboard?cus={{customer.customerid}}' title="Check details">{{customer.customerid}}</a>
+							<a class="m-t-1" href='/dashboard?cus={{customer.userId}}' title="Check details">{{customer.name}}</a>
 						</li>
 					</ul>
 					<div class="alert alert-danger" ng-if="dsvm.loadCustomerError === true">

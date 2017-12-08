@@ -21,6 +21,7 @@ const sendJsonResponse	=	function(res, status, content){
 	res.json(content);
 }
 
+
 /*
 |----------------------------------------------
 | Following function will get all customer 
@@ -40,23 +41,27 @@ module.exports.getCustomers = (req, res) => {
 			return;
 		}
 		else {
-			Accountants
-				.findOne({ email: req.params.email})
-				.select('customers')
-				.exec((err, accountant) => {
+			Users
+				.find({ appContact: {$elemMatch: { contactEmail: req.params.email } } })
+				.select('name userId')
+				.exec((err, user) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					else {
-						sendJsonResponse(res, 200, {
-							success: true, 
-							customers: accountant,
+					else if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No assigned customer found`,
 						});
 					}
-				})			
+					else {
+						sendJsonResponse(res, 200, {
+							customers: user,
+						});
+					}
+				})
 		}
 	})
 }
