@@ -140,23 +140,54 @@
 
 <!-- accountType is accountant -->
 <div class="full-page-container" ng-if="prvm.AccountType === 'accountant'" ng-init='prvm.LoadAccountantProfile()'>
-	<div class="container">
-		<div class="ro">
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<div class="container-box shadow wbg small-radius">
-					<h1 class="sub-title light">Contact Info</h1>
+					<h1 class="sub-title light">
+						Contact Info
+						<a href="#" ng-if='prvm.AccoutantLoadError === false' ng-click='prvm.editAccountantBasicContact()' class="btn btn-small btn-info pull-right">
+							<i class="fa fa-pencil" aria-hidden='true'></i>
+							Edit
+						</a>
+						<div class="clearfix"></div>
+					</h1>
 					<hr>
 					<p class="text-center light" ng-if="prvm.AccoutantLoadError === true">Error! while loading information</p>
-					<ul class="list-block p-l-0" ng-if="prvm.AccoutantLoadError === false">
+					<ul class="list-block p-l-0" ng-if="prvm.AccoutantLoadError === false && prvm.AccountantBasicContactEditOn === false">
 						<li>Name: {{prvm.accountant.name}}</li>
 						<li>Email: {{prvm.accountant.email}}</li>
 						<li>Mobile: {{prvm.accountant.mobile}}</li>
 					</ul>
+
+					<!-- edit basic contact info -->
+					<form ng-submit='prvm.saveAccountantBasicContact()' ng-if='prvm.AccountantBasicContactEditOn === true'>
+						<div class="form-group">
+							<label for="name">Name</label>
+							<input type="text" class="form-control half" id="name" ng-model='prvm.accountant.name'>
+						</div>
+						<div class="form-group">
+							<label for="mobile">Mobile</label>
+							<input type="text" class="form-control full" id="mobile" ng-model='prvm.accountant.mobile'>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success pull-left">Save</button>
+							<a href="#" ng-click='prvm.cancelAccountantBasicContact()' title="cancel" class="btn btn-danger pull-right">Cancel</a>
+							<span class="clearfix"></span>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 				<div class="container-box shadow wbg small-radius">
-					<h2 class="sub-title light">Company</h2>
+					<h2 class="sub-title light">
+						Company
+						<a href="#" ng-if='prvm.AccoutantLoadError === false' class="btn btn-small btn-info pull-right">
+							<i class="fa fa-pencil" aria-hidden='true'></i>
+							Edit
+						</a>
+						<div class="clearfix"></div>
+					</h2>
 					<hr>
 					<p class="text-center light" ng-if="prvm.AccoutantLoadError === true">Error! while loading information</p>
 					<ul class="list-block p-l-0" ng-if="prvm.AccoutantLoadError === false">

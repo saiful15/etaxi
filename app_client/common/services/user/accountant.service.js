@@ -28,6 +28,13 @@
 				.catch(handleError);
 		}
 
+		const editBasicContact = (data) => {
+			return $http
+				.post('/api/editcontact', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		function 	handleSuccess(response){
 			return response;
 		}
@@ -38,7 +45,8 @@
 
 		return {
 			getCustomers: getCustomers,
-			AccountantProfile: AccountantProfile
+			AccountantProfile: AccountantProfile,
+			editBasicContact: editBasicContact,
 		};
 	}
 })();

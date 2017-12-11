@@ -166,6 +166,7 @@
 			| ile based on given email address
 			|----------------------------------------------
 			*/
+			prvm.AccountantBasicContactEditOn = false;
 			prvm.LoadAccountantProfile = () => {
 				AccountantService
 					.AccountantProfile(authentication.currentUser().email)
@@ -181,6 +182,26 @@
 					.catch((err) => {
 						alert(err);
 					});
+			}
+
+			prvm.editAccountantBasicContact = () => {
+				prvm.AccountantBasicContactEditOn = true;
+			}
+
+			prvm.cancelAccountantBasicContact = () => {
+				prvm.AccountantBasicContactEditOn = false;
+			}
+
+			// save change
+			prvm.saveAccountantBasicContact = () => {
+				AccountantService
+					.editBasicContact(prvm.accountant)
+					.then((response) => {
+						console.log('response', response);
+					})
+					.catch((err) => {
+						alert(err);
+					})
 			}
 		}
 		else{
