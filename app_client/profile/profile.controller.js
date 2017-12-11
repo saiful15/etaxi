@@ -194,10 +194,22 @@
 
 			// save change
 			prvm.saveAccountantBasicContact = () => {
+				const basicInfo = {
+					name: prvm.accountant.name,
+					mobile: prvm.accountant.mobile,
+					email: authentication.currentUser().email,
+				};
 				AccountantService
-					.editBasicContact(prvm.accountant)
+					.editBasicContact(basicInfo)
 					.then((response) => {
-						console.log('response', response);
+						if (response.data.error) {
+							prvm.AccountantBasicSaveError = true;
+							prvm.AccountantBasicSaveErrorMsg = response.data.error;
+						}
+						else if (response.data.success) {
+							prvm.AccountantBasicSaveError = false;
+							$route.reload();
+						}
 					})
 					.catch((err) => {
 						alert(err);

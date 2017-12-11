@@ -170,6 +170,9 @@
 							<label for="mobile">Mobile</label>
 							<input type="text" class="form-control full" id="mobile" ng-model='prvm.accountant.mobile'>
 						</div>
+						<div class="alert alert-danger" ng-if="prvm.AccountantBasicSaveError === true">
+							<p class="sub-title no-margin text-center">{{prvm.AccountantBasicSaveErrorMsg}}</p>
+						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-success pull-left">Save</button>
 							<a href="#" ng-click='prvm.cancelAccountantBasicContact()' title="cancel" class="btn btn-danger pull-right">Cancel</a>
