@@ -10,7 +10,7 @@
 		</div>
 	</div>
 
-	<div class="additional_info" ng-if="prvm.additionInfo === false">
+	<div class="additional_info" ng-if="prvm.additionInfo === false && prvm.AccountType === 'customer' ">
 		<div class="container">
 			<h1 class="text-center big-title light">We need following additional information from you</h1>
 			<hr>
@@ -136,6 +136,45 @@
 		</div>
 	</div>
 
+</div>
+
+<!-- accountType is accountant -->
+<div class="full-page-container" ng-if="prvm.AccountType === 'accountant'" ng-init='prvm.LoadAccountantProfile()'>
+	<div class="container">
+		<div class="ro">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<div class="container-box shadow wbg small-radius">
+					<h1 class="sub-title light">Contact Info</h1>
+					<hr>
+					<p class="text-center light" ng-if="prvm.AccoutantLoadError === true">Error! while loading information</p>
+					<ul class="list-block p-l-0" ng-if="prvm.AccoutantLoadError === false">
+						<li>Name: {{prvm.accountant.name}}</li>
+						<li>Email: {{prvm.accountant.email}}</li>
+						<li>Mobile: {{prvm.accountant.mobile}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="container-box shadow wbg small-radius">
+					<h2 class="sub-title light">Company</h2>
+					<hr>
+					<p class="text-center light" ng-if="prvm.AccoutantLoadError === true">Error! while loading information</p>
+					<ul class="list-block p-l-0" ng-if="prvm.AccoutantLoadError === false">
+						<li>Name: {{prvm.accountant.company[0].name}}</li>
+						<li>Address: {{prvm.accountant.company[0].address}}</li>
+						<li>Email: {{prvm.accountant.company[0].email}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+				<div class="container-box shadow wbg small-radius">
+					<h1 class="sub-title light">Current Case Progression</h1>
+					<hr>
+					<p class="text-center light" ng-if="prvm.AccoutantLoadError === true">Error! while loading information</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- site-footer -->

@@ -52,7 +52,7 @@ routes.post('/:userId/:accountantId/assignaccountant', adminController.assignAcc
 |----------------------------------------------
 */
 routes.get('/:email/customers', AccountantController.getCustomers);
-
+routes.get('/:email/profile', AccountantController.getProfile);
 
 //end of of accountant routes.
 

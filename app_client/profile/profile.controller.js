@@ -11,14 +11,16 @@
 		.controller('profileCtrl', profileCtrl);
 
 	// dependency injection
-	profileCtrl.$inject = ['authentication', '$location', 'userservice', '$route'];
+	profileCtrl.$inject = ['authentication', '$location', 'userservice', '$route', 'AccountantService'];
 
-	function profileCtrl(authentication, $location, userservice, $route){
+	function profileCtrl(authentication, $location, userservice, $route, AccountantService){
 
 		const 	prvm	=	this;
 
 		if(authentication.isLoggedIn()){
 
+			prvm.AccountType = authentication.currentUser().account_type;
+			
 			// function to check user status collection.
 			prvm.getUserStatusCollection 	=	function(){
 
@@ -155,6 +157,30 @@
 							alert(err);
 						})
 				}
+			}
+
+
+			/*
+			|----------------------------------------------
+			| Following function will get accoutant's prof-
+			| ile based on given email address
+			|----------------------------------------------
+			*/
+			prvm.LoadAccountantProfile = () => {
+				AccountantService
+					.AccountantProfile(authentication.currentUser().email)
+					.then((response) => {
+						if (response.data.error) {
+							prvm.AccoutantLoadError = true;
+						}
+						else {
+							prvm.AccoutantLoadError = false;
+							prvm.accountant = response.data.accountant;
+						}
+					})
+					.catch((err) => {
+						alert(err);
+					});
 			}
 		}
 		else{

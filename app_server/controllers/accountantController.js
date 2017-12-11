@@ -65,3 +65,40 @@ module.exports.getCustomers = (req, res) => {
 		}
 	})
 }
+
+/*
+|----------------------------------------------
+| Following function will show accountant profile
+|----------------------------------------------
+*/
+module.exports.getProfile = (req, res) => {
+	const AccountantIdentity = Joi.object().keys({
+		email: Joi.string().email().required(),
+	});
+
+	Joi.validate(req.params, AccountantIdentity, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+		}
+		else {
+			Accountants
+				.findOne({ email: req.params.email })
+				.exec((err, accountant) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							accountant: accountant,
+						});
+					}
+
+				})
+		}
+	})
+}

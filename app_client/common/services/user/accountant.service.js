@@ -21,6 +21,13 @@
 				.catch(handleError);
 		}
 
+		const AccountantProfile = (email) => {
+			return $http 
+				.get('/api/'+email+'/profile')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		function 	handleSuccess(response){
 			return response;
 		}
@@ -30,7 +37,8 @@
 		}
 
 		return {
-			getCustomers: getCustomers
+			getCustomers: getCustomers,
+			AccountantProfile: AccountantProfile
 		};
 	}
 })();
