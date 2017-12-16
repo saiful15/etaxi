@@ -185,7 +185,7 @@
 				<div class="container-box shadow wbg small-radius">
 					<h2 class="sub-title light">
 						Company
-						<a href="#" ng-if='prvm.AccoutantLoadError === false' class="btn btn-small btn-info pull-right">
+						<a href="#" ng-if='prvm.AccoutantLoadError === false' ng-click='prvm.editAccountantCompany()' class="btn btn-small btn-info pull-right">
 							<i class="fa fa-pencil" aria-hidden='true'></i>
 							Edit
 						</a>
@@ -197,7 +197,40 @@
 						<li>Name: {{prvm.accountant.company[0].name}}</li>
 						<li>Address: {{prvm.accountant.company[0].address}}</li>
 						<li>Email: {{prvm.accountant.company[0].email}}</li>
+						<li>Web: {{prvm.accountant.company[0].website}}</li>
+						<li>Tel: {{prvm.accountant.company[0].tel}}</li>
 					</ul>
+					<!-- edit company info -->
+					<form ng-submit='prvm.saveAccountantCompany()' ng-if='prvm.AccountantCompanyEditOn === true'>
+						<div class="form-group">
+							<label for="name">Name</label>
+							<input type="text" class="form-control half" id="name" ng-model='prvm.accountant.company[0].name'>
+						</div>
+						<div class="form-group">
+							<label for="address">Address</label>
+							<input type="text" class="form-control full" id="address" ng-model='prvm.accountant.company[0].address'>
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="text" class="form-control full" id="email" ng-model='prvm.accountant.company[0].email'>
+						</div>
+						<div class="form-group">
+							<label for="website">Website</label>
+							<input type="text" class="form-control full" id="website" ng-model='prvm.accountant.company[0].website'>
+						</div>
+						<div class="form-group">
+							<label for="tel">Tel</label>
+							<input type="text" class="form-control full" id="tel" ng-model='prvm.accountant.company[0].tel'>
+						</div>
+						<div class="alert alert-danger" ng-if="prvm.prvm.AccountantCompanySaveError === true">
+							<p class="sub-title no-margin text-center">{{prvm.AccountantCompanySaveErrorMsg}}</p>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success pull-left">Save</button>
+							<a href="#" ng-click='prvm.cancelAccountantCompany()' title="cancel" class="btn btn-danger pull-right">Cancel</a>
+							<span class="clearfix"></span>
+						</div>
+					</form>
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">

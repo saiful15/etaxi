@@ -2,7 +2,9 @@ var mongoose = require( 'mongoose' );
 var gracefulShutdown;
 mongoose.Promise = global.Promise;
 var dbURI = 'mongodb://localhost/etaxiaccounting';
-mongoose.connect(dbURI);
+mongoose.connect(dbURI, {
+	useMongoClient: true,
+});
 
 mongoose.connection.on('connected', function () {
 	console.log('Mongoose connected to ' + dbURI);

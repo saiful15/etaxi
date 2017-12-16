@@ -19,7 +19,7 @@ const Accountants = Mongoose.model('accountant');
 const sendJsonResponse	=	function(res, status, content){
 	res.status(status);
 	res.json(content);
-}
+};
 
 
 /*
@@ -64,7 +64,7 @@ module.exports.getCustomers = (req, res) => {
 				})
 		}
 	})
-}
+};
 
 /*
 |----------------------------------------------
@@ -101,7 +101,7 @@ module.exports.getProfile = (req, res) => {
 				})
 		}
 	})
-}
+};
 
 /*
 |----------------------------------------------
@@ -155,4 +155,69 @@ module.exports.editAccountantBasicContact = (req, res) => {
 				})
 		}
 	})
-}
+};
+
+/*
+|----------------------------------------------
+| Following function will save edited details 
+| for accountant's company
+|----------------------------------------------
+*/
+module.exports.editAccountantCompanyInfo = (req, res) => {
+	const BasicInfo = Joi.object().keys({
+		name: Joi.string().min(3).max(16).regex(/^[a-zA-Z ]{3,16}$/).required(),
+		address: Joi.string().min(5).max(25).regex(/^[a-zA-Z 0-9]{5,25}$/).required(),
+		email: Joi.string().email().allow('', null),
+		useremail: Joi.string().email(),
+		website: Joi.string().uri().allow('', null),
+		Tel: Joi.string().min(11).max(11).regex(/^[0-9]{11,11}$/).allow('', null),
+	});
+
+	Joi.validate(req.body, BasicInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Accountants
+				.findOne({ email: req.body.useremail })
+				.select('company')
+				.exec((err, accountant) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!accountant) {
+						sendJsonResponse(res, 404, {
+							error: `No Accountant found with ${req.body.useremail}`,
+						});
+					}
+					else {
+						accountant.company[0].name = req.body.name;
+						accountant.company[0].address = req.body.address;
+						accountant.company[0].email = req.body.email;
+						accountant.company[0].website = req.body.website;
+						accountant.company[0].Tel = req.body.Tel;
+
+						accountant.save((err) => {
+							if (err) {
+								sendJsonResponse(res, 404, {
+									error: `Error! while saving accountant's company info`,
+								});
+								return;
+							}
+							else {
+								sendJsonResponse(res, 202, {
+									success: true,
+								});
+							}
+						});
+					}	
+				});
+		}
+	});
+};

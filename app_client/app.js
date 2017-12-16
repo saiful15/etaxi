@@ -115,6 +115,11 @@
 				controller: 'accountantCtrl',
 				controllerAs: 'acvm',
 			})
+			.when('/docs', {
+				templateUrl: 'profile/docs/docs.view.html',
+				controller: 'docsCtrl',
+				controllerAs: 'dcvm',
+			});
 			
 		// enable html5 mode
 		$locationProvider.html5Mode({

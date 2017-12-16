@@ -167,6 +167,7 @@
 			|----------------------------------------------
 			*/
 			prvm.AccountantBasicContactEditOn = false;
+			prvm.AccountantCompanyEditOn = false;
 			prvm.LoadAccountantProfile = () => {
 				AccountantService
 					.AccountantProfile(authentication.currentUser().email)
@@ -182,15 +183,15 @@
 					.catch((err) => {
 						alert(err);
 					});
-			}
+			};
 
 			prvm.editAccountantBasicContact = () => {
 				prvm.AccountantBasicContactEditOn = true;
-			}
+			};
 
 			prvm.cancelAccountantBasicContact = () => {
 				prvm.AccountantBasicContactEditOn = false;
-			}
+			};
 
 			// save change
 			prvm.saveAccountantBasicContact = () => {
@@ -213,8 +214,45 @@
 					})
 					.catch((err) => {
 						alert(err);
+					});
+			};
+			/*
+			|----------------------------------------------
+			| Edit accoutant company info
+			|----------------------------------------------
+			*/
+			prvm.editAccountantCompany = () => {
+				prvm.AccountantCompanyEditOn = true;
+			};
+			prvm.cancelAccountantCompany = () => {
+				prvm.AccountantCompanyEditOn = false;
+			};
+			prvm.saveAccountantCompany = () => {
+				const accountantCompany = {
+					name: prvm.accountant.company[0].name,
+					address: prvm.accountant.company[0].address,
+					email: prvm.accountant.company[0].email,
+					useremail: authentication.currentUser().email,
+					website: `http://${prvm.accountant.company[0].website}`,
+					Tel: prvm.accountant.company[0].tel,
+				};
+				AccountantService
+					.editCompany(accountantCompany)
+					.then((response) => {
+						if (response.data.error) {
+							prvm.AccountantCompanySaveError = true;
+							prvm.AccountantCompanySaveErrorMsg = response.data.error;
+						}
+						else {
+							prvm.AccountantCompanySaveError = false;
+							$route.reload();
+						}
 					})
-			}
+					.catch((err) => {
+						alert(err);
+					});
+
+			};
 		}
 		else{
 			$location.path('/signin');

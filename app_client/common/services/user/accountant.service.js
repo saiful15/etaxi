@@ -19,21 +19,28 @@
 				.get('api/'+email+'/customers')
 				.then(handleSuccess)
 				.catch(handleError);
-		}
+		};
 
 		const AccountantProfile = (email) => {
 			return $http 
 				.get('/api/'+email+'/profile')
 				.then(handleSuccess)
 				.catch(handleError);
-		}
+		};
 
 		const editBasicContact = (data) => {
 			return $http
 				.post('/api/editcontact', data)
 				.then(handleSuccess)
 				.catch(handleError);
-		}
+		};
+
+		const editCompany = (data) => {
+			return $http
+				.post('/api/editcompany', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		};
 
 		function 	handleSuccess(response){
 			return response;
@@ -47,6 +54,7 @@
 			getCustomers: getCustomers,
 			AccountantProfile: AccountantProfile,
 			editBasicContact: editBasicContact,
+			editCompany: editCompany,
 		};
 	}
 })();

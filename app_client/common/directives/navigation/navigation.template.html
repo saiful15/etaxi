@@ -43,6 +43,9 @@
             <li><a href="/settings">Settings</a></li>
           </ul>
         </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/docs">Docs <i class="fa fa-file" aria-hidden="true"></i></a>
+        </li>
         <li ng-if="nvm.forLoggedInUser === true"><a href="/profile">{{nvm.name}}</a></li>        
         <li ng-if="nvm.forLoggedInUser === true"><a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>        
         <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
@@ -54,6 +57,9 @@
         </li>
         <li ng-if="nvm.forLoggedInUser === true">
           <a href="/appcontrol"><i class="fa fa-cogs" aria-hidden="true"></i></a>
+        </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/docs">Docs <i class="fa fa-file" aria-hidden="true"></i></a>
         </li>
         <li ng-if="nvm.forLoggedInUser === true">
           <a href="/profile"><i class="fa fa-user-circle" aria-hidden="true"></i> {{nvm.name}}</a>
@@ -68,6 +74,9 @@
         </li>
         <li ng-if="nvm.forLoggedInUser === true">
           <a href="/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i></a>
+        </li>
+        <li ng-if="nvm.forLoggedInUser === true">
+          <a href="/docs">Docs <i class="fa fa-file" aria-hidden="true"></i></a>
         </li>
         <li ng-if="nvm.forLoggedInUser === true">
           <a href="/profile"><i class="fa fa-user-circle" aria-hidden="true"></i> {{nvm.name}}</a>
