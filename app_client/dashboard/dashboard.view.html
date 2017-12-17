@@ -163,16 +163,45 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-				<div class="container-box shadow wbg small-radius">
-					<h2 class="text-center sub-title">Not sure</h2>
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				<div class="container-box shadow wbg small-radius" ng-if='dsvm.LoadCustomerProfile === true'>
+					<h1 class="text-center sub-title">Information on</h1>
+					<p class="text-center m-t-4 title light" ng-if='dsvm.customerInfoLoadError === true'>{{dsvm.customerInfoLoadErrorMsg}}</p>
+					<p class="light sub-title">Account Info</p>
 					<hr>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-				<div class="container-box shadow wbg small-radius">
-					<h3 class="text-center sub-title">Not sure 2</h3>
+					<ul class="list-inline">
+						<li><span class="sub-title light">Name: {{dsvm.LoadedCustomer.name}}</span></li>
+						<li class="m-l-3"><span class="sub-title light">Account Status: {{dsvm.LoadedCustomer.status}}</span></li>
+						<li class="m-l-3"><span class="sub-title light">Email: {{dsvm.LoadedCustomer.email}}</span></li>
+						<li class="m-l-3"><span class="sub-title light">Account Created: {{dsvm.LoadedCustomer.created_at | date: 'yyyy, dd MMM'}}</span></li>
+					</ul>
+					<p class="light sub-title m-t-4">
+						Income Statements
+						<a href="#" title="load income statement" ng-click="dsvm.loadIncomeStatement(dsvm.LoadedCustomer.email)" class="btn btn-small btn-info m-l-4">Load Income</a>
+					</p>
 					<hr>
+					<p class="text-center light title" ng-if="dsvm.erroLoadingCustomerIncome === true">{{dsvm.erroLoadingCustomerIncomeMsg}}</p>
+					<table class="table table-striped" ng-if='dsvm.showCustomerIncome === true'>
+						<tr>
+							<th>Date</th>
+							<th>Account Type</th>
+							<th>Amount</th>
+						</tr>
+						<tbody>
+							<tr ng-repeat="income in dsvm.CustomerIncome">
+								<td>
+									{{income.incomeDate}}
+								</td>
+
+								<td>
+									{{income.incomeType}}
+								</td>
+								<td>
+									{{income.income | currency: '£'}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

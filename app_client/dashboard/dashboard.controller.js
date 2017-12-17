@@ -11,9 +11,9 @@
 		.controller('dashboardCtrl', dashboardCtrl);
 
 	// dependency
-	dashboardCtrl.$inject 	=	['authentication', '$location', 'userservice', 'AccountantService'];
+	dashboardCtrl.$inject 	=	['authentication', '$location', 'userservice', 'AccountantService', '$routeParams'];
 
-	function dashboardCtrl(authentication, $location, userservice, AccountantService){
+	function dashboardCtrl(authentication, $location, userservice, AccountantService, $routeParams){
 		const 	dsvm 		=	this;
 
 		// chekcing if user logged in or not.
@@ -146,7 +146,6 @@
 					AccountantService
 						.getCustomers(authentication.currentUser().email)
 						.then((response) => {
-							console.log(response);
 							if (response.data.error) {
 								dsvm.loadCustomerError = true;
 								dsvm.loadCustomerErrorMsg = response.data.error;
@@ -158,6 +157,47 @@
 						})
 						.catch((err) => alert(err));
 				}
+				dsvm.LoadCustomerProfile = false;
+				// checking routeParams.
+				if ($routeParams.cus) {
+					dsvm.LoadCustomerProfile = true;
+					AccountantService
+						.getCustomer($routeParams.cus)
+						.then((response) => {
+							if (response.data.error) {
+								dsvm.customerInfoLoadError = true;
+								dsvm.customerInfoLoadErrorMsg = response.data.error;
+							}
+							else {
+								dsvm.customerInfoLoadError = false;
+								dsvm.LoadedCustomer = response.data.userInfo;
+							}
+						})
+						.catch((err) => {
+							alert(err);
+						})
+					dsvm.showCustomerIncome = false;
+					// load income statement for give user.
+					dsvm.loadIncomeStatement = (customerEmail) => {
+						dsvm.showCustomerIncome = true;
+						userservice
+							.showIncome(customerEmail)
+							.then((response) => {
+								if (response.data.error) {
+									dsvm.erroLoadingCustomerIncome = true;
+									dsvm.erroLoadingCustomerIncomeMsg = response.data.error;
+								}
+								else {
+									dsvm.erroLoadingCustomerIncome = false;
+									dsvm.CustomerIncome = response.data.data;
+								}
+							})
+							.catch((err) => {
+								alert(err);
+							})
+					}
+				}
+
 			}
 		}
 		else{

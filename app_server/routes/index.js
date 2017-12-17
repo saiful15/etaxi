@@ -55,6 +55,7 @@ routes.get('/:email/customers', AccountantController.getCustomers);
 routes.get('/:email/profile', AccountantController.getProfile);
 routes.post('/editcontact', AccountantController.editAccountantBasicContact);
 routes.post('/editcompany', AccountantController.editAccountantCompanyInfo);
+routes.get('/:userId/custmer', AccountantController.getCustomerInfo);
 //end of of accountant routes.
 
 // file upload routes.

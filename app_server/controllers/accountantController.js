@@ -221,3 +221,46 @@ module.exports.editAccountantCompanyInfo = (req, res) => {
 		}
 	});
 };
+
+/*
+|----------------------------------------------
+| Following function will get all customer data.
+|----------------------------------------------
+*/
+module.exports.getCustomerInfo = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().max(10).required(),
+	});
+
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Users
+				.findOne({ userId: req.params.userId })
+				.exec((err, user) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+						return;
+					}
+					else if (!user) {
+						sendJsonResponse(res, 404, {
+							error: `No user found with ${req.params.userId} id`,
+						});
+						return;
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							userInfo: user,
+						});
+					}
+				})
+		}
+	})
+}

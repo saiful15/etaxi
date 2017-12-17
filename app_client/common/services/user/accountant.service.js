@@ -42,6 +42,13 @@
 				.catch(handleError);
 		};
 
+		const getCustomer = (userId) => {
+			return $http
+				.get('api/'+userId+'/custmer')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		function 	handleSuccess(response){
 			return response;
 		}
@@ -55,6 +62,7 @@
 			AccountantProfile: AccountantProfile,
 			editBasicContact: editBasicContact,
 			editCompany: editCompany,
+			getCustomer: getCustomer,
 		};
 	}
 })();
