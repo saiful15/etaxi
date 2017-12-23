@@ -1,8 +1,59 @@
 <!-- navigation -->
 <site-nav></site-nav>
 
-<div class="container">
-	<h1>document section</h1>
+<div class="container m-t-4 m-b-3">
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="container-box wbg small-radius shadow">
+				<h1 class="light title">My Drive</h1>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+			<div class="container-box wbg small-radius shadow">
+				<form ng-submit='dcvm.uploadDoc()' class="m-b-1">
+						<div class="form-group">
+							<label for="name">Name *</label>
+							<input type="text" id="name" ng-model="dcvm.docs.name" placeholder="name of the document" class="three-quater form-control">
+						</div>
+						<div class="form-group">
+							<label for="whatFor">What this document about *</label>
+							<textarea id="whatFor" cols="30" rows="3" class="form-control" ng-model='dcvm.docs.whatFor' placeholder="Tell us what this document for"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="whosFor">Whos For *</label>
+							<input type="text" ng-model="dcvm.docs.whosFor" id="whosFor" placeholder="name of the document" class="three-quater form-control">
+						</div>
+						<div class="form-group">
+							<label for="accountDocs" class="btn btn-danger">
+								Upload File *
+								<i class="fa fa-files" aria-hidden="true"></i>
+								<input type="file" id="accountDocs" file-model='accountDocs' name='accountDocs' class="hidden">
+							</label>
+						</div>
+						<div class="alert alert-danger" ng-if="dcvm.uploaError === true">
+							<p class="light sub-title no-margin">{{dcvm.uploaErrorMsg}}</p>
+						</div>
+						<hr>
+						<div class="form-group">
+							<button type="submit" class="btn btn-success pull-left">Save</button>
+						</div>
+						<span class="clearfix"></span>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-ms-12 col-md-12 col-lg-12">
+			<div class="container-box shadow wbg small-radius m-t-2 m-b-3">
+				<h1 class="text-center hero-big-title light" ng-if="dcvm.noDocs === true">
+					You don't have any doucments 
+					<p class="title light">You may have documents in 
+						<a href="/expense">expenses</a>
+					</p>
+				</h1>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- site-footer -->

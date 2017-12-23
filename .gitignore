@@ -7,3 +7,4 @@ package.json
 package-lock.json
 /public/db/*.json
 .env
+.DS_Store

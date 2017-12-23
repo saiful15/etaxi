@@ -59,3 +59,4 @@ require('./vehicles');
 require('./contact');
 require('./accountant');
 require('./password-reset');
+require('./docs');

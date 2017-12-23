@@ -61,6 +61,10 @@ routes.get('/:userId/custmer', AccountantController.getCustomerInfo);
 // file upload routes.
 routes.post('/fileupload/:documentId/:userId', systemController.uploadFile);
 
+// document upload for the accountant.
+routes.post('/docupload/:documentId/:userId', systemController.documentUpload);
+routes.post('/createdoc', systemController.insertDocumentInfo);
+
 // route for contact page.
 routes.post('/contact', systemController.sendMessage);
 

@@ -306,6 +306,13 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		};
+
+		const createDocument = (data) => {
+			return $http
+				.post('/api/createdoc', data)
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		
 		function 	handleSuccess(response){
 			return response;
@@ -356,7 +363,8 @@
 			viewAllSentMessage: viewAllSentMessage,
 			showExpenseFile: showExpenseFile,
 			accountantProfile: accountantProfile,
-			getSingleCustomerDetails: getSingleCustomerDetails
+			getSingleCustomerDetails: getSingleCustomerDetails,
+			createDocument: createDocument
 		};
 	}
 })();

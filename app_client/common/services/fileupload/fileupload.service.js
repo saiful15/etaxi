@@ -13,15 +13,28 @@
 		.service('fileupload', fileupload);
 
 	fileupload.$inject = ['$http'];
-	
+
 	function fileupload($http){
 
 		var 		uploadProductFile 		=		function(file, documentId, userId){
 			var fd = new FormData();
 	        fd.append('accountImg', file);
 
-	        return $http 
+	        return $http
 	        			.post('/api/fileupload/'+documentId+'/'+userId, fd, {
+	        				transformRequest: angular.identity,
+            				headers: { 'Content-Type': undefined }
+	        			})
+	        			.then(handleSuccess)
+	        			.catch(handleError);
+		}
+
+		const uploadAccountDocs = (file, documentId, userId) => {
+			var fd = new FormData();
+	        fd.append('accountDocs', file);
+
+	        return $http
+	        			.post('/api/docupload/'+documentId+'/'+userId, fd, {
 	        				transformRequest: angular.identity,
             				headers: { 'Content-Type': undefined }
 	        			})
@@ -38,8 +51,9 @@
 		}
 
 		return {
-			uploadProductFile: uploadProductFile
+			uploadProductFile: uploadProductFile,
+			uploadAccountDocs: uploadAccountDocs
 		}
 	}
-	
+
 })();

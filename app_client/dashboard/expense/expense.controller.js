@@ -37,6 +37,7 @@
 				else{
 					exvm.expenseError = false;
 					exvm.expense.accountImg = $scope.accountImg;
+					console.log('file', exvm.expense.accountImg);
 
 					// checking if file exists.
 					if (!exvm.expense.accountImg) {

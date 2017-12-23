@@ -12,6 +12,8 @@ const Joi = require('joi');
 const multer = require('multer');
 const uid = require('uid');
 const NodeMailer = require('nodemailer');
+const Mongoose = require('mongoose');
+const Document = Mongoose.model('docs');
 /*
 |----------------------------------------------------------------
 | function for returning json.
@@ -159,3 +161,104 @@ module.exports.uploadFile = (req, res) => {
 
 
 }
+
+module.exports.documentUpload = (req, res) => {
+	var storage = multer.diskStorage({
+	destination: function(req, file, cb) {
+      cb(null, './users/'+req.params.userId);
+    	},
+	    filename: function(req, file, cb) {
+	        if (!file.originalname.match(/\.(png|jpeg|jpg|JPG|pdf)$/)) {
+	            var err = new Error();
+	            err.code = 'filetype';
+	            return cb(err);
+	        } else {
+	        	var fileid 		=	uid(8);
+	        	cb(null, fileid+file.originalname);
+	        }
+	    }
+	});
+	var upload = multer({
+	    storage: storage,
+	    limits: { fileSize: 5000000 }
+	}).single('accountDocs');
+
+	upload(req, res, function(err){
+		if(err){
+			if(err.code === 'LIMIT_FILE_SIZE'){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "File size is too large"
+				});
+			}
+			else if(err.code === 'filetype'){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error : "Invalid file type"
+				});
+			}
+			else {
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "Enable to upload!"
+				});
+			}
+		}
+		else{
+			if(!req.file){
+				sendJsonResponse(res, 404, {
+					success: false,
+					error: "Please select a product image"
+				});
+			}
+			else{
+				sendJsonResponse(res, 200, {
+					success: true,
+					docLocation: '/users/'+req.params.userId+'/'+req.file.filename,
+				});
+			}
+		}
+	});
+}
+
+module.exports.insertDocumentInfo = (req, res) => {
+	const documentInfo = Joi.object().keys({
+		name: Joi.string().min(3).max(24).regex(/^[a-zA-Z0-9 ]{3,24}$/).required(),
+		whatFor: Joi.string().min(3).max(24).regex(/^[a-zA-Z0-9 ]{3,24}$/).required(),
+		whosFor: Joi.string().min(3).max(24).regex(/^[a-zA-Z0-9 ]{3,24}$/).required(),
+		docId: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+		uploader: Joi.string().min(24).max(24).regex(/^[a-z0-9]{24,24}$/).required(),
+		docLocation: Joi.string().required(),
+	});
+
+	Joi.validate(req.body, documentInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			return;
+		}
+		else {
+			Document.create({
+				docId : req.body.docId,
+				uploader : req.body.uploader,
+				name : req.body.name,
+				whatFor : req.body.whatFor,
+				docLocation : req.body.docLocation,
+			}, (err, doc) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					});
+					return;
+				}
+				else {
+					sendJsonResponse(res, 200, {
+						success: true,
+					});
+				}
+			});
+		}
+	})
+}
+
