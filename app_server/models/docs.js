@@ -16,6 +16,7 @@ const docSchema = new mongoose.Schema({
 	uploader: {type: String, required: true, },
 	name: {type: String, required: true, },
 	whatFor: {type: String, required: true, },
+	whosFor: {type: String, required: true, },
 	docLocation: {type: String, required: true, },
 	createdAt: {type: Date, default: Date.now },
 });

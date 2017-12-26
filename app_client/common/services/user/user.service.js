@@ -313,6 +313,13 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		}
+
+		const checkDocuments = (userId) => {
+			return $http 
+				.get('/api/'+userId+'/checkdocs')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		
 		function 	handleSuccess(response){
 			return response;
@@ -364,7 +371,8 @@
 			showExpenseFile: showExpenseFile,
 			accountantProfile: accountantProfile,
 			getSingleCustomerDetails: getSingleCustomerDetails,
-			createDocument: createDocument
+			createDocument: createDocument,
+			checkDocuments: checkDocuments
 		};
 	}
 })();

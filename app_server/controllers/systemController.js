@@ -244,6 +244,7 @@ module.exports.insertDocumentInfo = (req, res) => {
 				uploader : req.body.uploader,
 				name : req.body.name,
 				whatFor : req.body.whatFor,
+				whosFor: req.body.whosFor,
 				docLocation : req.body.docLocation,
 			}, (err, doc) => {
 				if (err) {
@@ -260,5 +261,42 @@ module.exports.insertDocumentInfo = (req, res) => {
 			});
 		}
 	})
+}
+
+module.exports.checkDocs = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().required(),
+	});
+
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err.details[0].message,
+			});
+			console.log('err', err);
+		}
+		else {
+			Document
+				.find({ uploader: req.params.userId })
+				.exec((err, doc) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+					}
+					else if (!doc) {
+						sendJsonResponse(res, 404, {
+							error: 'No doc found',
+						});
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true, 
+							doc: doc
+						});
+					}
+				})
+		}
+	});
 }
 

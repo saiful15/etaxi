@@ -20,6 +20,25 @@
 			dcvm.noDocs = true;
 			dcvm.showUploadForm = false;
 
+			// checking docs are whether available or not.
+			dcvm.checkDocs = () => {
+				dcvm.docCheckFailed = false;
+				// calling user service.
+				userservice
+					.checkDocuments(authentication.currentUser().userId)
+					.then((response) => {
+						dcvm.weHaveDocs = true;
+						dcvm.noDocs = false;
+						dcvm.totalDocs = response.data.doc.length;
+						dcvm.docs = response.data.doc;
+					})
+					.catch((err) => {
+						dcvm.weHaveDocs = false;
+						dcvm.docCheckFailed = true;
+						dcvm.docCheckErrorMsg = err;
+					})
+			}
+
 			// upload 
 			dcvm.docs = {
 				name: '',
