@@ -151,6 +151,13 @@
 				.catch(handleError);
 		};
 
+		const showEstimatedTax = function (userId, totalIncome) {
+			return $http
+				.get('/api/'+userId+'/'+totalIncome+'/showestimatedtax')
+				.then(handleSuccess)
+				.catch(handleError);
+		};
+
 		const showSingleIncome = function (userId, incomeId) {
 			return $http
 				.get('/api/'+userId+'/getincome/'+incomeId)
@@ -346,6 +353,7 @@
 			showExpenseSummary: showExpenseSummary,
 			addIncome: addIncome,
 			showIncome: showIncome,
+			showEstimatedTax: showEstimatedTax,
 			deleteIncome: deleteIncome,
 			showSingleIncome: showSingleIncome,
 			updateIncomeStatement: updateIncomeStatement,

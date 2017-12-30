@@ -1,3 +1,4 @@
+require('dotenv').config({});
 /*
 |----------------------------------------------
 | setting up user controller 
@@ -1032,6 +1033,59 @@ module.exports.showIncome = function (req, res) {
 		 		}
 		 	})
 	}
+}
+
+/*
+|----------------------------------------------
+| Following function will calculate estimated
+| tax for a user based on gives info
+| @author: jahid haque <jahid.haque@yahoo.com>
+| @copyright: taxiaccounting, 2017
+|----------------------------------------------
+*/
+module.exports.calculateEstimatedTax = (req, res) => {
+	vehicles
+		.findOne({ whos: req.params.userId })
+		.exec((err, vehicle) => {
+			if (err) {
+				sendJsonResponse(res, 404, {
+					error: err,
+				});
+			}
+			else if (!vehicle) {
+				sendJsonResponse(res, 404, {
+					error: 'no vehicle found for tax calculation',
+				});
+			}
+			else {
+				const vehicleStatus = vehicle.car_status;
+
+				if (vehicleStatus === 'finance' || vehicleStatus === 'own') {
+					let taxPayable = 0;
+					let percentageAdjustment = 0.1;
+
+					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
+
+					sendJsonResponse(res, 200, {
+						ni: process.env.NI_CONTRIBUTON,
+						percentageAdjustment: percentageAdjustment,
+						taxPayable: taxPayable
+					});
+				}
+				else if (vehicleStatus === 'rented') {
+					let taxPayable = 0;
+					let percentageAdjustment = 0;
+
+					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
+
+					sendJsonResponse(res, 200, {
+						ni: process.env.NI_CONTRIBUTON,
+						percentageAdjustment: percentageAdjustment,
+						taxPayable: taxPayable
+					});
+				}
+			}
+		})
 }
 
 /*

@@ -9,193 +9,219 @@
 	angular
 		.module('etaxi')
 		.controller('financeCtrl', financeCtrl);
-	financeCtrl.$inject = ['authentication', 'userservice'];
+	financeCtrl.$inject = ['authentication', 'userservice', '$route'];
 
-	function financeCtrl(authentication, userservice) {
+	function financeCtrl(authentication, userservice, $route) {
 
-		const fstvm = this;
-
-		fstvm.loadIncome = () => {
-			fstvm.totalIncome = 0;
-			userservice
-				.showIncome(authentication.currentUser().email)
-				.then(function(response) {
-					if(response.data.success === true) {
-						fstvm.incomeList = response.data.data;
-						for(var i =0; i < fstvm.incomeList.length; i++) {
-							fstvm.totalIncome += parseFloat(fstvm.incomeList[i].income);
-						}	
-						const cash = fstvm.incomeList.filter((income) => {
-							return income.incomeType === 'cash';
-						});
-						fstvm.totalCash = cash.reduce((sum, singlecash) => {
-							return sum + singlecash.income;
-						}, 0);
-
-						const card = fstvm.incomeList.filter((income) => {
-							return income.incomeType === 'card';
-						});
-
-						fstvm.totalCard = card.reduce((sum, singlecard) => {
-							return sum + singlecard.income;
-						}, 0);
-
-						const accountIncomes = fstvm.incomeList.filter((accountIncome) => {
-							return accountIncome.incomeType === 'account';
-						});
-
-						fstvm.totalAccountIncome = accountIncomes.reduce((sum, accountIncome) => {
-							return sum + accountIncome.income;
-						}, 0);
-					}
-				})
-				.catch(err => function(){
-					alert(err);
-				})
-		}
-
-		fstvm.loadExpense = () => {
+		if (authentication.isLoggedIn()) {
+			const fstvm = this;
 			fstvm.totalExpense = 0;
-			userservice
-				.showExpenseSummary(authentication.currentUser().email)
-				.then(function(response){
-					if(response.data.success === true){
-						fstvm.expensesList = response.data.expense;
-						for(var i =0; i < fstvm.expensesList.length; i++) {
-							fstvm.totalExpense += parseFloat(fstvm.expensesList[i].amount);
+			fstvm.loadIncome = () => {
+				fstvm.totalIncome = 0;
+				userservice
+					.showIncome(authentication.currentUser().email)
+					.then(function(response) {
+						if(response.data.success === true) {
+							fstvm.incomeList = response.data.data;
+							for(var i =0; i < fstvm.incomeList.length; i++) {
+								fstvm.totalIncome += parseFloat(fstvm.incomeList[i].income);
+							}	
+							const cash = fstvm.incomeList.filter((income) => {
+								return income.incomeType === 'cash';
+							});
+							fstvm.totalCash = cash.reduce((sum, singlecash) => {
+								return sum + singlecash.income;
+							}, 0);
+
+							const card = fstvm.incomeList.filter((income) => {
+								return income.incomeType === 'card';
+							});
+
+							fstvm.totalCard = card.reduce((sum, singlecard) => {
+								return sum + singlecard.income;
+							}, 0);
+
+							const accountIncomes = fstvm.incomeList.filter((accountIncome) => {
+								return accountIncome.incomeType === 'account';
+							});
+
+							fstvm.totalAccountIncome = accountIncomes.reduce((sum, accountIncome) => {
+								return sum + accountIncome.income;
+							}, 0);
+
+							// load estimated tax
+							loadEstimatedTax(authentication.currentUser().email, fstvm.totalIncome);
 						}
+					})
+					.catch(err => function(){
+						alert(err);
+					})
+			}
 
-						const expensesOil = fstvm.expensesList.filter((expense) => {
-							return expense.expense_sector === 'oil';
-						});
-						
-						fstvm.oilExpense = expensesOil.reduce((sum, expense) => {
-							return sum + expense.amount;
-						}, 0);
+			fstvm.loadExpense = () => {
+				userservice
+					.showExpenseSummary(authentication.currentUser().email)
+					.then(function(response){
+						if(response.data.success === true){
+							fstvm.expensesList = response.data.expense;
+							for(var i =0; i < fstvm.expensesList.length; i++) {
+								fstvm.totalExpense += parseFloat(fstvm.expensesList[i].amount);
+							}
 
-						const fuelCosts = fstvm.expensesList.filter((fuel) => {
-							return fuel.expense_sector === 'fuel';
-						});
+							const expensesOil = fstvm.expensesList.filter((expense) => {
+								return expense.expense_sector === 'oil';
+							});
+							
+							fstvm.oilExpense = expensesOil.reduce((sum, expense) => {
+								return sum + expense.amount;
+							}, 0);
 
-						fstvm.fuelTotalCost = fuelCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const fuelCosts = fstvm.expensesList.filter((fuel) => {
+								return fuel.expense_sector === 'fuel';
+							});
 
-						const roadTax = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'road_tax';
-						});
+							fstvm.fuelTotalCost = fuelCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.roadTax = roadTax.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const roadTax = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'road_tax';
+							});
 
-						const insurances = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'insurance';
-						});
+							fstvm.roadTax = roadTax.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.insuranceCost = insurances.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const insurances = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'insurance';
+							});
 
-						const repairCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'repair';
-						});
+							fstvm.insuranceCost = insurances.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.repairCost = repairCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const repairCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'repair';
+							});
 
-						const carRentCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'car_rent';
-						});
+							fstvm.repairCost = repairCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.carRentCost = carRentCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const carRentCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'car_rent';
+							});
 
-						const carFinanceCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'car_finance';
-						});
+							fstvm.carRentCost = carRentCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.carFinanceCost = carFinanceCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const carFinanceCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'car_finance';
+							});
 
-						const carWashCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'car_wash';
-						});
+							fstvm.carFinanceCost = carFinanceCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.carWashCost = carWashCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const carWashCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'car_wash';
+							});
 
-						const motCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'mot';
-						});
+							fstvm.carWashCost = carWashCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.motCost = motCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const motCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'mot';
+							});
 
-						const tyresCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'tyres';
-						});
+							fstvm.motCost = motCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.tyresCost = tyresCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const tyresCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'tyres';
+							});
 
-						const phoneCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'phone';
-						});
+							fstvm.tyresCost = tyresCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.phoneCost = phoneCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const phoneCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'phone';
+							});
 
-						const accountancyCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'accountancy';
-						});
+							fstvm.phoneCost = phoneCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.accountancyCost = accountancyCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const accountancyCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'accountancy';
+							});
 
-						const otherCosts = fstvm.expensesList.filter((cost) => {
-							return cost.expense_sector === 'other';
-						});
+							fstvm.accountancyCost = accountancyCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
 
-						fstvm.otherCost = otherCosts.reduce((sum, cost) => {
-							return sum + cost.amount;
-						}, 0);
+							const otherCosts = fstvm.expensesList.filter((cost) => {
+								return cost.expense_sector === 'other';
+							});
 
-					}
-				})
-				.catch(function(err){
-					alert(err);
-				})
+							fstvm.otherCost = otherCosts.reduce((sum, cost) => {
+								return sum + cost.amount;
+							}, 0);
+
+						}
+					})
+					.catch(function(err){
+						alert(err);
+					})
+			}
+
+			
+			const loadEstimatedTax = (userId, totlaIncome) => 	{
+				userservice
+					.showEstimatedTax(userId, totlaIncome)
+					.then((response) => {
+						if (response.data.error) {
+							fstvm.taxLoadError = true;
+							fstvm.taxLoadErrorMsg = response.data.error;
+						}
+						else {
+							fstvm.loadTaxInfo = response.data;
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+					})
+			}
+			
+
+			/*
+			|----------------------------------------------
+			| Following method will export data from db to csv
+			| @author: jahid haque <jahid.haque@yahoo.com>
+			| @copyright: comany name, 2017
+			|----------------------------------------------
+			*/
+			fstvm.exportAsPDF = () => {
+				html2canvas(document.getElementById('incomeStatement'), {
+	            onrendered: function (canvas) {
+	                var data = canvas.toDataURL();
+	                var docDefinition = {
+	                    content: [{
+	                        image: data,
+	                        width: 500,
+	                    }]
+	                };
+	                pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
+	            }
+	        });
+			}
 		}
-
-		/*
-		|----------------------------------------------
-		| Following method will export data from db to csv
-		| @author: jahid haque <jahid.haque@yahoo.com>
-		| @copyright: comany name, 2017
-		|----------------------------------------------
-		*/
-		fstvm.exportAsPDF = () => {
-			html2canvas(document.getElementById('incomeStatement'), {
-            onrendered: function (canvas) {
-                var data = canvas.toDataURL();
-                var docDefinition = {
-                    content: [{
-                        image: data,
-                        width: 500,
-                    }]
-                };
-                pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
-            }
-        });
+		else {
+			$route.path('/signin');
 		}
 	}
 })();

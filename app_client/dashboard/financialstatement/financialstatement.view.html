@@ -81,6 +81,15 @@
 								<p class="regular text-right">{{fstvm.otherCost | currency: '£'}}</p>
 								<hr>
 								<p class="regular text-right">Total Incomes {{fstvm.totalIncome | currency: '£'}}</p>
+								<hr>
+								<p class="regular">Estimated Tax Calculation</p>
+								<div class="alert alert-danger" ng-if="fstvm.taxLoadError === true">
+									<p class="text-center light">{{fstvm.taxLoadErrorMsg}}</p>
+								</div>
+								<p class="regular text-right">NI Contribution: {{fstvm.loadTaxInfo.ni}}</p>
+								<p class="regular text-right">Percentage Adjustment: {{fstvm.loadTaxInfo.percentageAdjustment}}</p>
+								<p class="regular text-right">Taxpayable: {{fstvm.loadTaxInfo.taxPayable | currency: '£'}}</p>
+								<br/> <br/>
 								<p class="regular text-right">Total Expenses {{fstvm.totalExpense | currency: '£'}}</p>
 								<hr>
 								<h3 class="text-right regular sub-title m-b-3"><strong class="m-r-2">Total Net Income</strong>{{fstvm.totalIncome - fstvm.totalExpense | currency: '£'}}</h3>
