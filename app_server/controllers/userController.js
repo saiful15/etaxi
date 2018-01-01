@@ -1059,31 +1059,107 @@ module.exports.calculateEstimatedTax = (req, res) => {
 			}
 			else {
 				const vehicleStatus = vehicle.car_status;
+				let totalIncomeForTax = 0;
+				let totalExpenseForTax = 0;
 
-				if (vehicleStatus === 'finance' || vehicleStatus === 'own') {
-					let taxPayable = 0;
-					let percentageAdjustment = 0.1;
+				const getTotalIncome = () => {
+					return new Promise((resolve, reject) => {
+						incomes
+							.find({whos: req.params.userId })
+							.select('income')
+							.exec((err, incomes) => {
+								if (err) {
+									reject(err);
+								}
+								else {
+									totalIncomeForTax = incomes.reduce((sum, income) => {
+										return sum + income.income;
+									},0);
+									resolve(totalIncomeForTax);
+								}
+							})
+					})
+				};
 
-					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
-					console.log(req.params.totalIncome+'\t:'+process.env.NI_CONTRIBUTON);
-					sendJsonResponse(res, 200, {
-						ni: process.env.NI_CONTRIBUTON,
-						percentageAdjustment: percentageAdjustment,
-						taxPayable: taxPayable
-					});
-				}
-				else if (vehicleStatus === 'rented') {
-					let taxPayable = 0;
-					let percentageAdjustment = 0;
+				const totalExpense = () => {
+					return new Promise((resolve, reject) => {
+						expenses
+							.find({ whos: req.params.userId })
+							.select('amount')
+							.exec((err, expenses) => {
+								if (err) {
+									reject(err);
+								}
+								else {
+									totalExpenseForTax = expenses.reduce((sum, expense) => {
+										return sum + expense.amount;
+									},0);
+									resolve(totalExpenseForTax);
+								}
+							})
+					})
+				};
 
-					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
+				
+				// get all income and expenses.
+				Promise.all([totalExpense(), getTotalIncome()])
+					.then((responses) => {
+						let taxPayable = 0;
+						let grossIncome = 0;
+						let percentageAdjustment = 0.1;
+						
+						if (vehicleStatus === 'finance' || vehicleStatus === 'own') {
+							let totalTaxAmount = 0;
+							taxPayable = (responses[1] * process.env.NI_CONTRIBUTON) + (responses[1] * percentageAdjustment);
+							grossIncome = parseFloat(responses[1] - responses[0]);
 
-					sendJsonResponse(res, 200, {
-						ni: process.env.NI_CONTRIBUTON,
-						percentageAdjustment: percentageAdjustment,
-						taxPayable: taxPayable
-					});
-				}
+							if (grossIncome > process.env.TAXFREE_INCOME) {
+								let netDifference = parseFloat(grossIncome - process.env.TAXFREE_INCOME);
+								if (netDifference > 0) {
+									totalTaxAmount = parseFloat(netDifference * 0.20);
+								}
+								else {
+									totalTaxAmount = 0;
+								}
+							}
+							sendJsonResponse(res, 200, {
+								ni: process.env.NI_CONTRIBUTON,
+								percentageAdjustment: percentageAdjustment,
+								taxPayable: taxPayable,
+								grossIncome: grossIncome,
+								totalTaxAmount: totalTaxAmount,
+							});
+						}
+						else if (vehicleStatus === 'rented') {
+							let taxPayable = 0;
+							let percentageAdjustment = 0;
+							let totalTaxAmount = 0;
+							grossIncome = parseFloat(responses[1] - responses[0]);
+							taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
+							if (grossIncome > process.env.TAXFREE_INCOME) {
+								let netDifference = parseFloat(grossIncome - process.env.TAXFREE_INCOME);
+
+								if (netDifference > 0) {
+									totalTaxAmount = parseFloat(netDifference * 0.20);
+								}
+								else {
+									totalTaxAmount = 0;
+								}
+							}
+							sendJsonResponse(res, 200, {
+								ni: process.env.NI_CONTRIBUTON,
+								percentageAdjustment: percentageAdjustment,
+								taxPayable: taxPayable,
+								totalTaxAmount: totalTaxAmount,
+							});
+						}
+
+					})
+					.catch((err) => {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+					})
 			}
 		})
 }

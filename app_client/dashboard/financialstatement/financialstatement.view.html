@@ -86,9 +86,13 @@
 								<div class="alert alert-danger" ng-if="fstvm.taxLoadError === true">
 									<p class="text-center light">{{fstvm.taxLoadErrorMsg}}</p>
 								</div>
-								<p class="regular text-right">NI Contribution: {{fstvm.loadTaxInfo.ni}}</p>
-								<p class="regular text-right">Percentage Adjustment: {{fstvm.loadTaxInfo.percentageAdjustment}}</p>
-								<p class="regular text-right">Taxpayable: {{fstvm.loadTaxInfo.taxPayable | currency: '£'}}</p>
+								<div ng-init="fstvm.loadEstimatedTax()">
+									<p class="regular text-right">NI Contribution: {{fstvm.loadTaxInfo.ni}}</p>
+									<p class="regular text-right">Percentage Adjustment: {{fstvm.loadTaxInfo.percentageAdjustment}}</p>
+									<p class="regular text-right">Total Contribution: {{fstvm.loadTaxInfo.taxPayable | currency: '£'}}</p>
+									<p class="regular text-right">Gross Income: {{fstvm.loadTaxInfo.grossIncome | currency: '£'}}</p>
+									<p class="regular text-right">Estimated Tax: {{fstvm.loadTaxInfo.totalTaxAmount | currency: '£'}}</p>
+								</div>
 								<br/> <br/>
 								<p class="regular text-right">Total Expenses {{fstvm.totalExpense | currency: '£'}}</p>
 								<hr>

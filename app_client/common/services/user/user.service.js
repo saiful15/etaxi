@@ -151,9 +151,9 @@
 				.catch(handleError);
 		};
 
-		const showEstimatedTax = function (userId, totalIncome) {
+		const showEstimatedTax = function (userId) {
 			return $http
-				.get('/api/'+userId+'/'+totalIncome+'/showestimatedtax')
+				.get('/api/'+userId+'/showestimatedtax')
 				.then(handleSuccess)
 				.catch(handleError);
 		};

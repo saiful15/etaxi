@@ -15,7 +15,7 @@
 
 		if (authentication.isLoggedIn()) {
 			const fstvm = this;
-			fstvm.totalExpense = 0;
+			
 			fstvm.loadIncome = () => {
 				fstvm.totalIncome = 0;
 				userservice
@@ -48,9 +48,6 @@
 							fstvm.totalAccountIncome = accountIncomes.reduce((sum, accountIncome) => {
 								return sum + accountIncome.income;
 							}, 0);
-
-							// load estimated tax
-							loadEstimatedTax(authentication.currentUser().email, fstvm.totalIncome);
 						}
 					})
 					.catch(err => function(){
@@ -59,6 +56,7 @@
 			}
 
 			fstvm.loadExpense = () => {
+				fstvm.totalExpense = 0;
 				userservice
 					.showExpenseSummary(authentication.currentUser().email)
 					.then(function(response){
@@ -171,7 +169,6 @@
 							fstvm.otherCost = otherCosts.reduce((sum, cost) => {
 								return sum + cost.amount;
 							}, 0);
-
 						}
 					})
 					.catch(function(err){
@@ -180,9 +177,9 @@
 			}
 
 			
-			const loadEstimatedTax = (userId, totlaIncome) => 	{
+			fstvm.loadEstimatedTax = () => 	{
 				userservice
-					.showEstimatedTax(userId, totlaIncome)
+					.showEstimatedTax(authentication.currentUser().email)
 					.then((response) => {
 						if (response.data.error) {
 							fstvm.taxLoadError = true;
