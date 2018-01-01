@@ -1,0 +1,42 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="full-page-container">
+	<div class="container">
+		<div class="row">
+			<h1 class="text-center hero-big-title">Your Tax Returns</h1>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="container-box wbg shadow small-radius">
+					<div class="alert alert-danger" ng-if="txvm.loadTaxReturnError === true">
+						<p class="text-center regular">{{txvm.loadTaxReturnErrorMsg}}</p>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-4">
+							<ul class="list">
+								<li>
+									<p class="regular title">National Insurance Percentage: {{txvm.taxInfo.ni}}</p>
+								</li>
+								<li>
+									<p class="regular title">Percentage Adjustment: {{txvm.taxInfo.percentageAdjustment}}</p>
+								</li>
+								<li>
+									<p class="regular title">Payable Tax: {{txvm.taxInfo.taxPayable | currency: '£'}}</p>
+								</li>
+								<li>
+									<p class="regular title">Gross Income: {{txvm.taxInfo.grossIncome | currency: '£'}}</p>
+								</li>
+								<li>
+									<p class="regular title">Total Tax Amount {{txvm.taxInfo.totalTaxAmount | currency: '£'}}</p>
+								</li>
+							</ul>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>

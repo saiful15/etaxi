@@ -115,6 +115,11 @@
 				controller: 'accountantCtrl',
 				controllerAs: 'acvm',
 			})
+			.when('/taxreturn', {
+				templateUrl: 'appcontrol/taxreturn/taxreturn.view.html',
+				controller: 'taxController',
+				controllerAs: 'txvm',
+			})
 			.when('/docs', {
 				templateUrl: 'profile/docs/docs.view.html',
 				controller: 'docsCtrl',
