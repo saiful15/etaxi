@@ -1064,8 +1064,8 @@ module.exports.calculateEstimatedTax = (req, res) => {
 					let taxPayable = 0;
 					let percentageAdjustment = 0.1;
 
-					taxPayable = parseFloat((req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment));
-					console.log(taxPayable);
+					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
+					console.log(req.params.totalIncome+'\t:'+process.env.NI_CONTRIBUTON);
 					sendJsonResponse(res, 200, {
 						ni: process.env.NI_CONTRIBUTON,
 						percentageAdjustment: percentageAdjustment,
@@ -1076,7 +1076,7 @@ module.exports.calculateEstimatedTax = (req, res) => {
 					let taxPayable = 0;
 					let percentageAdjustment = 0;
 
-					taxPayable = parseFloat((req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment));
+					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
 
 					sendJsonResponse(res, 200, {
 						ni: process.env.NI_CONTRIBUTON,
