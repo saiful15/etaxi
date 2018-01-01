@@ -1065,7 +1065,7 @@ module.exports.calculateEstimatedTax = (req, res) => {
 					let percentageAdjustment = 0.1;
 
 					taxPayable = (req.params.totalIncome * process.env.NI_CONTRIBUTON) + (req.params.totalIncome * percentageAdjustment);
-
+					console.log(taxPayable);
 					sendJsonResponse(res, 200, {
 						ni: process.env.NI_CONTRIBUTON,
 						percentageAdjustment: percentageAdjustment,
