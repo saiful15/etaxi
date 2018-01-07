@@ -3,6 +3,7 @@
 
 <div class="setting-container" ng-init="stvm.userSetting()">
 	<div class="container" ng-if="stvm.initialError === false">
+		
 		<!-- for user contact settings -->
 		<div class="row">
 			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
@@ -220,6 +221,77 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- for profile settings -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<h1 class="text-center light title">You haven't set up your profile yet.</h1>
+				<p class="text-center title light">Please complete your profile</p>
+				<hr>
+				<form ng-submit="dsvm.createProfile()" class="form-horizontal">
+					<div class="form-group">
+						<label for="first_name" class="light">First name</label>
+						<input type="text" ng-model="dsvm.userProfile.first_name" class="form-control half" 
+							placeholder="Type your first name" id="first_name">
+					</div>
+
+					<div class="form-group">
+						<label for="last_name" class="light">Last name</label>
+						<input type="text" ng-model ="dsvm.userProfile.last_name" class="form-control half" 
+							placeholder="Type your last name" id="last_name">
+					</div>
+					
+					<div class="form-group">
+						<label for="house_no" class="light">House No</label>
+						<input type="text" ng-model="dsvm.userProfile.house_no" class="form-control quater" 
+							placeholder="House no" id="house_no">
+					</div>
+
+					<div class="form-group">
+						<label for="street_name" class="light">Street name</label>
+						<input type="text" ng-model="dsvm.userProfile.street_name" class="form-control quater" 
+							placeholder="Street name" id="street_name">
+					</div>
+
+					<div class="form-group">
+						<label for="city_name" class="light">City</label>
+						<input type="text" ng-model="dsvm.userProfile.city_name" class="form-control quater" 
+							placeholder="City name" id="city_name">
+					</div>
+
+					<div class="form-group">
+						<label for="county" class="light">County</label>
+						<input type="text" ng-model="dsvm.userProfile.county" class="form-control quater" 
+							placeholder="County name" id="county">
+					</div>
+
+					<div class="form-group">
+						<label for="postcode" class="light">Postcode</label>
+						<input type="text" ng-model="dsvm.userProfile.postcode" class="form-control quater" 
+							placeholder="Post code" id="postcode">
+					</div>
+
+					<div class="form-group" ng-if="dsvm.profileError === true">
+						<div class="alert alert-danger half">
+							{{dsvm.profileErrorMessage}}
+						</div>
+					</div>
+
+					<div class="form-group" ng-if="dsvm.profileSuccess === true">
+						<div class="alert alert-success half">
+							{{dsvm.successMessage}}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">
+							Save <img class="ajax-loader" diabled={{dsvm.btnDisabled}} ng-if="dsvm.showAjaxLoader === true" src="img/icons/loading.gif" alt="ajax loader">
+						</button>
+					</div>
+
+				</form>
+			</div>
+</div>
 
 		<div class="row m-t-3">
 			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
