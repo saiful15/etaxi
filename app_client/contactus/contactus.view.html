@@ -1,30 +1,81 @@
 <!-- navigation -->
 <site-nav></site-nav>
 
-<div class="full-page-container wbg">
-	<div class="container">
-		<h1 class="hero-big-title regular text-center">GET IN TOUCH WITH US</h1>
-		<hr>
-		<p class="text-center light sub-title">Send us message, query or anything else</p>
-		<form ng-submit="ctvm.sendMessage()">
-			<div class="form-group"><label for="name">Name</label><input type="text" class="form-control quater" ng-model="ctvm.message.name" id='name' placeholder="Your name"></div>
-			<div class="form-group">
-				<label for="email">Email</label><input type="email" ng-model='ctvm.message.email' placeholder="Your email address" class="form-control half" id="email">
-			</div>
-			<div class="form-group">
-				<label for="message">Message</label>
-				<textarea class="form-control" placeholder="Your message" id="message" ng-model="ctvm.message.body" col="10" rows='5'></textarea>
-			</div>
-			<div class="alert alert-danger" ng-if="ctvm.messageError === true">
-				<p class="text-center no-margin sub-title">{{ctvm.messageErrorMsg}}</p>
-			</div>
-			<!-- when sending message is successful -->
-			<div class="alert alert-success" ng-if="ctvm.messageError === false">
-				<p class="text-center no-margin sub-title">{{ctvm.messageErrorMsg}}</p>
-			</div>
-			<div class="form-group"><button type="submit" class="btn btn-success">SEND MESSAGE</button></div>
-		</form>
-	</div>
+<div class="wrapper">
+	
+	<!--=== Content Part ===-->
+            <div class="container content">
+                <div class="row margin-bottom-30">
+                    <div class="col-md-9 mb-margin-bottom-30">
+                        <div class="headline"><h2>Contact Form</h2></div>
+                        <form method="post" id="sky-form3" class="sky-form contact-style">
+                            <fieldset class="no-padding">
+                                <label>Name <span class="color-red">*</span></label>
+                                <div class="row sky-space-20">
+                                    <div class="col-md-7 col-md-offset-0">
+                                        <div>
+                                            <input type="text" name="name" id="name" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label>Email <span class="color-red">*</span></label>
+                                <div class="row sky-space-20">
+                                    <div class="col-md-7 col-md-offset-0">
+                                        <div>
+                                            <input type="text" name="email" id="email" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <label>Message <span class="color-red">*</span></label>
+                                <div class="row sky-space-20">
+                                    <div class="col-md-11 col-md-offset-0">
+                                        <div>
+                                            <textarea rows="8" name="message" id="message" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p><button type="submit" class="btn-u">Send Message</button></p>
+                            </fieldset>
+
+                            <div class="message">
+                                <i class="rounded-x fa fa-check"></i>
+                                <p>Your message was successfully sent!</p>
+                            </div>
+                        </form>
+                    </div><!--/col-md-9-->
+
+                    <div class="col-md-3">
+                        <!-- Contacts -->
+                        <div class="headline"><h2>Contacts</h2></div>
+                        <ul class="list-unstyled who margin-bottom-30">
+                            <li><a href="#"><i class="fa fa-home"></i>140 Hartington street, Newcastle Upon Tyne, United kingdom, NE4 6PS</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i>info@example.com</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i>0197111664, 07704368776</a></li>
+                            <li><a href="#"><i class="fa fa-globe"></i>taxiaccounting.co.uk</a></li>
+                        </ul>
+
+                        <!-- Business Hours -->
+                        <div class="headline"><h2>Business Hours</h2></div>
+                        <ul class="list-unstyled margin-bottom-30">
+                            <li><strong>Monday-Friday:</strong> 10am to 8pm</li>
+                            <li><strong>Saturday:</strong> 11am to 3pm</li>
+                            <li><strong>Sunday:</strong> Closed</li>
+                        </ul>
+
+                        <!-- Why we are? -->
+
+                    </div><!--/col-md-3-->
+                </div><!--/row-->
+
+                <!-- Owl Clients v1 -->
+
+
+                <!-- End Owl Clients v1 -->
+            </div><!--/container-->
+
 </div>
 
 <!-- site-footer -->
