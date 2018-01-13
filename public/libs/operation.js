@@ -41,6 +41,5 @@
 			$("#searchform").toggleClass('hidden');
 		});
 
-
 	});
 })();

@@ -12,5 +12,13 @@
 
 	function homeCtrl(){
 		const 	hmvm 		=	this;
+		angular.element(document).ready(function() {
+			App.init();
+         App.initParallaxBg();
+         FancyBox.initFancybox();
+         OwlCarousel.initOwlCarousel();
+         StyleSwitcher.initStyleSwitcher();
+         RevolutionSlider.initRSfullWidth();
+		});
 	}
 })();
