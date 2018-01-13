@@ -12,16 +12,17 @@
                     <div class="topbar">
                         <ul class="loginbar pull-right">
                             <li ng-if="nvm.loggedIn === false"><a href="/signup">Sign up</a></li>
-                            <li class="topbar-devider"></li>
+                            <li class="topbar-devider" ng-if="nvm.loggedIn === false"></li>
                             <li ng-show="nvm.loggedIn === false"><a href="/signin">Sign in</a></li>
                             <li ng-if="nvm.forLoggedInUser === true"><a href="/messages"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
-                            <li class="topbar-devider"></li>
+                            <li class="topbar-devider" ng-if="nvm.forLoggedInUser === true"></li>
                             <li ng-if="nvm.forLoggedInUser === true"><a href="/profile"><i class="fa fa-user-circle" aria-hidden="true"></i> {{nvm.name}}</a></li>
-                            <li class="topbar-devider"></li>
+                            <li class="topbar-devider" ng-if="nvm.forLoggedInUser === true"></li>
                             <li ng-if="nvm.forLoggedInUser === true"><a href="/docs">Docs <i class="fa fa-file" aria-hidden="true"></i></a></li>
-                            <li class="topbar-devider"></li>
-                            <a ng-if="nvm.forLoggedInUser === true" href="/dashboard"><i class="fa fa-tachometer m-r-1" aria-hidden="true"></i>Dashboard</a>
-                            <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#"><i class="fa fa-sign-out m-r-1" aria-hidden="true"></i>Logout </a></li>
+                            <li class="topbar-devider" ng-if="nvm.forLoggedInUser === true"></li>
+                            <li><a ng-if="nvm.forLoggedInUser === true" href="/dashboard"><i class="fa fa-tachometer m-r-1" aria-hidden="true"></i>Dashboard </a></li>
+                            <li class="topbar-devider" ng-if="nvm.forLoggedInUser === true"></li>
+                            <li ng-if="nvm.loggedIn !== false"><a ng-click="nvm.logout()" href="#">Logout<i class="fa fa-sign-out m-r-1 m-l-1" aria-hidden="true"></i></a></li>
 
                         </ul>
                     </div>

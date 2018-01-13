@@ -18,7 +18,7 @@ require("./app_server/models/db");
 require("./app_server/config/passport");
 
 // express object. 
-var 		app 			=		express();
+const app = express();
 
 // general app setting.
 app.use(morgan('dev'));
@@ -37,7 +37,8 @@ app.use(express.static(__dirname + path.join("/users")));
 | @copyright: etaxiaccounting, 2017
 |----------------------------------------------
 */
-var apiRoutes 		=		require("./app_server/routes/index");
+const apiRoutes 		=		require("./app_server/routes/index");
+
 
 // initalize passport.
 app.use(passport.initialize());

@@ -11,9 +11,9 @@
 		.module('etaxi')
 		.controller('docsCtrl', docsCtrl);
 
-	docsCtrl.$inject = ['$scope', 'authentication', 'userservice', 'fileupload', '$route', '$location'];
+	docsCtrl.$inject = ['$window', '$scope', 'authentication', 'userservice', 'fileupload', '$route', '$location'];
 
-	function docsCtrl($scope, authentication, userservice, fileupload, $route, $location) {
+	function docsCtrl($window, $scope, authentication, userservice, fileupload, $route, $location) {
 		const dcvm = this;
 
 		if(authentication.isLoggedIn()){
@@ -31,6 +31,10 @@
 						dcvm.noDocs = false;
 						dcvm.totalDocs = response.data.doc.length;
 						dcvm.docs = response.data.doc;
+
+						dcvm.Files = dcvm.docs.map((file) => {
+							return file.docLocation;
+						});
 					})
 					.catch((err) => {
 						dcvm.weHaveDocs = false;

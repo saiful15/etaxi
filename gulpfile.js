@@ -25,6 +25,7 @@ var     paths       =       {
         "public/assets/plugins/bootstrap/js/bootstrap.min.js",
         "public/assets/plugins/fancybox/source/jquery.fancybox.pack.js",
         "public/assets/plugins/owl-carousel/owl-carousel/owl.carousel.js",
+        "public/libs/jquery-file-donwload.js",
         "public/assets/js/app.js",
         "public/assets/js/plugins/fancy-box.js",
         "public/assets/js/plugins/owl-carousel.js",
