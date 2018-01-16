@@ -1,0 +1,194 @@
+.bs-glyphicons {
+    padding-left: 0;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+    list-style: none;
+    overflow: hidden;
+}
+.bs-glyphicons li {
+    float: left;
+    width: 25%;
+    height: 115px;
+    padding: 10px;
+    margin: 0 -1px -1px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+.bs-glyphicons .glyphicon {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+.bs-glyphicons .glyphicon-class {
+    display: block;
+    text-align: center;
+    word-wrap: break-word; /* Help out IE10+ with class names */
+}
+.bs-glyphicons li:hover {
+    background-color: rgba(86, 61, 124, .1);
+}
+@media (min-width: 768px) {
+    .bs-glyphicons li {
+        width: 12.5%;
+    }
+}
+
+
+/**********custom_css_start**********/
+h1,h2,h3,h4,h5,h6,p,a{
+    margin: 0px;
+    padding: 0px;
+}
+.clr_cyan{
+    color: #337ab7;
+}
+.bodr_clr_grey{
+    border: 1px solid #d2d6de;
+}
+.bg_clr_white{
+    background-color: #fff;
+}
+.brdr_btm{
+    border-bottom: 1px solid #d2d6de;
+}
+
+.shadow {
+    box-shadow: 0px 3px 5px #dcdcdc;
+}
+.mrgn_auto{
+    margin: auto;
+}
+.mrgn_tp_10px{
+    margin-top: 10px;
+}
+.mrgn_btm_20px{
+    margin-bottom: 20px;
+}
+.pad_tb_15{
+    padding: 15px 0px;
+}
+.pad_20{
+    padding: 20px;
+}
+.mrgn_tb_30px{
+    margin: 30px 0px;
+}
+/**********dashbord_css_start**********/
+/**********index_css_start**********/
+.setting_boxes{
+    margin: 20px 0px 0px 0px;
+}
+.setting_box{
+    padding: 20px 0px;
+    margin: 0px auto 30px auto;
+    transition: .25s;
+}
+.setting_box:hover{
+    box-shadow: 0px 0px 10px #c3c3c3;
+}
+.setting_box h3{
+    font-size: 20px;
+    margin: 0px;
+}
+
+/**********service_plan_css_start**********/
+
+.service_plan{
+    padding: 10px;
+    min-height: 300px;
+    position: relative;
+}
+.service_plan h3{
+    border-bottom: 1px solid #d2d6de;
+    padding: 15px 0px 20px 0px;
+    margin: 0px 0px 15px 0px;
+}
+.service_plan a{
+    text-align: center;
+    margin: 30px auto 0px auto;
+    display: block;
+    bottom: 13px;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    width: 200px;
+}
+
+/**********income_css_start**********/
+
+.income{
+    box-shadow: 0px 2px 5px gainsboro;
+}
+.income h4{
+    border-bottom: 1px solid #d2d6de;
+    padding: 15px;
+    width: 90%;
+    margin: auto;
+}
+.income .datepicker{
+    margin: 0px;
+    padding: 20px 0px 0px 20px;
+    width: 50%;
+    position: relative;
+}
+.income .datepicker input{
+    padding: 0px 0px 0px 10px;
+}
+.income i{
+    margin: 0px;
+    padding: 0px 0px 0px 0px;
+    position: absolute;
+    top: 56px;
+    left: 190px;
+}
+.pyment_option{
+    padding: 6px 0px 20px 20px;
+}
+.income_heading{
+
+}
+.income_heading h4{
+    border-bottom: 1px solid #d2d6de;
+    width: 90%;
+    margin: auto;
+    padding-bottom: 15px;
+}
+.income_last_week{
+    width: 90%;
+    margin: auto;
+}
+.income_last_week .table{
+    border-top: 1px solid #c5c5c5;
+    background: #e8e8e8;
+    margin: 0px;
+    padding: 5px;
+}
+.income_last_week .table ul li{
+    margin: 0px;
+    padding: 0px;
+}
+.income_details{
+    background-color: #fff;
+    padding: 22px 0px;
+    margin-bottom: 20px;
+}
+.income_monthly h3{
+    height: 200px;
+}
+.statement_btn{
+    margin: 20px auto;
+    text-align: center;
+    display: inherit;
+}
+/**********expenses_css_start**********/
+.income .pointer i{
+    position: inherit;
+    margin-left: 10px;
+}
+/**********expenses_css_start**********/
+.document_form{
+    
+}
+

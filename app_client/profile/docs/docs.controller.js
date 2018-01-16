@@ -105,6 +105,7 @@
 						})
 				}
 			}
+
 		}
 		else {
 			$location.path('/signin');
