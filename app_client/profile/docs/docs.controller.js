@@ -106,6 +106,25 @@
 				}
 			}
 
+			/*
+			|----------------------------------------------
+			| download the file
+			|----------------------------------------------
+			*/
+			dcvm.downloadFile = (docLocation) => {
+				$window.location.href = docLocation;
+				// const fileLocation = {
+				// 	loc: docLocation,
+				// };
+
+				// fileupload
+				// 	.downloadFile(fileLocation)
+				// 	.then(response => {
+
+				// 	})
+				
+			}
+
 		}
 		else {
 			$location.path('/signin');

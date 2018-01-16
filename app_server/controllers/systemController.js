@@ -216,7 +216,7 @@ module.exports.documentUpload = (req, res) => {
 			else{
 				sendJsonResponse(res, 200, {
 					success: true,
-					docLocation: '/users/'+req.params.userId+'/'+req.file.filename,
+					docLocation: req.params.userId+'/'+req.file.filename,
 				});
 			}
 		}

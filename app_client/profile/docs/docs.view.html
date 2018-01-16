@@ -67,13 +67,13 @@
 					</h1>
 
 					<div class="row" ng-if='dcvm.weHaveDocs === true'>
-						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-" ng-repeat="doc in dcvm.docs">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 m-t-2" ng-repeat="doc in dcvm.docs">
 							<div class="container-box wbg shadow small-radius">
 								<p class="text-center title light"> Document Name: {{doc.name}}</p>
 								<p class="text-center title light"> Document Created: {{doc.createdAt | date: 'yyyy MMM dd'}}</p>
 								<p class="text-center title light"> Document For: {{doc.whosFor}}</p>
 								<p class="title light">
-									<a ng-href = 'http://www.taxiaccounting.co.uk/{{doc.docLocation}}' target="_self" download title="Download the document" class="btn btn-small btn-danger">Download <i class="fa fa-download m-l-1 m-r-1" aria-hidden="true"></i></a>
+									<a href = '{{doc.docLocation}}' target="_self" download title="Download the document" class="btn btn-small btn-danger">Download <i class="fa fa-download m-l-1 m-r-1" aria-hidden="true"></i></a>
 								</p>
 							</div>
 						</div>
