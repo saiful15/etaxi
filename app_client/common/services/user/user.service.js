@@ -129,6 +129,13 @@
 				.catch(handleError);
 		};
 
+		const showSinlgeExpense = (userId, expenseId) => {
+			return $http 
+				.get('/api/' + userId + '/' + expenseId + '/expense')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
+
 		const showExpenseFile = (userId, expenseId) => {
 			return $http	
 				.get('/api/expense/'+userId+'/'+expenseId)
@@ -353,6 +360,7 @@
 			showExpenseSummary: showExpenseSummary,
 			addIncome: addIncome,
 			showIncome: showIncome,
+			showSinlgeExpense: showSinlgeExpense,
 			showEstimatedTax: showEstimatedTax,
 			deleteIncome: deleteIncome,
 			showSingleIncome: showSingleIncome,

@@ -91,6 +91,7 @@ routes.post('/addexpense/:userId', userController.addExpenses);
 // show expenses.
 routes.get('/showexpense/:userId', userController.showExpense);
 routes.get('/:userId/showestimatedtax', userController.calculateEstimatedTax);
+routes.get('/:userId/:expenseId/expense', userController.showSingleExpense);
 routes.get('/expense/:userId/:expenseId', userController.sendExpenseFile);
 
 // add income 

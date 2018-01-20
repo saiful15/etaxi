@@ -75,6 +75,11 @@
 				controller: "expenseCtrl",
 				controllerAs: 'exvm'
 			})
+			.when('/allexpenses', {
+				templateUrl: 'dashboard/allexpenses/allexpenses.view.html',
+				controller: 'allexpensesCtrl',
+				controllerAs: 'exlVm',
+			})
 			.when('/financialstatement', {
 				templateUrl: "dashboard/financialstatement/financialstatement.view.html",
 				controller: "financeCtrl",

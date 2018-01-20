@@ -1,0 +1,88 @@
+<!-- navigation -->
+<site-nav></site-nav>
+
+<div class="container">
+	<h1 class="big-title text-center medium">View, Edit or Delete All your expense statements</h1>
+	<hr>
+
+	<div class="row" ng-init='exlVm.loadExpenseSummary()'>
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+			<div class="container-box shadow">
+				<h2 class="title text-center light">Expense Summary</h2>
+				<hr>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h3 class="text-center light sub-title">Your Total Expense</h3>
+						<p class="text-center medium">{{exlVm.totalAmount | currency: '£'}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if='exlVm.showExpenseList === true'>
+				
+				<!-- show all expenses. -->
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Income</th>
+							<th>Expense Sector</th>
+							<th>Date</th>
+							<th>Edit</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr ng-repeat="expense in exlVm.expensesList">
+							<td><span class="text-center medium">{{expense.amount | currency: '£'}}</span></td>
+							<td><span class="text-center medium">{{expense.expense_sector}}</span></td>
+							<td><span class="text-center medium">{{expense.createdAt | date: 'yyyy-MM-dd'}}</span></td>
+							<td><a href="" class="btn btn-warning" ng-click="exlVm.editExpense(expense._id)">Edit</a></td>
+							<td><a href="" class="btn btn-danger" ng-click = "exlVm.deleteStatement(expense._id)">Delete</a></td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+
+		<!-- edit form -->		
+		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if="exlVm.showEditArea === true">
+			<div class="container-box shadow">
+				<h1 class="text-center light medium">Edit Following Expense</h1>
+				<hr>
+				<form ng-submit="exlVm.saveEditIncome()">
+					<div class="form-group"><label for="expenseDate">Expense Date</label>
+						<div class='datepicker_icon'>
+							<datepicker date-format="dd-MM-yyyy">
+								<input type="text" class="form-control half" ng-model="exlVm.expenseEdit.expenseDate" id="expenseDate">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</datepicker>
+						</div>
+					</div>
+						<div class="form-group"><label for="incomeAmount">Amount * </label>
+							<input type="text" placeholder="£" ng-model='exlVm.expenseEdit.amount' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"  
+							id="incomeAmount" class="form-control half"></div>
+												
+						<div class="alert alert-danger half" ng-if="exlVm.editDataLoadError === true">
+							<p class="no-margin medium">Error! {{exlVm.editDataLoadErrorMessage}}</p>
+						</div>
+						<!-- form validation error -->
+						<div class="alert alert-danger half" ng-if="exlVm.editFormValidationError === true">
+							<p class="no-margin medium">{{exlVm.editDataLoadErrorMessage}}</p>
+						</div>
+						<div class="alert alert-success half" ng-if="exlVm.incomeSuccess === true">
+							<p class="no-margin medium">{{exlVm.successMgs}}</p>
+						</div>
+						<button type="submit" class="btn btn-primary">Save Edit</button>
+
+						<a class="btn btn-warning pull-right" ng-click="exlVm.cancelEdit()">Cancel</a>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- site-footer -->
+<site-footer></site-footer>

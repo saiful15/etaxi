@@ -931,6 +931,50 @@ module.exports.showExpense = function (req, res) {
 	}
 }
 
+
+/*
+|----------------------------------------------
+| Following function will show single expense
+| based on given user id and expense id
+|----------------------------------------------
+*/
+module.exports.showSingleExpense = (req, res) => {
+	const expenseInfo = Joi.object().keys({
+		userId: Joi.string().email().required(),
+		expenseId: Joi.string().min(24).max(24).required(),
+	});
+
+	Joi.validate(req.params, expenseInfo, (err, value) => {
+		if (err) {
+			sendJsonResponse(res, 404, {
+				error: err,
+			});
+		}
+		else {
+			expenses
+				.find({whos: req.params.userId, _id: req.params.expenseId})
+				.exec((err, expense) => {
+					if (err) {
+						sendJsonResponse(res, 404, {
+							error: err,
+						});
+					}
+					else if (!expense) {
+						sendJsonResponse(res, 404, {
+							error: 'no expense found for given details',
+						});
+					}
+					else {
+						sendJsonResponse(res, 200, {
+							success: true,
+							data: expense,
+						});
+					}
+				})
+		}
+	})
+}
+
 /*
 |----------------------------------------------
 | Following function will get the expense file
