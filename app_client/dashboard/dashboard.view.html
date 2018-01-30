@@ -94,7 +94,26 @@
 </div>
 
 <div class="dashboard-wrapper" ng-if="dsvm.adminOpr === true">
-	admin
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+				<h1 class="text-center title regular">Search User</h1>
+				<form ng-submit="dsvm.searchUser()">
+					<div class="form-group">
+						<input type="text" ng-model="dsvm.search.user" tabindex='1' placeholder="Search user by email" class="form-control">
+					</div>
+				</form>
+
+				<ul class="list">
+					<li ng-repeat="user in dsvm.usersList"><a href="/dashboard?v={{user._id}}">{{user.name}}</a></li>
+				</ul>
+
+				<div class="alert alert-danger" ng-if="dsvm.searchUserError === true">
+					<p class="text-center title regular">{{dsvm.searchUserErrorMsg}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="dashboard-wrapper m-t-4" ng-if="dsvm.accountantOpr === true">

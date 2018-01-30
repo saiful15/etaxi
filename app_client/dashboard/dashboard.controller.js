@@ -137,6 +137,30 @@
 			else if(authentication.currentUser().account_type === 'admin'){
 				dsvm.adminOpr = true;
 				dsvm.accountantOpr = false;
+
+				dsvm.search = {
+					user: '',
+				};
+
+				dsvm.searchUser = () => {
+					// calling userservice function.
+					userservice
+						.searchUser(dsvm.search.user)
+						.then(response => {
+							if (response.data.error) {
+								dsvm.searchUserError = true;
+								dsvm.searchUserErrorMsg = response.data.error;
+							}
+							else {
+								dsvm.searchUserError = false;
+								dsvm.usersList = response.data.results;
+							}
+						})
+						.catch(err => {
+							dsvm.searchUserError = true;
+							dsvm.searchUserErrorMsg = err;
+						})
+				}
 			}
 			else if (authentication.currentUser().account_type === 'accountant')	{
 				dsvm.accountantOpr = true;
