@@ -52,6 +52,8 @@ process.on('SIGTERM', function() {
 |----------------------------------------------------------------
  */
 require("./users");
+require('./business-profile');
+require('./insurance');
 require('./incomes');
 require('./expenses');
 require('./message');

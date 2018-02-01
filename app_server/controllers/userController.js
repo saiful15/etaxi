@@ -18,6 +18,9 @@ var 		mongoose 		=		require('mongoose'),
 			vehicles 		=		mongoose.model('vehicles'),
 			incomes 			=		mongoose.model('incomes');
 
+const Business = mongoose.model('business');
+const Insurance = mongoose.model('insurance');
+
 const Mailer = require('../config/nodemailer');
 
 
@@ -1580,61 +1583,49 @@ module.exports.addBusinessInfo = (req, res) => {
 				error: err,
 			});
 		}
-		else {
-			users
-				.findOne({email: req.params.userId})
-				.select('business')
-				.exec((err, user) => {
-					if (err) {
-						sendJsonResponse(res, 404, {
-							error: err,
-						});
-						return;
-					}
-					if (!user) {
-						sendJsonResponse(res, 404, {
-							error: 'no user found',
-						});
-						return;
-					}
-					// to validate form data.
-					const businessInfo = Joi.object().keys({
-						name: Joi.string().min(3).max(25).required(),
-						type: Joi.string().min(3).max(25).required(),
-					});
+		else {		
+					
+			// to validate form data.
+			const businessInfo = Joi.object().keys({
+				name: Joi.string().min(3).max(25).required(),
+				type: Joi.string().min(3).max(25).required(),
+			});
 
-					// checking validation.
-					Joi.validate(req.body, businessInfo, (err, value) => {
+			// checking validation.
+			Joi.validate(req.body, businessInfo, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					});
+					return;
+				}
+				else{
+
+					const business = new Business();
+
+					business.businessId = uId(10);
+					business.whos = req.params.userId;
+					business.businessName = req.body.name;
+					business.businessType = req.body.type;
+
+					// now saving changes
+					business.save((err, bus) => {
 						if (err) {
 							sendJsonResponse(res, 404, {
-								error: err,
+								error: 'Error! while saving',
 							});
 							return;
 						}
 						else{
-							user.business.push({
-								name: req.body.name,
-								type: req.body.type,
+							sendJsonResponse(res, 200, {
+								success: true,
+								data: bus
 							});
-
-							// now saving changes
-							user.save((err, user) => {
-								if (err) {
-									sendJsonResponse(res, 404, {
-										error: 'Error! while saving',
-									});
-									return;
-								}
-								else{
-									sendJsonResponse(res, 200, {
-										success: true,
-										data: user.business,
-									});
-								}
-							})
 						}
 					})
-				})
+				}
+			})
+				
 		}
 	});
 }
@@ -1656,25 +1647,24 @@ module.exports.showBusinessInfo = (req, res) => {
 			return;
 		}
 		else{
-			users
-				.findOne({email: req.params.userId})
-				.select('business')
-				.exec((err, user) => {
+			Business
+				.findOne({whos: req.params.userId})
+				.exec((err, business) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					if (!user) {
+					if (!business) {
 						sendJsonResponse(res, 404, {
-							error: 'user not found',
+							error: 'No business profile found for this user',
 						});
 						return;
 					}
 					sendJsonResponse(res, 200, {
 						success: true,
-						data: user.business,
+						data: business,
 					});
 				})
 		}
@@ -1812,7 +1802,7 @@ module.exports.addInsurance = (req, res) => {
 		else{
 			const insurance = Joi.object().keys({
 				name: Joi.string().min(3).required(),
-				valid_date: Joi.date().iso().required(),
+				valid_date: Joi.string().required(),
 				number: Joi.string().min(3),
 			});
 
@@ -1824,43 +1814,26 @@ module.exports.addInsurance = (req, res) => {
 					return;
 				}
 				else{
-					users 
-						.findOne({email: req.params.userId})
-						.select('insurance')
-						.exec((err, user) => {
-							if (err) {
-								sendJsonResponse(res, 404, {
-									error: err,
-								});
-								return;
-							}
-							if (!user) {
-								sendJsonResponse(res, 404, {
-									error: 'No user has been found according to given id',
-								});
-								return;
-							}
-							user.insurance.push({
-								provider_name: req.body.name,
-								valid_till: req.body.valid_date,
-								insurance_number: req.body.number,
-							});
+					const insurance = new Insurance();
 
-							user.save((err, user) => {
-								if (err) {
-									sendJsonResponse(res, 404, {
-										error: 'Error! while saving the insurance info',
-									});
-									return;
-								}
-								else{
-									sendJsonResponse(res, 200, {
-										success: true,
-										data: user.insurance,
-									});
-								}
-							})
-						})
+					insurance.insuranceId = uId(10);
+					insurance.whos = req.params.userId;
+					insurance.provider_name = req.body.name;
+					insurance.valid_till = req.body.valid_date;
+					insurance.insurance_number = req.body.number;
+
+					insurance.save(err => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+						}
+						else {
+							sendJsonResponse(res, 200, {
+								success: true,
+							});
+						}
+					})
 				}
 			})
 		}
@@ -1884,25 +1857,24 @@ module.exports.showInsurance = (req, res) => {
 			return;
 		}
 		else{
-			users
-				.findOne({email: req.params.userId})
-				.select('insurance')
-				.exec((err, user) => {
+			Insurance
+				.findOne({whos: req.params.userId})
+				.exec((err, insurance) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					if (!user) {
+					if (!insurance) {
 						sendJsonResponse(res, 404, {
-							error: 'No user found for given user email',
+							error: 'No insurance found for given user email',
 						});
 						return;
 					}
 					sendJsonResponse(res, 200, {
 						success: true,
-						insurance: user.insurance,
+						insurance: insurance,
 					});
 				})
 		}

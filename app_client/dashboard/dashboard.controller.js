@@ -161,6 +161,45 @@
 							dsvm.searchUserErrorMsg = err;
 						})
 				}
+
+				/*
+				|----------------------------------------------
+				| checking the routes
+				|----------------------------------------------
+				*/
+				dsvm.loadUserDetails = () => {
+					if ($routeParams.v) {
+						userservice
+							.getSingleCustomerDetails($routeParams.v)
+							.then(response => {
+								if (response.data.error) {
+									dsvm.singleUserDetailsError = true;
+									dsvm.singleUserDetailsErrorMsg = response.data.error;
+								}
+								else {
+									dsvm.singleUserDetailsError = false;
+									dsvm.singlUser = response.data.user;
+								}
+							})
+							.catch(err => {
+								dsvm.singleUserDetailsError = true;
+								dsvm.singleUserDetailsErrorMsg = err;
+							})
+
+						angular.element(document).ready(function () {
+							const listItems = document.getElementsByClassName('profile-control-list');
+							console.log(listItems);
+							// document.getElementsByClassName('profile-control-list')[0].childNodes.classList.add('active');
+							// $(".profile-control-list li").on('click', () => {
+							// 	$(this).toggleClass('.active');
+
+							// })
+						});
+					}
+					else {
+						console.log('route not there');
+					}
+				}
 			}
 			else if (authentication.currentUser().account_type === 'accountant')	{
 				dsvm.accountantOpr = true;

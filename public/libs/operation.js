@@ -9,6 +9,8 @@
 (function (){
 	$(document).ready(() => {
 
+		$(".profile-control-list li").first().addClass('active');
+
 		// address radio option.
 		$(document).on('click', "[data-js='addressOptionRadio']", function(){
 			if ($(this).val() === 'false') {
@@ -40,6 +42,8 @@
 			$("[data-js='usercount']").addClass('hidden');
 			$("#searchform").toggleClass('hidden');
 		});
+
+		
 
 	});
 })();

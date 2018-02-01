@@ -37,13 +37,6 @@ var 		additional_infoSchema 	=	new mongoose.Schema({
 	created_at: {type: Date}
 });
 
-var 		insuranceSchema 	=	new mongoose.Schema({
-	provider_name: {type: String},
-	valid_till: {type: Date},
-	insurance_number: {type: String},
-	created_at: {type: Date, default: Date.now}
-});
-
 
 var 			statusSchema 	=	new mongoose.Schema({
 	profile: {type: Boolean, required: true, default: false},

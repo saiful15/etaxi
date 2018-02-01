@@ -104,12 +104,42 @@
 					</div>
 				</form>
 
-				<ul class="list">
+				<ul class="list" ng-if='dsvm.searchUserError === false'>
 					<li ng-repeat="user in dsvm.usersList"><a href="/dashboard?v={{user._id}}">{{user.name}}</a></li>
 				</ul>
 
 				<div class="alert alert-danger" ng-if="dsvm.searchUserError === true">
 					<p class="text-center title regular">{{dsvm.searchUserErrorMsg}}</p>
+				</div>
+
+				<div class="m-t-3" ng-init="dsvm.loadUserDetails()">
+					<!-- when we have error showing user details -->
+					<div class="alert alert-danger" ng-if="dsvm.singleUserDetailsError === true">
+						<p class="text-center title regular no-margin">{{dsvm.singleUserDetailsErrorMsg}}</p>
+					</div>
+					<!-- showing the details of  -->
+					<h2 class="text-center title regular">Details of {{dsvm.singlUser.name}}</h2>
+					<hr>
+					<!-- when we don't have any error fetching user details -->
+					<div class="row" ng-if="dsvm.singleUserDetailsError === false">
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<div class="container-box shadow small-radius wbg">
+								<ul class="nav nav-pills nav-stacked profile-control-list">
+								  <li role="presentation" class="pointer no-padding"><a>Profile</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Status Collections</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Contacts</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Vehicle</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Incomes</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Expense</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-9 col-md-9">
+							<div class="container-box shadow wbg small-radius">
+								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

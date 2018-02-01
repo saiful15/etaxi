@@ -210,10 +210,10 @@
 					<p class="text-center light">We have Following - </p>
 					<hr>
 					<h3 class="medium"> Business Name: 
-						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList[0].name}}</span>
+						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList.businessName}}</span>
 					</h3>
 					<h3 class="medium"> Business Type: 
-						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList[0].type}}</span>
+						<span class="text-center light m-l-3">{{stvm.businessBasicInfoList.businessType}}</span>
 					</h3>
 					<div class="alert alert-danger" ng-if="stvm.businessBasicInfoError === true">
 						<p class="text-center light sub-title">{{stvm.businessBasicInfoErrorMsg}}</p>
@@ -394,7 +394,12 @@
 					<form ng-submit="stvm.addInsurance()">
 						<div class="form-group"><label for="insurance_provider">Insurance Provider *</label><input type="text" class="form-control half" id='insurance_provider' ng-model="stvm.insurance.name" placeholder="Add insurance provider name"></div>
 
-						<div class="form-group"><label for="valid_till">Valid Till *</label><input type="text" class="form-control half" id='valid_till' ng-model="stvm.insurance.valid_date" placeholder="valid till"></div>
+
+						<div class="form-group"><label for="valid_till">Valid Till *</label>
+							<datepicker date-format="dd-MM-yyyy">
+								<input type="text" class="form-control half" id='valid_till' ng-model="stvm.insurance.valid_date" placeholder="valid till">
+							</datepicker>
+						</div>
 
 						<div class="form-group"><label for="insurance_number">Insurance Number</label><input type="text" class="form-control half" id='insurance_number' ng-model="stvm.insurance.number" placeholder="insurance number if you have"></div>
 
@@ -413,9 +418,9 @@
 						<p class="text-center sub-title"><span class="medium">Error!!</span> {{stvm.showInsuraceErrorMsg}}</p>
 					</div>
 
-					<p class="medium sub-title">Insurance Company: <span class="m-l-2">{{stvm.insuraceList[0].provider_name}}</span></p>
-					<p class="medium sub-title">Insurance Valid till: <span class="m-l-2">{{stvm.insuraceList[0].valid_till | date: 'yyyy-MM--dd'}}</span></p>
-					<p class="medium sub-title">Insuracen Number: <span class="m-l-2">{{stvm.insuraceList[0].insurance_number}}</span></p>
+					<p class="medium sub-title">Insurance Company: <span class="m-l-2">{{stvm.insuraceList.provider_name}}</span></p>
+					<p class="medium sub-title">Insurance Valid till: <span class="m-l-2">{{stvm.insuraceList.valid_till | date: 'yyyy-MM--dd'}}</span></p>
+					<p class="medium sub-title">Insuracen Number: <span class="m-l-2">{{stvm.insuraceList.insurance_number}}</span></p>
 				</div>
 
 				<div class="row">
