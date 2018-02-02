@@ -12,22 +12,7 @@
 
 	<div class="additional_info" ng-if="prvm.additionInfo === false && prvm.AccountType === 'customer' ">
 		<div class="container">
-			<h1 class="text-center big-title light">We need following additional information from you</h1>
-			<hr>
-			<form class="form-inline" ng-submit="prvm.addAdditionalInfo(prvm.personProfileDetails._id)">
-				<div class="form-group">
-					<label for="ni_number">NI Number</label>
-					<input type="text" id= "ni_number" ng-model="prvm.niUti.ni_number" class="form-control" placeholder="NI Number">
-				</div>
-				<div class="form-group">
-					<label for="uti_number">UTI Number</label>
-					<input type="text" class="form-control" ng-model="prvm.niUti.uti_number" id="uti_number" placeholder="UTI Number">
-				</div>
-				<button type="submit" class="btn btn-info">Save</button>
-				<div class="alert alert-danger m-t-3 half" ng-if="prvm.additionalInfoError === true">
-					{{prvm.errorMessage}}
-				</div>
-			</form>
+			<h1 class="text-center title regular">We need to fetch your profile here</h1>
 		</div>
 	</div>
 

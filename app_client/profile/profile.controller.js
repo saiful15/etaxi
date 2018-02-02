@@ -107,58 +107,7 @@
 				prvm.addressEditForm 	=	false;
 			}
 
-			prvm.niUti 		=	{
-				ni_number: "",
-				uti_number: ""
-			};
-
-			// adding additional information
-			prvm.addAdditionalInfo 		=		function(userId){
-				if(!prvm.niUti.ni_number || !prvm.niUti.uti_number){
-					prvm.additionalInfoError = true;
-					prvm.errorMessage = "All fields are required. Must not be empty";
-				}
-				else{
-					prvm.additionalInfoError = false;
-					
-					// calling method from userservice 
-					userservice
-						.addAdditionalInformation(userId, prvm.niUti)
-						.then(function(response){
-							if(response.data.error){
-								prvm.additionalInfoError = true;
-								prvm.errorMessage 	=	response.data.error;
-							}
-							else if(response.data.additionalInfo){
-								// now update user status.
-								prvm.updatedStatus = {
-									update_at: "additional_info",
-									email: authentication.currentUser().email,
-									status: true
-								};
-								userservice
-									.updateUserStatus(prvm.updatedStatus)
-									.then(function(response){
-										if(response.data.updated === true){
-											prvm.showAdditionalInfo = true;
-										}
-										else{
-											prvm.showAdditionalInfo = false;
-											prvm.additionalInfoError = true;
-											prvm.errorMessage = "Something went wrong with updating user collection status. Contact admin";
-										}
-									})
-									.catch(function(err){
-										alert("Error while updating user status collection\t:"+err);
-									})
-							}
-						})
-						.catch(function(err){
-							alert(err);
-						})
-				}
-			}
-
+			
 
 			/*
 			|----------------------------------------------

@@ -37,6 +37,7 @@
 							stvm.vehicleSettingOn = response.data.status.statusCollection[0].vehicle;
 							stvm.insuranceSettingOn = response.data.status.statusCollection[0].insurance;
 							stvm.lisenceSettingOn = response.data.status.statusCollection[0].lisence;
+							stvm.additional_info = response.data.status.statusCollection[0].additional_info;
 
 						}
 					})
@@ -114,6 +115,7 @@
  						}
 					})
 					.catch(err => alert(err));
+				
 			}
 
 			stvm.businessInfo = {
@@ -357,6 +359,7 @@
 				userservice
 					.userLisence(authentication.currentUser().email)
 					.then((response) => {
+						console.log(response);
 						if (response.data.error) {
 							stvm.lisenceLoadError = true;
 							if (response.data.error.isJoi === true) {
@@ -372,6 +375,52 @@
 						}
 					})
 					.catch((err) => alert(err));
+			}
+
+			/*
+			|----------------------------------------------
+			| adding additional information for user.
+			|----------------------------------------------
+			*/
+			stvm.niUti 		=	{
+				ni_number: "",
+				uti_number: ""
+			};
+
+			// adding additional information
+			stvm.addAdditionalInfo = () => {
+					// calling method from userservice 
+					userservice
+						.addAdditionalInformation(authentication.currentUser().email, stvm.niUti)
+						.then(function(response){
+							if(response.data.error){
+								stvm.additionalInfoError = true;
+								stvm.errorMessage 	=	response.data.error;
+							}
+							else if(response.data.updated){
+
+								const updateStatus = {
+									update_at: "additional_info",
+									email: authentication.currentUser().email,
+									status: true,
+								};
+								userservice
+									.updateUserStatus(updateStatus)
+									.then(response => {
+										if(response.data.updated === true) {
+											$route.reload();
+										}
+										else {
+											stvm.additionalInfoError = true;
+											stvm.errorMessage = 'Something went wrong with updating user collection status. Contact admin';
+										}
+									})
+									.catch(err => alert(err));
+							}
+						})
+						.catch(function(err){
+							alert(err);
+						})
 			}
 
 		}

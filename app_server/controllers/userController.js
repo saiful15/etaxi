@@ -20,6 +20,8 @@ var 		mongoose 		=		require('mongoose'),
 
 const Business = mongoose.model('business');
 const Insurance = mongoose.model('insurance');
+const Lisence = mongoose.model('lisence')
+const AdditionalInfo = mongoose.model('additionalinfo');
 
 const Mailer = require('../config/nodemailer');
 
@@ -797,60 +799,53 @@ module.exports.updateAddress 		=		function(req, res){
 | @copyright: etaxiaccounting, 2017
 |----------------------------------------------
 */
-module.exports.saveAdditionInfo 		=		function(req, res){
-	if(!req.params && !req.params.userId){
-		sendJsonResponse(res, 404, {
-			error: "Invalid request"
-		});
-	}
-	else {
-		if(!req.body.ni_number || !req.body.uti_number){
+module.exports.saveAdditionInfo = (req, res) => {
+	const userId = Joi.object().keys({
+		userId: Joi.string().email().required(),
+	});
+
+	Joi.validate(req.params, userId, (err, value) => {
+		if (err) {
 			sendJsonResponse(res, 404, {
-				error: "All fields are required. Must not be empty"
+				error: err.details[0].message,
 			});
 		}
-		else{
-			users
-				.findById({_id: req.params.userId})
-				.select('additional_info')
-				.exec(function(err, user){
-					if(!user){
-						sendJsonResponse(res, 404, {
-							error: "No user found with given user id"
-						});
-						return;
-					}
-					else if(err){
-						sendJsonResponse(res, 404, {
-							error: err
-						});
-						return;
-					}
-					else{
-						user.additional_info.push({
-							ni_number: req.body.ni_number,
-							uti_number: req.body.uti_number,
-							created_at: Date.now()
-						});
+		else {
+			const additionaInfo = Joi.object().keys({
+				ni_number: Joi.string().required(),
+				uti_number: Joi.string().required(),
+			});
 
-						// saving this new info.
-						user.save(function(err, user){
-							if(err){
-								sendJsonResponse(res, 404, {
-									error: err
-								});
-								return;
-							}
-							else {
-								sendJsonResponse(res, 200, {
-									additionalInfo: user.additional_info
-								});
-							}
-						})
-					}
-				})
+			Joi.validate(req.body, additionaInfo, (err, value) => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err.details[0].message,
+					});
+				}
+				else {
+					const additionalinfo = new AdditionalInfo();
+
+					additionalinfo.infoId = uId(10);
+					additionalinfo.whos = req.params.userId;
+					additionalinfo.ni_number = req.body.ni_number;
+					additionalinfo.uti_number = req.body.uti_number;
+
+					additionalinfo.save(err => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+						}
+						else {
+							sendJsonResponse(res, 200, {
+								updated: true,
+							});
+						}
+					})
+				}
+			});
 		}
-	}
+	});
 }
 
 /*
@@ -1899,9 +1894,9 @@ module.exports.addLisence = (req, res) => {
 		}
 		else {
 			const lisence = Joi.object().keys({
-				dvla: Joi.string().min(5).max(16).regex(/^[0-9]{5,16}$/).required(),
+				dvla: Joi.string().min(5).max(16).regex(/^[a-zA-Z0-9]{5,16}$/).required(),
 				taxi_type: Joi.string().max(32).required(),
-				valid_till: Joi.date().required(),
+				valid_till: Joi.string().required(),
 			});
 
 			Joi.validate(req.body, lisence, (err, value) => {
@@ -1912,46 +1907,29 @@ module.exports.addLisence = (req, res) => {
 					return;
 				}
 				else{
-					users
-						.findOne({email: req.params.userId})
-						.select('lisence')
-						.exec((err, user) => {
-							if (err) {
-								sendJsonResponse(res, 404, {
-									error: err,
-								});
-								return;
-							}
-							if (!user) {
-								sendJsonResponse(res, 404, {
-									error: 'no user found',
-								});
-								return;
-							}
-							else {
-								user.lisence.push({
-									dvla: req.body.dvla,
-									taxi: req.body.taxi_type,
-									valid_till: req.body.valid_till,
-								});
+					const lisence = new Lisence();
 
-								user.save((err, user) => {
-									if (err) {
-										sendJsonResponse(res, 404, {
-											error: 'Error! while saving lisence information',
-										});
-										return;
-									}
-									else{
-										sendJsonResponse(res, 200, {
-											success: true,
-											lisence: user.lisence,
-										});
-									}
-								})
+					lisence.lisenceId = uId(10);
+					lisence.whos = req.params.userId;
+					lisence.dvla = req.body.dvla;
+					lisence.taxi_type = req.body.taxi_type;
+					lisence.valid_till = req.body.valid_till;
 
-							}
-						})
+					// save the license.
+					lisence.save(err => {
+						if (err) {
+							sendJsonResponse(res, 404, {
+								error: err,
+							});
+						}
+						else {
+							sendJsonResponse(res, 200, {
+								success: true,
+								lisence: lisence,
+							});
+						}
+					})
+
 				}
 			})
 		}
@@ -1977,28 +1955,28 @@ module.exports.showLisence = (req, res) => {
 			return;
 		}
 		else {
-			users
-				.findOne({email: req.params.userId})
-				.select('lisence')
-				.exec((err, user) => {
+			Lisence
+				.findOne({ whos: req.params.userId })
+				.exec((err, lisence) => {
 					if (err) {
 						sendJsonResponse(res, 404, {
 							error: err,
 						});
 						return;
 					}
-					if (!user) {
+					else if (!lisence) {
 						sendJsonResponse(res, 404, {
-							error: `No user found with given user name`,
+							error: 'No lisence has been found for given your id',
 						});
 						return;
 					}
 					else {
-						return sendJsonResponse(res, 200, {
-							lisence: user.lisence,
-						});
+						sendJsonResponse(res, 200, {
+							success: true,
+							lisence: lisence,
+						})
 					}
-				})
+				});
 		}
 	});
 }

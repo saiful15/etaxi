@@ -54,6 +54,8 @@ process.on('SIGTERM', function() {
 require("./users");
 require('./business-profile');
 require('./insurance');
+require('./lisence');
+require('./additionalinfo');
 require('./incomes');
 require('./expenses');
 require('./message');
