@@ -18,6 +18,7 @@
 
 		// chekcing if user logged in or not.
 		if(authentication.isLoggedIn()){
+			
 			// when logged in user is customer.
 			if(authentication.currentUser().account_type === 'customer'){
 				dsvm.customerOpr = true;
@@ -138,6 +139,10 @@
 				dsvm.adminOpr = true;
 				dsvm.accountantOpr = false;
 
+				dsvm.singleProfileOn = false;
+				dsvm.singleStatusOn = false;
+				dsvm.singleDocOn = false;
+
 				dsvm.search = {
 					user: '',
 				};
@@ -172,11 +177,13 @@
 						userservice
 							.getSingleCustomerDetails($routeParams.v)
 							.then(response => {
+								console.log(response);
 								if (response.data.error) {
 									dsvm.singleUserDetailsError = true;
 									dsvm.singleUserDetailsErrorMsg = response.data.error;
 								}
 								else {
+									dsvm.singleProfileOn = true;
 									dsvm.singleUserDetailsError = false;
 									dsvm.singlUser = response.data.user;
 								}
@@ -185,20 +192,51 @@
 								dsvm.singleUserDetailsError = true;
 								dsvm.singleUserDetailsErrorMsg = err;
 							})
-
-						angular.element(document).ready(function () {
-							const listItems = document.getElementsByClassName('profile-control-list');
-							console.log(listItems);
-							// document.getElementsByClassName('profile-control-list')[0].childNodes.classList.add('active');
-							// $(".profile-control-list li").on('click', () => {
-							// 	$(this).toggleClass('.active');
-
-							// })
-						});
 					}
 					else {
-						console.log('route not there');
+						dsvm.singleUserDetailsError = true;
+						dsvm.singleUserDetailsErrorMsg = 'Route not allowed';
 					}
+				}
+
+				dsvm.loadProfile = () => {
+					dsvm.singleProfileOn = true;
+					dsvm.singleStatusOn = false;
+					dsvm.singleDocOn = false;
+				}
+
+				dsvm.loadStatuses = () => {
+					dsvm.singleProfileOn = false;
+					dsvm.singleStatusOn = true;
+					dsvm.singleDocOn = false;
+				}
+
+				dsvm.loadUserDoc = () => {
+					dsvm.singleProfileOn = false;
+					dsvm.singleStatusOn = false;
+					dsvm.singleDocOn = true;
+
+					userservice
+						.checkDocuments($routeParams.v)
+						.then(response => {
+							console.log(response);
+							if(response.data.error) {
+								dsvm.singlDocLoadError  = true;
+								dsvm.singlDocLoadErrorMsg  = response.data.error;
+							}
+							else if(response.data.doc.length === 0) {
+								dsvm.singlDocLoadError  = true;
+								dsvm.singlDocLoadErrorMsg  = "This user has not uploaded any document yet";
+							}
+							else {
+								dsvm.singlDocLoadError  = false;
+								dsvm.singlUserDoc = response.data.doc;
+							}
+						})
+						.catch(err => {
+							dsvm.singlDocLoadError  = true;
+							dsvm.singlDocLoadErrorMsg  = err;
+						})
 				}
 			}
 			else if (authentication.currentUser().account_type === 'accountant')	{

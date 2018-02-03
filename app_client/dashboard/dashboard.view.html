@@ -118,25 +118,96 @@
 						<p class="text-center title regular no-margin">{{dsvm.singleUserDetailsErrorMsg}}</p>
 					</div>
 					<!-- showing the details of  -->
-					<h2 class="text-center title regular">Details of {{dsvm.singlUser.name}}</h2>
+					<h2 class="text-center title regular">Details of {{dsvm.singlUser.name}} / {{dsvm.singlUser.email}}</h2>
 					<hr>
 					<!-- when we don't have any error fetching user details -->
 					<div class="row" ng-if="dsvm.singleUserDetailsError === false">
 						<div class="col-xs-12 col-sm-3 col-md-3">
 							<div class="container-box shadow small-radius wbg">
 								<ul class="nav nav-pills nav-stacked profile-control-list">
-								  <li role="presentation" class="pointer no-padding"><a>Profile</a></li>
-								  <li role="presentation" class="pointer no-padding"><a>Status Collections</a></li>
-								  <li role="presentation" class="pointer no-padding"><a>Contacts</a></li>
-								  <li role="presentation" class="pointer no-padding"><a>Vehicle</a></li>
+								  <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadProfile()'><a>Profile</a></li>
+								  <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadStatuses()'><a>Status Collections</a></li>
 								  <li role="presentation" class="pointer no-padding"><a>Incomes</a></li>
 								  <li role="presentation" class="pointer no-padding"><a>Expense</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Vehicle</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Lisence</a></li>
+								  <li role="presentation" class="pointer no-padding"><a>Insurance</a></li>
+								  <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadUserDoc()'><a>Document(s)</a></li>
 								</ul>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="container-box shadow wbg small-radius">
+								<!-- show profile -->
+								<div class="row" ng-if="dsvm.singleProfileOn === true">
+									<div class="col-xs-12 col-md-4">
+										<p class="regular title">Account Type: {{dsvm.singlUser.account_type}}</p>
+										<p class="regular title">Status: {{dsvm.singlUser.status}}</p>
+										<p class="regular title">User Directory: {{dsvm.singlUser.userDir}}</p>
+									</div>
+									<div class="col-xs-12 col-md-4">
+										<p class="regular title">Email: {{dsvm.singlUser.email}}</p>
+										<p class="regular title">Name: {{dsvm.singlUser.name}}</p>
+										<p class="regular title">Account Created: {{dsvm.singlUser.created_at | date: 'MMM dd, yyyy'}}</p>
+									</div>
+									<div class="col-xs-12 col-md-4">
+										<p class="regular title">Contacts</p>
+										<p class="regular sub-title" ng-repeat="contact in dsvm.singlUser.appContact">
+											<span>{{contact.contactEmail}}</span>
+										</p>
+									</div>
+								</div>
+
+								<!-- show statuses -->
+								<div class="row" ng-if="dsvm.singleStatusOn === true">
+									<p class="regular text-center title">Status Collection</p>
+									<div class="col-xs-12 col-md-4">
+										<ul class="list">
+											<li ng-repeat="status in dsvm.singlUser.statusCollection">
+												<p class="regular sub-title">Lisence: {{status.lisence}}</p>
+												<p class="regular sub-title">Additonal Info: {{status.additional_info}}</p>
+												<p class="regular sub-title">Expense: {{status.expense}}</p>
+												<p class="regular sub-title">Income: {{status.Income}}</p>
+												<p class="regular sub-title">Insurance: {{status.insurance}}</p>
+											</li>
+										</ul>
+									</div>
+
+									<div class="col-xs-12 col-md-4">
+											<ul class="list">
+												<li ng-repeat="status in dsvm.singlUser.statusCollection">
+													<p class="regular sub-title">Vehicle: {{status.vehicle}}</p>
+													<p class="regular sub-title">Business: {{status.business}}</p>
+													<p class="regular sub-title">Address: {{status.address}}</p>
+													<p class="regular sub-title">Contact: {{status.contact}}</p>
+													<p class="regular sub-title">Profile: {{status.profile}}</p>
+												</li>
+										</ul>
+									</div>
+								</div>
 								
+
+								<!-- show document -->
+								<div class="row" ng-if="dsvm.singleDocOn === true">
+									
+									<!-- show document if there is any -->
+									<div ng-if="dsvm.singlDocLoadError === false">
+										<p class="text-center title regular">Following documents found</p>
+										<hr>
+										<ul class="list">
+											<li ng-repeat="doc in dsvm.singlUserDoc">
+												Document Name: {{doc.name}}
+												<a href="{{doc.docLocation}}" title="Download this document" class="btn btn-info" download target="_self">Download</a>
+											</li>
+										</ul>
+									</div>
+
+									<!-- when document loading error -->
+									<div class="alert alert-danger m-l-3 m-r-3" ng-if="dsvm.singlDocLoadError === true">
+										<p class="text-center title">{{dsvm.singlDocLoadErrorMsg}}</p>
+									</div>
+								</div>
+
 							</div>
 						</div>
 					</div>
