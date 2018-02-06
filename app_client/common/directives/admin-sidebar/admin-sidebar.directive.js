@@ -13,7 +13,7 @@
         .module('etaxi')
         .directive('adminSidebar', adminSidebar);
 
-    function adminNav() {
+    function adminSidebar() {
         return {
             restrict: 'EA',
             templateUrl: "common/directives/admin-sidebar/admin-sidebar.template.html",

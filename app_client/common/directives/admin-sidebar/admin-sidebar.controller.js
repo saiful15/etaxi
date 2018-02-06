@@ -19,9 +19,9 @@
     function adminSidebarCtrl($location, authentication, userservice) {
         const asbvm = this;
 
-        anvm.loggedIn = authentication.isLoggedIn()
+        asbvm.loggedIn = authentication.isLoggedIn()
 
-        anvm.logout = function() {
+        asbvm.logout = function() {
             authentication.logout();
             $location.path('/signin');
         }
