@@ -334,6 +334,13 @@
 				.then(handleSuccess)
 				.catch(handleError);
 		}
+
+		const generateAccountStatement = (userId,userDirId) => {
+			return $http 
+				.get('/api/' + userId + '/' + userDirId + '/generatestatement')
+				.then(handleSuccess)
+				.catch(handleError);
+		}
 		
 		function 	handleSuccess(response){
 			return response;
@@ -388,7 +395,8 @@
 			accountantProfile: accountantProfile,
 			getSingleCustomerDetails: getSingleCustomerDetails,
 			createDocument: createDocument,
-			checkDocuments: checkDocuments
+			checkDocuments: checkDocuments,
+			generateAccountStatement:generateAccountStatement
 		};
 	}
 })();
