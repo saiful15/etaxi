@@ -64,3 +64,4 @@ require('./contact');
 require('./accountant');
 require('./password-reset');
 require('./docs');
+require('./statements');

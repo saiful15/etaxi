@@ -100,6 +100,11 @@
 							</div>
 						</div>
 					</div>
+
+					<!-- when we have error generating pdf -->
+					<div class="alert alert-danger" ng-if="fstvm.dpfGenerateError === true">
+						<p class="text-center regular title">{{fstvm.dpfGenerateErrorMsg}}</p>
+					</div>
 					<a href="#" class="btn btn-info pull-left" ng-click="fstvm.exportAsPDF()">Export to PDF</a>			
 					<div class="clearfix"></div>
 				</div>

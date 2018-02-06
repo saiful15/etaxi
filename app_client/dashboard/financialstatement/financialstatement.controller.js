@@ -203,18 +203,33 @@
 			|----------------------------------------------
 			*/
 			fstvm.exportAsPDF = () => {
-				html2canvas(document.getElementById('incomeStatement'), {
-	            onrendered: function (canvas) {
-	                var data = canvas.toDataURL();
-	                var docDefinition = {
-	                    content: [{
-	                        image: data,
-	                        width: 500,
-	                    }]
-	                };
-	                pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
-	            }
-	        });
+				// html2canvas(document.getElementById('incomeStatement'), {
+	   //          onrendered: function (canvas) {
+	   //              var data = canvas.toDataURL();
+	   //              var docDefinition = {
+	   //                  content: [{
+	   //                      image: data,
+	   //                      width: 500,
+	   //                  }]
+	   //              };
+	   //              pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
+	   //          }
+	   //      	});
+	   		userservice
+	   			.generateAccountStatement(authentication.currentUser().email, authentication.currentUser().userDirId)
+	   			.then(response => {
+	   				if (response.data.error) {
+	   					fstvm.dpfGenerateError = true;
+	   					fstvm.dpfGenerateErrorMsg = response.data.error;
+	   				}
+	   				else {
+	   					fstvm.dpfGenerateError = false;
+	   				}
+	   			})
+	   			.catch(err => {
+	   				fstvm.dpfGenerateError = true;
+	   				fstvm.dpfGenerateErrorMsg = err;
+	   			})
 			}
 		}
 		else {
