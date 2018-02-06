@@ -5,19 +5,15 @@
 | @copyright: etaxi, 2018
 |----------------------------------------------
 */
-
-'use strict';
-
 (function() {
     angular
         .module('etaxi')
-        .directive('adminSidebar', adminSidebar);
+        .directive('adminFooter', adminFooter);
 
-    function adminNav() {
+    function adminFooter() {
         return {
             restrict: 'EA',
-            templateUrl: "common/directives/admin-sidebar/admin-sidebar.template.html",
-            controller: "adminSidebarCtrl as asbvm"
-        }
+            templateUrl: "common/directives/admin-footer/admin-footer.template.html"
+        };
     }
 })();

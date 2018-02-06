@@ -5,16 +5,16 @@
 | @copyright: etaxiaccounting, 2017
 |----------------------------------------------
 */
-(function(){
-	angular
-		.module('etaxi')
-		.directive('siteNav', siteNav);
+(function() {
+    angular
+        .module('etaxi')
+        .directive('siteNav', siteNav);
 
-	function siteNav(){
-		return {
-			restrict: 'EA',
-			templateUrl: "common/directives/navigation/navigation.template.html",
-			controller: "navCtrl as nvm"
-		}
-	}
+    function siteNav() {
+        return {
+            restrict: 'EA',
+            templateUrl: "common/directives/navigation/navigation.template.html",
+            controller: "navCtrl as nvm"
+        }
+    }
 })();

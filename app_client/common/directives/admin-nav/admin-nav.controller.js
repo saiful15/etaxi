@@ -8,30 +8,30 @@
 
 'use strict';
 
-(function(){
-	angular
-		.module('etaxi')
-		.controller('adminNavCtrl', adminNavCtrl);
+(function() {
+    angular
+        .module('etaxi')
+        .controller('adminNavCtrl', adminNavCtrl);
 
-	// add dependency
-	adminNavCtrl.$inject 	=	['$location', 'authentication', 'userservice'];
+    // add dependency
+    adminNavCtrl.$inject = ['$location', 'authentication', 'userservice'];
 
-	function adminNavCtrl($location, authentication, userservice){
-		const anvm 		=	this;
+    function adminNavCtrl($location, authentication, userservice) {
+        const adnvm = this;
 
-		anvm.loggedIn  	=	authentication.isLoggedIn()
+        adnvm.loggedIn = authentication.isLoggedIn()
 
-		anvm.logout 	=	function(){
-			authentication.logout();
-			$location.path('/signin');
-		}
+        adnvm.logout = function() {
+            authentication.logout();
+            $location.path('/signin');
+        }
 
-		// checking whether user logged in 
-		if(authentication.isLoggedIn()){
-			anvm.forLoggedInUser = true;
-			anvm.accountType = authentication.currentUser().account_type;
-			anvm.name = authentication.currentUser().name;
-			
-		}
-	}
+        // checking whether user logged in 
+        if (authentication.isLoggedIn()) {
+            adnvm.forLoggedInUser = true;
+            adnvm.accountType = authentication.currentUser().account_type;
+            adnvm.name = authentication.currentUser().name;
+
+        }
+    }
 })();
