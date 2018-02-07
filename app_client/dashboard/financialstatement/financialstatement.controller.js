@@ -15,6 +15,8 @@
 
 		if (authentication.isLoggedIn()) {
 			const fstvm = this;
+
+			fstvm.StatementReady = false;
 			
 			fstvm.loadIncome = () => {
 				fstvm.totalIncome = 0;
@@ -203,18 +205,7 @@
 			|----------------------------------------------
 			*/
 			fstvm.exportAsPDF = () => {
-				// html2canvas(document.getElementById('incomeStatement'), {
-	   //          onrendered: function (canvas) {
-	   //              var data = canvas.toDataURL();
-	   //              var docDefinition = {
-	   //                  content: [{
-	   //                      image: data,
-	   //                      width: 500,
-	   //                  }]
-	   //              };
-	   //              pdfMake.createPdf(docDefinition).download("financial-statement.pdf");
-	   //          }
-	   //      	});
+				
 	   		userservice
 	   			.generateAccountStatement(authentication.currentUser().email, authentication.currentUser().userDirId)
 	   			.then(response => {
@@ -224,6 +215,8 @@
 	   				}
 	   				else {
 	   					fstvm.dpfGenerateError = false;
+	   					fstvm.statementLoc = response.data.docLoc;
+	   					fstvm.StatementReady = true;
 	   				}
 	   			})
 	   			.catch(err => {
