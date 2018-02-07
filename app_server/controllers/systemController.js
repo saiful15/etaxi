@@ -1,3 +1,4 @@
+require('dotenv').config({ slient: true });
 /*
 |----------------------------------------------
 | setting up controller for system
@@ -21,6 +22,7 @@ const Incomes = Mongoose.model('incomes');
 const Expenses = Mongoose.model('expenses');
 const PdfDocument = require('pdfkit');
 const DateFormat = require('dateformat');
+const Vehicles = Mongoose.model('vehicles');
 /*
 |----------------------------------------------------------------
 | function for returning json.
@@ -376,6 +378,30 @@ function getExpenses(userId) {
 
 /*
 |----------------------------------------------
+| get vehicle status to calculate estimated 
+| tax.
+|----------------------------------------------
+*/
+function getVechicleStatus(userId) {
+    return new Promise((resolve, reject) => {
+        Vehicles
+            .findOne({ whos: userId })
+            .exec((err, vehicle) => {
+                if(err) {
+                    reject(err);
+                }
+                else if(!vehicle) {
+                    reject(`No vehicle found for this ${userId}`);
+                }
+                else {
+                    resolve(vehicle.car_status);
+                }
+            })
+    });
+}
+
+/*
+|----------------------------------------------
 | following function to generate account 
 | statement.
 |----------------------------------------------
@@ -395,9 +421,10 @@ module.exports.generateStatement = (req, res) => {
 		else {
 			let doc = new PdfDocument;
 			const date = DateFormat(Date.now(), 'yyyy-mm-dd_h:MM:ss');
-			const fileName = `./users/${req.params.userDirId}/statment_${date}.pdf`;
-			
-			Promise.all([getIncomes(req.params.userId), getExpenses(req.params.userId)])
+			const statementFileName = `${req.params.userDirId}/statment_${date}.pdf`;
+			const fileName = `./users/${statementFileName}`;
+
+			Promise.all([getIncomes(req.params.userId), getExpenses(req.params.userId), getVechicleStatus(req.params.userId)])
 				.then(statementData => {
 					doc.pipe (Fs.createWriteStream(`${fileName}`))
 						doc.image('./public/assets/img/logo1-default.png', {
@@ -445,6 +472,8 @@ module.exports.generateStatement = (req, res) => {
 					})
 					
 					const totalIncome = onlyIncomes.reduce((income, total) => income + total);
+
+					const carStatus = statementData[2];
 					
 					doc.fontSize(12)
 					doc.text('------------------------------------------', {
@@ -499,11 +528,126 @@ module.exports.generateStatement = (req, res) => {
 						align: 'right'
 					});
 
+					let taxPayable = 0;
+					let grossIncome = 0;
+					let percentageAdjustment = 0.1;
+
+					if(carStatus === 'finance' || carStatus === 'own') {
+						let totalTaxAmount = 0;
+						taxPayable = (totalIncome * process.env.NI_CONTRIBUTON) + (totalIncome * percentageAdjustment);
+						grossIncome = parseFloat(totalIncome - totalExprense).toFixed(2);
+
+						if (grossIncome > process.env.TAXFREE_INCOME) {
+							let netDifference = parseFloat(grossIncome - process.env.TAXFREE_INCOME).toFixed(2);
+							if (netDifference > 0) {
+								totalTaxAmount = parseFloat(netDifference * 0.20).toFixed(2);
+							}
+							else {
+								totalTaxAmount = 0;
+							}
+						}
+
+						doc.fontSize(16);
+						doc.moveDown(3);
+						doc.text(`Estimated Tax Calculation`, {
+							align: 'center'
+						});
+
+						// writing to pdf file.
+						doc.fontSize(16);
+						doc.moveDown(1);
+						doc.text(`NI Contribution: ${process.env.NI_CONTRIBUTON}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Percentage Adjustment: ${percentageAdjustment}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Tax Payable: £${taxPayable}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Gross Income: £${grossIncome}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Estimated Tax: £${totalTaxAmount}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+					}
+					else if (carStatus === 'rented') {
+						let taxPayable = 0;
+						let percentageAdjustment = 0;
+						let totalTaxAmount = 0;
+						grossIncome = parseFloat(totalIncome - totalExprense).toFixed(2);
+						taxPayable = (totalIncome * process.env.NI_CONTRIBUTON) + (totalIncome * percentageAdjustment);
+
+						if (grossIncome > process.env.TAXFREE_INCOME) {
+							let netDifference = parseFloat(grossIncome - process.env.TAXFREE_INCOME);
+
+							if (netDifference > 0) {
+								totalTaxAmount = parseFloat(netDifference * 0.20).toFixed(2);
+							}
+							else {
+								totalTaxAmount = 0;
+							}
+						}
+
+						doc.fontSize(16);
+						doc.moveDown(3);
+						doc.text(`Estimated Tax Calculation`, {
+							align: 'center'
+						});
+
+						doc.text(`NI Contribution: ${process.env.NI_CONTRIBUTON}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Percentage Adjustment: ${percentageAdjustment}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Tax Payable: £${taxPayable}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Gross Income: £${grossIncome}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+						doc.text(`Estimated Tax: £${totalTaxAmount}`, {
+							align: 'left'
+						});
+						doc.moveDown(1);
+
+					}
 					doc.end();
 				})
 				.catch(err => {
 					incomeText = err;
 				});
+
+			// creating statement record in mongodb
+			const statement = new Statement();
+			statement.statementId = uid(10);
+			statement.whos = req.params.userId;
+			statement.documentDir = statementFileName;
+
+			statement.save(err => {
+				if (err) {
+					sendJsonResponse(res, 404, {
+						error: err,
+					});
+				}
+				else {
+					sendJsonResponse(res, 200, {
+						success: true,
+						docLoc: statementFileName,
+					});
+				}
+			})
 		}
 	})
 }

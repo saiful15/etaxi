@@ -18,9 +18,6 @@ const statementSchema = Mongoose.Schema({
 	documentDir: {
 		type: String, required: true,
 	},
-	documentName: {
-		type: String, required: true,
-	},
 	createdAt: {
 		type: String, default: Date.now,
 	},
