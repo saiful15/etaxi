@@ -1,53 +1,71 @@
-<!-- navigation -->
-<site-nav></site-nav>
+<div class="hold-transition skin-blue sidebar-mini fixed" id="admin-body">
+    <!-- navigation -->
+    <admin-nav></admin-nav>
+    <!-- sidebar -->
+    <admin-sidebar></admin-sidebar>
 
-<div class="service-plan">
-	<div class="container">
-		<h1 class="big-title thin text-center">We have following service plan for you.</h1>
-		<hr>
-		<div class="row">
-			<div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
-				<div class="container-box shadow plan-box">
-					<h2 class="title text-center light">First 3 Months Free</h2>
-					<hr>
-					<p class="light">
-						When you an account with us, you will get three months free.
-					</p>
-				</div>
-			</div>
-			<div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
-				<div class="container-box shadow plan-box">
-					<h2 class="title text-center light">Premium</h2>
-					<hr>
-					<p class="light">
-						Pay <strong>50% </strong> today and get access to all your income and 
-						expense statments. Edit or delete any statment any time any where.
-					</p>
-					<a href="" ng-click="srvm.loadServicePlan('premium')" title="Buy our premium package" class="btn btn-danger"><span class="title text-center">Buy Premium Now</span></a>
-				</div>
-			</div>
-			<div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
-				<div class="container-box shadow plan-box">
-					<h2 class="title text-center light">Premium Gold</h2>
-					<hr>
-					<p class="light">
-						Pay <strong>100% </strong> today and get all customer services. 
-						Talk to our <strong>certified accountant</strong>, edit or change
-						before you submit your account to HMRC.
-					</p>
-					<a href="" ng-click="srvm.loadServicePlan('premium gold')" title="Buy our premium gold package" class="btn btn-success"><span class="title text-center">Buy Premium Gold Now</span></a>
-				</div>
-			</div>
-		</div>
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 503px;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1> Service Plan </h1>
+                <ol class="breadcrumb">
+                    <li><a href="javascript:;"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active"> Service Plan </li>
+                </ol>
+            </section>
 
-		<div class="row" ng-if="srvm.service_plan === true">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				<hr>
-				<h1 class="big-title text-center light">Buy {{srvm.plan}}</h1>
-			</div>
-		</div>
-	</div>
+            <!-- Main content -->
+            <section class="content">
+                <div class="service-plan">
+                    <div class="container">
+                        <h1 class="big-title thin text-center">We have following service plan for you.</h1>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
+                                <div class="container-box shadow plan-box">
+                                    <h2 class="title text-center light">First 3 Months Free</h2>
+                                    <hr>
+                                    <p class="light">
+                                        When you an account with us, you will get three months free.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
+                                <div class="container-box shadow plan-box">
+                                    <h2 class="title text-center light">Premium</h2>
+                                    <hr>
+                                    <p class="light">
+                                        Pay <strong>50% </strong> today and get access to all your income and expense statments. Edit or delete any statment any time any where.
+                                    </p>
+                                    <a href="" ng-click="srvm.loadServicePlan('premium')" title="Buy our premium package" class="btn btn-danger"><span class="title text-center">Buy Premium Now</span></a>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-ms-4 col-md-4 col-lg-4">
+                                <div class="container-box shadow plan-box">
+                                    <h2 class="title text-center light">Premium Gold</h2>
+                                    <hr>
+                                    <p class="light">
+                                        Pay <strong>100% </strong> today and get all customer services. Talk to our <strong>certified accountant</strong>, edit or change before you submit your account to HMRC.
+                                    </p>
+                                    <a href="" ng-click="srvm.loadServicePlan('premium gold')" title="Buy our premium gold package" class="btn btn-success"><span class="title text-center">Buy Premium Gold Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-if="srvm.service_plan === true">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <hr>
+                                <h1 class="big-title text-center light">Buy {{srvm.plan}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- admin-footer -->
+        <div admin-footer></div>
+    </div>
 </div>
-
-<!-- site-footer -->
-<site-footer></site-footer>

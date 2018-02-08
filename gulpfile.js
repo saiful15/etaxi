@@ -3,18 +3,18 @@
 | Setting up gulpfile
 |-----------------------------------------------------
 */
-var     gulp        =       require('gulp'),
-        sass        =       require('gulp-sass'),
-        concat      =       require('gulp-concat'),
-        babel 		=		require('gulp-babel'),
-        uglifyjs  	=       require('gulp-uglify'),
-        es2015 		= 		require('babel-preset-es2015'),
-        notify      =       require('gulp-notify'),
-        sourcemaps  =       require('gulp-sourcemaps');
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
+    babel = require('gulp-babel'),
+    uglifyjs = require('gulp-uglify'),
+    es2015 = require('babel-preset-es2015'),
+    notify = require('gulp-notify'),
+    sourcemaps = require('gulp-sourcemaps');
 
 
 
-var     paths       =       {
+var paths = {
     scripts: [
         "public/libs/angular.js",
         "public/libs/angular-resource.js",
@@ -26,6 +26,8 @@ var     paths       =       {
         "public/assets/plugins/fancybox/source/jquery.fancybox.pack.js",
         "public/assets/plugins/owl-carousel/owl-carousel/owl.carousel.js",
         "public/libs/jquery-file-donwload.js",
+        "public/assets/js/adminlte.min.js",
+        "public/assets/js/jquery.slimscroll.min.js",
         "public/assets/js/app.js",
         "public/assets/js/plugins/fancy-box.js",
         "public/assets/js/plugins/owl-carousel.js",
@@ -36,7 +38,7 @@ var     paths       =       {
         "public/libs/operation.js"
     ],
     clientFiles: [
-    	"app_client/app.js",
+        "app_client/app.js",
         "app_client/common/services/authentication/authentication.js",
         "app_client/common/services/user/user.service.js",
         "app_client/common/services/user/admin.service.js",
@@ -44,7 +46,7 @@ var     paths       =       {
         "app_client/common/services/fileupload/fileupload.service.js",
         "app_client/common/services/system/system.service.js",
         "app_client/common/services/authentication/account.service.js",
-    	"app_client/common/directives/navigation/navigation.directive.js",
+        "app_client/common/directives/navigation/navigation.directive.js",
         "app_client/common/directives/navigation/navigation.controller.js",
         "app_client/common/directives/site-footer/sitefooter.directive.js",
         "app_client/common/directives/fileModel/fileModel.directive.js",
@@ -55,12 +57,12 @@ var     paths       =       {
         "app_client/common/directives/admin-nav/admin-nav.controller.js",
         "app_client/common/directives/admin-sidebar/admin-sidebar.directive.js",
         "app_client/common/directives/admin-sidebar/admin-sidebar.controller.js",
-    	"app_client/home/home.controller.js",
-    	"app_client/services/services.controller.js",
-    	"app_client/price/price.controller.js",
-    	"app_client/contactus/contactus.controller.js",
-    	"app_client/signup/signup.controller.js",
-    	"app_client/signin/signin.controller.js",
+        "app_client/home/home.controller.js",
+        "app_client/services/services.controller.js",
+        "app_client/price/price.controller.js",
+        "app_client/contactus/contactus.controller.js",
+        "app_client/signup/signup.controller.js",
+        "app_client/signin/signin.controller.js",
         "app_client/forgotpassword/forgotpassword.controller.js",
         "app_client/profile/profile.controller.js",
         "app_client/dashboard/dashboard.controller.js",
@@ -88,24 +90,24 @@ var     paths       =       {
 
 
 //gulp task to compile js files.
-gulp.task('compile-js', function(){    
+gulp.task('compile-js', function() {
     return gulp.src(paths.scripts)
         .pipe(sourcemaps.init())
-        	.pipe(babel({presets: ['es2015']}).on('error', reportError ))
-        	.pipe(uglifyjs())
-            .pipe(concat('master.min.js'))
+        .pipe(babel({ presets: ['es2015'] }).on('error', reportError))
+        .pipe(uglifyjs())
+        .pipe(concat('master.min.js'))
         .pipe(sourcemaps.write())
         .pipe(notify('js compiled'))
         .pipe(gulp.dest("./public/js/"));
 });
 
 //gulp task to compile js files.
-gulp.task('compile-clients', function(){    
+gulp.task('compile-clients', function() {
     return gulp.src(paths.clientFiles)
         .pipe(sourcemaps.init())
-        	.pipe(babel({presets: ['es2015']}).on('error', reportError ))
-        	.pipe(uglifyjs())
-            .pipe(concat('app.min.js'))
+        .pipe(babel({ presets: ['es2015'] }).on('error', reportError))
+        .pipe(uglifyjs())
+        .pipe(concat('app.min.js'))
         .pipe(sourcemaps.write())
         .pipe(notify('client files compiled'))
         .pipe(gulp.dest("./public/js/"));
@@ -113,17 +115,17 @@ gulp.task('compile-clients', function(){
 
 
 //gulp task to compile sass files.
-gulp.task('compile-sass', function(){    
+gulp.task('compile-sass', function() {
     return gulp.src(paths.styles)
         .pipe(sourcemaps.init())
-            .pipe(sass().on('error', reportError ))
-            .pipe(concat('app.min.css'))
+        .pipe(sass().on('error', reportError))
+        .pipe(concat('app.min.css'))
         .pipe(sourcemaps.write())
         .pipe(notify('sass compiled'))
         .pipe(gulp.dest("./public/css/"));
 });
 
-function reportError (error) {
+function reportError(error) {
     notify({
         title: 'Gulp Task Error',
         message: 'Check the console.'
@@ -134,7 +136,7 @@ function reportError (error) {
 }
 
 //gulp-task to keep on watching all files.
-gulp.task('watch', function(){
+gulp.task('watch', function() {
     gulp.watch(paths.scripts, ['compile-js']);
     gulp.watch(paths.clientFiles, ['compile-clients']);
     gulp.watch("public/sass/*.scss", ['compile-sass']);

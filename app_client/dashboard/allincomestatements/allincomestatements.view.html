@@ -1,118 +1,138 @@
-<!-- navigation -->
-<site-nav></site-nav>
+<div class="hold-transition skin-blue sidebar-mini fixed" id="admin-body">
+    <!-- navigation -->
+    <admin-nav></admin-nav>
+    <!-- sidebar -->
+    <admin-sidebar></admin-sidebar>
 
-<div class="container">
-	<h1 class="big-title text-center medium">View, Edit or Delete All your statements</h1>
-	<hr>
-	<div class="row">
-		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-			<div class="container-box shadow">
-				<h2 class="title text-center light">Income Summary</h2>
-				<hr>
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 503px;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1> Expense </h1>
+                <ol class="breadcrumb">
+                    <li><a href="javascript:;"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Statements</li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container">
+                    <h1 class="big-title text-center medium">View, Edit or Delete All your statements</h1>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                            <div class="container-box shadow">
+                                <h2 class="title text-center light">Income Summary</h2>
+                                <hr>
 
-				<div class="panel panel-default">
-					<div class="panel-body">
-						<h3 class="text-center light sub-title">Your Total Income</h3>
-						<p class="text-center medium">{{inStmt.totalIncomes | currency: '£'}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <h3 class="text-center light sub-title">Your Total Income</h3>
+                                        <p class="text-center medium">{{inStmt.totalIncomes | currency: '£'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if="inStmt.showIncomeList === true">
-			<div class="container-box shadow" ng-init="inStmt.loadAllIncomeStatements()">
-				<h2 class="title text-center light">Your income list</h2>
-				<hr>
-				
-				<!-- show all incomes. -->
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Income</th>
-							<th>Source</th>
-							<th>Date</th>
-							<th>Edit</th>
-							<th>Delete</th>
-						</tr>
-					</thead>
+                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if="inStmt.showIncomeList === true">
+                            <div class="container-box shadow" ng-init="inStmt.loadAllIncomeStatements()">
+                                <h2 class="title text-center light">Your income list</h2>
+                                <hr>
 
-					<tbody>
-						<tr ng-repeat="income in inStmt.incomesList">
-							<td><span class="text-center medium">{{income.income | currency: '£'}}</span></td>
-							<td><span class="text-center medium">{{income.incomeType}}</span></td>
-							<td><span class="text-center medium">{{income.incomeDate | date: 'yyyy-MM-dd'}}</span></td>
-							<td><a href="" class="btn btn-warning" ng-click="inStmt.editIncome(income._id)">Edit</a></td>
-							<td><a href="" class="btn btn-danger" ng-click = "inStmt.deleteStatement(income._id)">Delete</a></td>
-						</tr>
-					</tbody>
-				</table>
-				
-				<!-- if we have any error deleting income -->
-				<div class="alert alert-danger" ng-if="inStmt.deletingError === true">
-					<p class="medium text-center">Error! while deleting income statement</p>
-				</div>
+                                <!-- show all incomes. -->
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Income</th>
+                                            <th>Source</th>
+                                            <th>Date</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
 
-				<!-- if we have any error loading the incomes -->
-				<div class="alert alert-danger" ng-if="inStmt.weHaveIncomes === false">
-					<p class="medium text-center">Error! while loading your income statemnts</p>
-				</div>
-				<!-- when we don't have any single income statement to show -->
-				<div class="alert alert-danger" ng-if="inStmt.weHaveNoIncome === true">
-					<p class="medium text-center">
-						You don't have any income. Please add income first. <br/>
-					</p>
-					<a href="/income" title="add income" class="btn btn-success pull-right"> Add Incomes</a>
-					<div class="clearfix"></div>
-				</div>
+                                    <tbody>
+                                        <tr ng-repeat="income in inStmt.incomesList">
+                                            <td><span class="text-center medium">{{income.income | currency: '£'}}</span></td>
+                                            <td><span class="text-center medium">{{income.incomeType}}</span></td>
+                                            <td><span class="text-center medium">{{income.incomeDate | date: 'yyyy-MM-dd'}}</span></td>
+                                            <td><a href="" class="btn btn-warning" ng-click="inStmt.editIncome(income._id)">Edit</a></td>
+                                            <td><a href="" class="btn btn-danger" ng-click="inStmt.deleteStatement(income._id)">Delete</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-				<div class="panel-footer">
-					<a href="/income" title="add more income" class="btn btn-success pull-right"> Add More Income</a>
-					<div class="clearfix"></div>
-				</div>
-			</div>
-		</div>
+                                <!-- if we have any error deleting income -->
+                                <div class="alert alert-danger" ng-if="inStmt.deletingError === true">
+                                    <p class="medium text-center">Error! while deleting income statement</p>
+                                </div>
 
-		<!-- edit form -->
-		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if="inStmt.showEditArea === true">
-			<div class="container-box shadow">
-				<h1 class="text-center light medium">Edit Following Income</h1>
-				<hr>
-				<form ng-submit="inStmt.saveEditIncome()">
-					<div class="form-group"><label for="incomeDate">Income Date</label>
-						<div class='datepicker_icon'>
-							<datepicker date-format="dd-MM-yyyy">
-								<input type="text" class="form-control half" ng-model="inStmt.incomeEdit.incomeDate" id="incomeDate">
-								<i class="fa fa-calendar" aria-hidden="true"></i>
-							</datepicker>
-						</div>
-					</div>
-						<div class="form-group"><label for="incomeAmount">Amount * </label>
-							<input type="text" placeholder="£" ng-model='inStmt.incomeEdit.amount' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"  
-							id="incomeAmount" class="form-control half"></div>
-						<p class="no-margin sub-title medium">* Payment Option</p>
-						<div class="radio">
-							<label for="cash"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" value="cash" id='cash'> Cash</label>
-							<label for="card"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" id='card' value="card"> Card</label>
-							<label for="account"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" id="account" value="account"> Account</label>
-						</div>
-						<div class="alert alert-danger half" ng-if="inStmt.editDataLoadError === true">
-							<p class="no-margin medium">Error! {{inStmt.editDataLoadErrorMessage}}</p>
-						</div>
-						<!-- form validation error -->
-						<div class="alert alert-danger half" ng-if="inStmt.editFormValidationError === true">
-							<p class="no-margin medium">{{inStmt.editFormValidationErrorMessage}}</p>
-						</div>
-						<div class="alert alert-success half" ng-if="inStmt.incomeSuccess === true">
-							<p class="no-margin medium">{{inStmt.successMgs}}</p>
-						</div>
-						<button type="submit" class="btn btn-primary">Save Edit</button>
+                                <!-- if we have any error loading the incomes -->
+                                <div class="alert alert-danger" ng-if="inStmt.weHaveIncomes === false">
+                                    <p class="medium text-center">Error! while loading your income statemnts</p>
+                                </div>
+                                <!-- when we don't have any single income statement to show -->
+                                <div class="alert alert-danger" ng-if="inStmt.weHaveNoIncome === true">
+                                    <p class="medium text-center">
+                                        You don't have any income. Please add income first. <br/>
+                                    </p>
+                                    <a href="/income" title="add income" class="btn btn-success pull-right"> Add Incomes</a>
+                                    <div class="clearfix"></div>
+                                </div>
 
-						<a class="btn btn-warning pull-right" ng-click="inStmt.cancelEdit()">Cancel</a>
-				</form>
-			</div>
-		</div>
-	</div>
+                                <div class="panel-footer">
+                                    <a href="/income" title="add more income" class="btn btn-success pull-right"> Add More Income</a>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- edit form -->
+                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8" ng-if="inStmt.showEditArea === true">
+                            <div class="container-box shadow">
+                                <h1 class="text-center light medium">Edit Following Income</h1>
+                                <hr>
+                                <form ng-submit="inStmt.saveEditIncome()">
+                                    <div class="form-group"><label for="incomeDate">Income Date</label>
+                                        <div class='datepicker_icon'>
+                                            <datepicker date-format="dd-MM-yyyy">
+                                                <input type="text" class="form-control half" ng-model="inStmt.incomeEdit.incomeDate" id="incomeDate">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </datepicker>
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><label for="incomeAmount">Amount * </label>
+                                        <input type="text" placeholder="£" ng-model='inStmt.incomeEdit.amount' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" id="incomeAmount" class="form-control half"></div>
+                                    <p class="no-margin sub-title medium">* Payment Option</p>
+                                    <div class="radio">
+                                        <label for="cash"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" value="cash" id='cash'> Cash</label>
+                                        <label for="card"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" id='card' value="card"> Card</label>
+                                        <label for="account"><input type="radio" name="income_options" ng-model="inStmt.incomeEdit.income_source" id="account" value="account"> Account</label>
+                                    </div>
+                                    <div class="alert alert-danger half" ng-if="inStmt.editDataLoadError === true">
+                                        <p class="no-margin medium">Error! {{inStmt.editDataLoadErrorMessage}}</p>
+                                    </div>
+                                    <!-- form validation error -->
+                                    <div class="alert alert-danger half" ng-if="inStmt.editFormValidationError === true">
+                                        <p class="no-margin medium">{{inStmt.editFormValidationErrorMessage}}</p>
+                                    </div>
+                                    <div class="alert alert-success half" ng-if="inStmt.incomeSuccess === true">
+                                        <p class="no-margin medium">{{inStmt.successMgs}}</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Edit</button>
+
+                                    <a class="btn btn-warning pull-right" ng-click="inStmt.cancelEdit()">Cancel</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- admin-footer -->
+        <div admin-footer></div>
+    </div>
 </div>
-
-<!-- site-footer -->
-<site-footer></site-footer>

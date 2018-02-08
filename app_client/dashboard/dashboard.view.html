@@ -1,121 +1,281 @@
-<div class="hold-transition skin-blue sidebar-mini">
-<!-- navigation -->
-<admin-nav></admin-nav>
-<!-- sidebar -->
-<admin-sidebar></admin-sidebar>
+<div class="hold-transition skin-blue sidebar-mini fixed" id="admin-body">
+    <!-- navigation -->
+    <admin-nav></admin-nav>
+    <!-- sidebar -->
+    <admin-sidebar></admin-sidebar>
 
-<div class="wrapper">
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <!-- <section class="content-header">
-            <h1>
-                Dashboard
-                <small>Control panel</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="index.html"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </section> -->
-        <!-- Main content -->
-        <section class="content">
-            <h4 class="text-center">You haven't set up your profile yet.</h4>
-            <h4 class="text-center mrgn_btm_20px">Please complete your profile</h4>
-            <div class="container">
-                <div class="row m-b-3 m-t-3">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box shadow wbg">
-                            <a href="/businessprofile" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title">
-                                        <i class="fa fa-rocket m-r-1" aria-hidden="true"></i>Set up business profile
-                                    </h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box shadow wbg">
-                            Free Flexi (90 days free account)
-                            <a href="/serviceplan" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-paper-plane m-r-1" aria-hidden="true"></i>Set up service plan</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box shadow wbg">
-                            <a href="/income" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-money m-r-1" aria-hidden="true"></i> Add income</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    Dashboard
+                    <small>Control panel</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="javascirpt:;"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">Dashboard</li>
+                </ol>
+            </section>
+            <!-- Main content -->
 
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box shadow wbg">
-                            <a href="/expense" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-calendar-minus-o m-r-1" aria-hidden="true"></i>Add Exprense</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="dashboard-wrapper" ng-if="dsvm.customerOpr === true">
 
-                <div class="row m-t-4">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box wbg shadow">
-                            <a href="/financialstatement" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-list-ol m-r-1" aria-hidden="true"></i>Financial Statement</h2>
-                                </div>
-                            </a>
+                <section class="content">
+                    <div class="setting_boxes">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <a href="/businessprofile">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-rocket m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Set up business profile</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/serviceplan">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-paper-plane m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Set up service plan</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/income">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-money m-r-1" aria-hidden="true" style="margin-right: 10px;"></i> Add income </h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/expense">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-calendar-minus-o m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Add Exprense</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/financialstatement">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-list-ol m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Financial Statement</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/settings">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-cogs m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Settings</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/docs">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-file m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Documents</h3>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="/taxreturn">
+                                    <div class="setting_box bodr_clr_grey text-center bg_clr_white">
+                                        <h3><i class="fa fa-money m-r-1" aria-hidden="true" style="margin-right: 10px;"></i>Tax Return</h3>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box shadow wbg">
-                            <a href="/settings" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-cogs m-r-1" aria-hidden="true"></i>Settings</h2>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="row m-t-4 m-b-4">
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box wbg shadow">
-                            <a href="/docs" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-file m-r-1" aria-hidden="true"></i>Documents</h2>
+            <div class="dashboard-wrapper" ng-if="dsvm.adminOpr === true">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <h1 class="text-center title regular">Search User</h1>
+                            <form ng-submit="dsvm.searchUser()">
+                                <div class="form-group">
+                                    <input type="text" ng-model="dsvm.search.user" tabindex='1' placeholder="Search user by email" class="form-control">
                                 </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <div class="container-box wbg shadow">
-                            <a href="/taxreturn" title="settings" class="light title">
-                                <div class="setting-box m-t-2">
-                                    <h2 class="text-center ligth title"><i class="fa fa-money m-r-1" aria-hidden="true"></i>Tax Return</h2>
+                            </form>
+
+                            <ul class="list" ng-if='dsvm.searchUserError === false'>
+                                <li ng-repeat="user in dsvm.usersList"><a href="/dashboard?v={{user._id}}">{{user.name}}</a></li>
+                            </ul>
+
+                            <div class="alert alert-danger" ng-if="dsvm.searchUserError === true">
+                                <p class="text-center title regular">{{dsvm.searchUserErrorMsg}}</p>
+                            </div>
+
+                            <div class="m-t-3" ng-init="dsvm.loadUserDetails()">
+                                <!-- when we have error showing user details -->
+                                <div class="alert alert-danger" ng-if="dsvm.singleUserDetailsError === true">
+                                    <p class="text-center title regular no-margin">{{dsvm.singleUserDetailsErrorMsg}}</p>
                                 </div>
-                            </a>
+                                <!-- showing the details of  -->
+                                <h2 class="text-center title regular">Details of {{dsvm.singlUser.name}} / {{dsvm.singlUser.email}}</h2>
+                                <hr>
+                                <!-- when we don't have any error fetching user details -->
+                                <div class="row" ng-if="dsvm.singleUserDetailsError === false">
+                                    <div class="col-xs-12 col-sm-3 col-md-3">
+                                        <div class="container-box shadow small-radius wbg">
+                                            <ul class="nav nav-pills nav-stacked profile-control-list">
+                                                <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadProfile()'><a>Profile</a></li>
+                                                <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadStatuses()'><a>Status Collections</a></li>
+                                                <li role="presentation" class="pointer no-padding"><a>Incomes</a></li>
+                                                <li role="presentation" class="pointer no-padding"><a>Expense</a></li>
+                                                <li role="presentation" class="pointer no-padding"><a>Vehicle</a></li>
+                                                <li role="presentation" class="pointer no-padding"><a>Lisence</a></li>
+                                                <li role="presentation" class="pointer no-padding"><a>Insurance</a></li>
+                                                <li role="presentation" class="pointer no-padding" ng-click='dsvm.loadUserDoc()'><a>Document(s)</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-9 col-md-9">
+                                        <div class="container-box shadow wbg small-radius">
+                                            <!-- show profile -->
+                                            <div class="row" ng-if="dsvm.singleProfileOn === true">
+                                                <div class="col-xs-12 col-md-4">
+                                                    <p class="regular title">Account Type: {{dsvm.singlUser.account_type}}</p>
+                                                    <p class="regular title">Status: {{dsvm.singlUser.status}}</p>
+                                                    <p class="regular title">User Directory: {{dsvm.singlUser.userDir}}</p>
+                                                </div>
+                                                <div class="col-xs-12 col-md-4">
+                                                    <p class="regular title">Email: {{dsvm.singlUser.email}}</p>
+                                                    <p class="regular title">Name: {{dsvm.singlUser.name}}</p>
+                                                    <p class="regular title">Account Created: {{dsvm.singlUser.created_at | date: 'MMM dd, yyyy'}}</p>
+                                                </div>
+                                                <div class="col-xs-12 col-md-4">
+                                                    <p class="regular title">Contacts</p>
+                                                    <p class="regular sub-title" ng-repeat="contact in dsvm.singlUser.appContact">
+                                                        <span>{{contact.contactEmail}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- show statuses -->
+                                            <div class="row" ng-if="dsvm.singleStatusOn === true">
+                                                <p class="regular text-center title">Status Collection</p>
+                                                <div class="col-xs-12 col-md-4">
+                                                    <ul class="list">
+                                                        <li ng-repeat="status in dsvm.singlUser.statusCollection">
+                                                            <p class="regular sub-title">Lisence: {{status.lisence}}</p>
+                                                            <p class="regular sub-title">Additonal Info: {{status.additional_info}}</p>
+                                                            <p class="regular sub-title">Expense: {{status.expense}}</p>
+                                                            <p class="regular sub-title">Income: {{status.Income}}</p>
+                                                            <p class="regular sub-title">Insurance: {{status.insurance}}</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-xs-12 col-md-4">
+                                                    <ul class="list">
+                                                        <li ng-repeat="status in dsvm.singlUser.statusCollection">
+                                                            <p class="regular sub-title">Vehicle: {{status.vehicle}}</p>
+                                                            <p class="regular sub-title">Business: {{status.business}}</p>
+                                                            <p class="regular sub-title">Address: {{status.address}}</p>
+                                                            <p class="regular sub-title">Contact: {{status.contact}}</p>
+                                                            <p class="regular sub-title">Profile: {{status.profile}}</p>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+
+                                            <!-- show document -->
+                                            <div class="row" ng-if="dsvm.singleDocOn === true">
+
+                                                <!-- show document if there is any -->
+                                                <div ng-if="dsvm.singlDocLoadError === false">
+                                                    <p class="text-center title regular">Following documents found</p>
+                                                    <hr>
+                                                    <ul class="list">
+                                                        <li ng-repeat="doc in dsvm.singlUserDoc">
+                                                            Document Name: {{doc.name}}
+                                                            <a href="{{doc.docLocation}}" title="Download this document" class="btn btn-info" download target="_self">Download</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <!-- when document loading error -->
+                                                <div class="alert alert-danger m-l-3 m-r-3" ng-if="dsvm.singlDocLoadError === true">
+                                                    <p class="text-center title">{{dsvm.singlDocLoadErrorMsg}}</p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </section>
+            <div class="dashboard-wrapper m-t-4" ng-if="dsvm.accountantOpr === true">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                            <div class="container-box shadow wbg" ng-init='dsvm.loadCustomers()'>
+                                <h1 class="text-center sub-title">Customers List</h1>
+                                <hr>
+                                <ul class="list-block no-padding" ng-if='dsvm.loadCustomerError === false'>
+                                    <li ng-repeat="customer in dsvm.assignedCustomers">
+                                        <a class="m-t-1" href='/dashboard?cus={{customer.userId}}' title="Check details">{{customer.name}}</a>
+                                    </li>
+                                </ul>
+                                <div class="alert alert-danger" ng-if="dsvm.loadCustomerError === true">
+                                    <p class="text-center no-margin sub-title">{{dsvm.loadCustomerErrorMsg}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+                            <div class="container-box shadow wbg small-radius" ng-if='dsvm.LoadCustomerProfile === true'>
+                                <h1 class="text-center sub-title">Information on</h1>
+                                <p class="text-center m-t-4 title light" ng-if='dsvm.customerInfoLoadError === true'>{{dsvm.customerInfoLoadErrorMsg}}</p>
+                                <p class="light sub-title">Account Info</p>
+                                <hr>
+                                <ul class="list-inline">
+                                    <li><span class="sub-title light">Name: {{dsvm.LoadedCustomer.name}}</span></li>
+                                    <li class="m-l-3"><span class="sub-title light">Account Status: {{dsvm.LoadedCustomer.status}}</span></li>
+                                    <li class="m-l-3"><span class="sub-title light">Email: {{dsvm.LoadedCustomer.email}}</span></li>
+                                    <li class="m-l-3"><span class="sub-title light">Account Created: {{dsvm.LoadedCustomer.created_at | date: 'yyyy, dd MMM'}}</span></li>
+                                </ul>
+                                <p class="light sub-title m-t-4">
+                                    Income Statements
+                                    <a href="#" title="load income statement" ng-click="dsvm.loadIncomeStatement(dsvm.LoadedCustomer.email)" class="btn btn-small btn-info m-l-4">Load Income</a>
+                                </p>
+                                <hr>
+                                <p class="text-center light title" ng-if="dsvm.erroLoadingCustomerIncome === true">{{dsvm.erroLoadingCustomerIncomeMsg}}</p>
+                                <table class="table table-striped" ng-if='dsvm.showCustomerIncome === true'>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Account Type</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                    <tbody>
+                                        <tr ng-repeat="income in dsvm.CustomerIncome">
+                                            <td>
+                                                {{income.incomeDate}}
+                                            </td>
+
+                                            <td>
+                                                {{income.incomeType}}
+                                            </td>
+                                            <td>
+                                                {{income.income | currency: '£'}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- admin-footer -->
+        <div admin-footer></div>
     </div>
-    <!-- /.content-wrapper -->
-    <!-- admin-footer -->
-    <div admin-footer></div>
-</div>
 
 </div>
